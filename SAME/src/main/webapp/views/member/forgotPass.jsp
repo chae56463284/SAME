@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
  <title>비밀번호 찾기</title>
   <style>
-    body {
+  body {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -90,8 +90,9 @@
 
     .forgot {
         color: #FF5C3D;
-        font-size: 80px;
-        font-weight: 1000;
+        font-size: 50px;
+        font-weight: 800;
+        text-align: center;
         margin-top: -5%;
     }
 
@@ -110,7 +111,7 @@
     }
 
     .text-input {
-        width: auto;
+        width: 90%;
         height: 100%;
         border: none;
         font-size: 16px;
@@ -178,9 +179,9 @@
                 <input type="text" class="text-input" placeholder="EMAIL">
              </div>
             
-             <div class="btn-pass"><a href="/SAME/views/member/forgotIDPASSResult.jsp">비밀번호 찾기</a></div>
+             <div class="btn-pass"><a href="/same/views/member/forgotIDPASSResult.jsp">비밀번호 찾기</a></div>
      
-             <div class="forgot-id"><a href="/SAME/views/member/forgotID.jsp">아이디 찾기</a></div>
+             <div class="forgot-id"><a href="/same/views/member/forgotID.jsp">아이디 찾기</a></div>
 
          </div>
     </div>

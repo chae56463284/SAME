@@ -17,7 +17,7 @@
 
     .main {
         width: 1440px;
-        height: 960px;
+
         position: relative;
         background: rgb(255, 255, 255);
     }
