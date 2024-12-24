@@ -8,12 +8,13 @@
   <style>
 
   body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* 화면 전체 높이에 맞추기 */
-    margin: 0; /* 기본 마진 제거 */
-    background-color: white; /* 배경색 추가 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* width: 200vh; */
+        
+        background-color: white(231, 22, 22);
+        height: 100vh;
     }
 
   .Membership {
