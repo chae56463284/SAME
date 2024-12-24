@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.kh.board.model.service.BoardService;
 import com.kh.board.model.vo.Board;
+import com.kh.common.model.vo.PageInfo;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
