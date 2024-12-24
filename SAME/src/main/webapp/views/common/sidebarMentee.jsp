@@ -10,7 +10,7 @@
 	position: absolute;
 	width: 256px;
 	top: 0; /* 위치 조정 */
-	left: 26px;
+	left: 0px;
 }
 
 .SidebarTitle {
@@ -53,6 +53,13 @@
 	cursor: pointer; /* 클릭 가능하게 변경 */
 }
 
+.SubMenu {
+	display: none; /* 기본적으로 숨김 */
+	flex-direction: column;
+	gap: 8px;
+	padding-left: 16px; /* 서브 메뉴의 위치 조정 */
+}
+
 .LogoPlaceholder {
 	width: 24px;
 	height: 24px;
@@ -76,71 +83,69 @@
 </style>
 </head>
 <body>
-
 	<div class="Sidebar">
 		<!-- 제목 추가 -->
-		<div class="SidebarTitle">BOARD</div>
+		<div class="SidebarTitle">MYPAGE</div>
 		<div class="Line"></div>
 
 		<div class="MenuItems">
-			<div class="MenuItem" id="memberInfo">
-				<div class="LogoPlaceholder"></div>
-				<div class="Label">전체글보기</div>
-			</div>
-			<div class="MenuItems">
-				<div class="MenuItem">
-					<div class="LogoPlaceholder gray"></div>
-					<div class="Label">공지사항</div>
-				</div>
-
-				<div class="MenuItem">
-					<div class="LogoPlaceholder gray"></div>
-					<div class="Label">인기글모음</div>
-				</div>
-			</div>
-
 			<div class="MenuItem" id="boardMenu">
 				<div class="LogoPlaceholder gray"></div>
-				<div class="Label">자유게시판</div>
+				<div class="Label">마이페이지</div>
 			</div>
-			<div class="MenuItem">
-				<div class="LogoPlaceholder gray"></div>
-				<div class="Label">리뷰게시판</div>
-			</div>
-			<div class="MenuItem">
-				<div class="LogoPlaceholder gray"></div>
-				<div class="Label">문의게시판</div>
+			<div class="SubMenu" id="boardSubMenu">
+				<div class="MenuItem">
+					<div class="LogoPlaceholder gray"></div>
+					<div class="Label">장바구니</div>
+				</div>
+				<div class="MenuItem">
+					<div class="LogoPlaceholder gray"></div>
+					<div class="Label">구매내역</div>
+				</div>
+				<div class="MenuItem">
+					<div class="LogoPlaceholder gray"></div>
+					<div class="Label">커뮤니티</div>
+				</div>
+				<div class="MenuItem">
+					<div class="LogoPlaceholder gray"></div>
+					<div class="Label">문의내역</div>
+				</div>
 			</div>
 		</div>
 	</div>
 
 	<script>
-
         // LogoPlaceholder 색상 변경 함수
-        function changeColor(element) {
-            // 모든 LogoPlaceholder에서 빨간색 클래스를 제거
+        function changeLogoColor(clickedLogo) {
+            // 모든 LogoPlaceholder의 색상을 초기화
             const placeholders = document.querySelectorAll('.LogoPlaceholder');
-            placeholders.forEach(function(placeholder) {
+            placeholders.forEach(placeholder => {
                 placeholder.classList.remove('red');
             });
-            // 클릭한 LogoPlaceholder에 빨간색 클래스 추가
-            element.classList.add('red');
+
+            // 클릭한 LogoPlaceholder만 색상을 활성화
+            clickedLogo.classList.add('red');
         }
 
-        // MenuItem 클릭 시 색상 변경 및 이벤트 버블링 처리
-        document.querySelectorAll('.MenuItem').forEach(item => {
-            item.addEventListener('click', function (event) {
-                // LogoPlaceholder 색상 변경
+        // MenuItem 클릭 시 이벤트 처리
+        document.querySelectorAll('.MenuItem').forEach(menuItem => {
+            menuItem.addEventListener('click', function (event) {
+                // 클릭한 요소 중 LogoPlaceholder가 있는지 확인
                 const logoPlaceholder = this.querySelector('.LogoPlaceholder');
                 if (logoPlaceholder) {
-                    changeColor(logoPlaceholder);
+                    changeLogoColor(logoPlaceholder);
                 }
 
-                // 클릭 이벤트가 전파되지 않도록 함
+                // 클릭 이벤트가 전파되지 않도록 방지
                 event.stopPropagation();
             });
         });
-    </script>
 
+        // 게시판 메뉴 클릭 시 서브 메뉴 토글
+        document.getElementById('boardMenu').addEventListener('click', function () {
+            const boardSubMenu = document.getElementById('boardSubMenu');
+            boardSubMenu.style.display = boardSubMenu.style.display === 'none' ? 'flex' : 'none';
+        });
+    </script>
 </body>
 </html>
