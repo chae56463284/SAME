@@ -15,6 +15,7 @@
         background-color: white;
     }
 
+
     .main {
         width: 1440px;
 
@@ -165,8 +166,8 @@
         width: 500px;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 5%;
-    }
+        margin-top: 5%;        
+    }    
 
     .writing-box {
         display: flex;
@@ -243,131 +244,47 @@
   <!-- head 시작-->
   <div class="main">
     
-    <div class="head">
-      <div class="SameSame">SAME SAME</div>
+    <%@ include file="/views/common/mainHeader.jsp" %>
+    <%@ include file="/views/common/searchbar.jsp" %>
       
-      <div class="head-bar">
-        <a href="" class="little-same">SAME SAME</a>
-        <a href="" class="head-item">쌤찾기</a>
-        <a href="" class="head-item">커뮤니티</a>
-        <div class="search">
-          <input type="text" class="search-input" placeholder="어떤 서비스가 필요하세요?">
-          <button class="search-btn">검색</button>
-        </div>
-        <a href="" class="head-item">로그인</a>
-        <a href="" class="head-item">마이페이지</a>
+	  <div class="container">
+	      <!-- 컨테이너 시작-->
+	      <div class="sign-up-form">
+		  <!-- 사이드바 -->
+	 	  <%@ include file="/views/common/sidebarMember.jsp" %>
+		
+		      <div class="writing-box">
+		        <input type="text" id="id" class="id-box" placeholder="아이디">
+		        <button type="button" class="duplicate-btn">중복</button>
+		      </div>
+		      <div class="writing-box">
+		        <input type="password" id="password" class="input-box" placeholder="비밀번호">
+		      </div>
+		      <div class="writing-box">
+		        <input type="password" id="password-confirm" class="input-box" placeholder="비밀번호 확인">
+		      </div>
+		      <div class="writing-box">
+		        <input type="text" id="name" class="input-box" placeholder="이름">
+		      </div>
+		      <div class="writing-box">
+		        <input type="text" id="phone" class="input-box" placeholder="연락처">
+		      </div>
+		      <div class="writing-box gender">
+		        <span>성별</span>
+		        <label><input type="radio" name="gender"> 남성</label>
+		        <label><input type="radio" name="gender"> 여성</label>
+		      </div>
+		      <div class="writing-box">
+		        <input type="email" id="email" class="input-box" placeholder="EMAIL">
+		      </div>
+		      <div class="writing-box">
+		        <input type="text" id="address" class="input-box" placeholder="주소">
+		      </div>
+		      <button type="submit" class="submit-btn">회원가입</button>
+		      <button type="button" class="kakao-btn">카카오로 시작하기</button>
+	      </div>
       </div>
-    </div>
-
-
-
-    <div class="Membership">MEMBERSHIP</div>
-    <!-- 사이드바시작 -->
-      <div class="Sidebar">
-        <div class="Line"></div>
-        
-      <div class="MenuItems">
-          <div class="MenuItem" id="memberInfo">
-              <div class="LogoPlaceholder"></div>
-              <div class="Label">로그인</div>
-          </div>
-          <div class="MenuItem" id="boardMenu">
-              <div class="LogoPlaceholder gray"></div>
-              <div class="Label">회원가입</div>
-          </div>
-          <div class="SubMenu" id="boardSubMenu">
-              <div class="MenuItem">
-                  <div class="LogoPlaceholder gray"></div>
-                  <div class="Label">멘티 회원가입</div>
-              </div>
-              <div class="MenuItem">
-                  <div class="LogoPlaceholder gray"></div>
-                  <div class="Label">멘토 회원가입</div>
-              </div>
-          </div>
-          
-          <div class="MenuItem">
-              <div class="LogoPlaceholder gray"></div>
-              <div class="Label">문의게시판</div>
-          </div>
-        </div>
-      </div>
-  
-      <script>
-          // 회원정보 클릭 시 서브 메뉴 토글
-          document.getElementById('memberInfo').addEventListener('click', function () {
-              const subMenu = document.getElementById('subMenu');
-              subMenu.style.display = subMenu.style.display === 'none' ? 'flex' : 'none';
-          });
-  
-          // 게시판 클릭 시 서브 메뉴 토글
-          document.getElementById('boardMenu').addEventListener('click', function () {
-              const boardSubMenu = document.getElementById('boardSubMenu');
-              boardSubMenu.style.display = boardSubMenu.style.display === 'none' ? 'flex' : 'none';
-          });
-  
-          // LogoPlaceholder 색상 변경 함수
-          function changeColor(element) {
-              // 모든 LogoPlaceholder에서 빨간색 클래스를 제거
-              const placeholders = document.querySelectorAll('.LogoPlaceholder');
-              placeholders.forEach(function(placeholder) {
-                  placeholder.classList.remove('red');
-              });
-              // 클릭한 LogoPlaceholder에 빨간색 클래스 추가
-              element.classList.add('red');
-          }
-  
-          // MenuItem 클릭 시 색상 변경 및 이벤트 버블링 처리
-          document.querySelectorAll('.MenuItem').forEach(item => {
-              item.addEventListener('click', function (event) {
-                  // LogoPlaceholder 색상 변경
-                  const logoPlaceholder = this.querySelector('.LogoPlaceholder');
-                  if (logoPlaceholder) {
-                      changeColor(logoPlaceholder);
-                  }
-  
-                  // 클릭 이벤트가 전파되지 않도록 함
-                  event.stopPropagation();
-              });
-          });
-      </script>
-      <!-- 사이드바끝 -->
-
-      <!-- 컨테이너 시작-->
-    <div class="container">
-      <div class="writing-box">
-        <input type="text" id="id" class="id-box" placeholder="아이디">
-        <button type="button" class="duplicate-btn">중복</button>
-      </div>
-      <div class="writing-box">
-        <input type="password" id="password" class="input-box" placeholder="비밀번호">
-      </div>
-      <div class="writing-box">
-        <input type="password" id="password-confirm" class="input-box" placeholder="비밀번호 확인">
-      </div>
-      <div class="writing-box">
-        <input type="text" id="name" class="input-box" placeholder="이름">
-      </div>
-      <div class="writing-box">
-        <input type="text" id="phone" class="input-box" placeholder="연락처">
-      </div>
-      <div class="writing-box gender">
-        <span>성별</span>
-        <label><input type="radio" name="gender"> 남성</label>
-        <label><input type="radio" name="gender"> 여성</label>
-      </div>
-      <div class="writing-box">
-        <input type="email" id="email" class="input-box" placeholder="EMAIL">
-      </div>
-      <div class="writing-box">
-        <input type="text" id="address" class="input-box" placeholder="주소">
-      </div>
-      <button type="submit" class="submit-btn">회원가입</button>
-      <button type="button" class="kakao-btn">카카오로 시작하기</button>
-    </div>
   </div>
   <!-- 컨테이너 끝 -->
-
-  </main>
 </body>
 </html>

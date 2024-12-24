@@ -171,6 +171,7 @@
     </div> -->
     <div class="SameSame">SAME SAME</div>
 
+
     <div class="login-membership">
         <a href="/same/views/member/login.jsp">LOGIN</a> / <a href="/same/views/member/signup.jsp">MEMBERSHIP</a> / <a href="/same/views/manager/managerIndex.jsp">관리자</a>
     </div>
@@ -198,6 +199,10 @@
                     <label for="female">여자</label>
                 </div>
             </div>
+
+
+ 
+
         </div>
         <div class="dropdown-section">
             <h4>지역</h4>
