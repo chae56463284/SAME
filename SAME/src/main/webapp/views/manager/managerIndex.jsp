@@ -197,28 +197,28 @@
            <div class="Group">
                <a href="" class="box 회원정보" style="font-size: 25px;" onclick="toggleUserDropdown(event)"">회원정보</a>
                <div class="dropdown" id="userDropdown">
-                <a href="/SAME/views/manager/menteeInfoList.jsp">멘티 회원정보</a>
-                <a href="/SAME/views/manager/mentorInfoList.jsp">멘토 회원정보</a>
+                <a href="/same/views/manager/menteeInfoList.jsp">멘티 회원정보</a>
+                <a href="/same/views/manager/mentorInfoList.jsp">멘토 회원정보</a>
             </div>
            </div>
    
            <div class="Group">
-               <a href="/SAME/views/manager/transactionList.jsp" class="box 결제관리" style="font-size: 25px;">결제관리</a>
+               <a href="/same/views/manager/transactionList.jsp" class="box 결제관리" style="font-size: 25px;">결제관리</a>
            </div>
    
            <div class="Group">
                <a href="" class="box 게시판" style="font-size: 25px;" onclick="toggleBoardDropdown(event)">게시판</a>
                <div class="board-dropdown" id="boardDropdown">
-                <a href="/SAME/views/manager/boardAList.jsp">자유게시판</a>
-                <a href="/SAME/views/manager/boardBList.jsp">리뷰게시판</a>
-                <a href="/SAME/views/manager/boardCList.jsp">문의게시판</a>
+                <a href="/same/views/manager/boardAList.jsp">자유게시판</a>
+                <a href="/same/views/manager/boardBList.jsp">리뷰게시판</a>
+                <a href="/same/views/manager/boardCList.jsp">문의게시판</a>
             </div>
            </div>
            <div class="Group">
-               <a href="/SAME/views/manager/category.jsp" class="box 카테고리" style="font-size: 25px;">카테고리</a>
+               <a href="/same/views/manager/category.jsp" class="box 카테고리" style="font-size: 25px;">카테고리</a>
            </div>
            <div class="Group">
-               <a href="/SAME/views/manager/complaintList.jsp" class="box 신고관리" style="font-size: 25px;">신고관리</a>
+               <a href="/same/views/manager/complaintList.jsp" class="box 신고관리" style="font-size: 25px;">신고관리</a>
            </div>
            <div class="Group">
                <a href="" class="box 통계" style="font-size: 25px;">통계</a>
