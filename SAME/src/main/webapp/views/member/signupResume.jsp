@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" isELIgnored="true" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-  <title>이력서 작성화면</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>멘토정보입력</title>
   <style>
 
-  body {
+    body {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -16,108 +17,153 @@
         background-color: white(231, 22, 22);
         height: 100vh;
     }
-
-  .Membership {
-    width: 463px; 
-    height: 238px; 
-    left: 14px; 
-    top: 162px; 
-    position: absolute; 
-    color: #FF5C3D; 
-    font-size: 50px; 
-    font-family: Prompt; 
-    font-weight: 700; 
-    word-wrap: break-word;
-  }
-
-  /* Sidebar */
-  .Sidebar {
-    position: absolute;
-    width: 256px;
-    top: 270px;
-    left: 0px;
-
+    .main {
+        position: absolute;
+        width: 1440px;          /* 원하는 너비 설정 */
+        height: 100%;
+        background: rgb(255, 255, 255);
+        display: flex;          /* flexbox 사용 */
+        flex-direction: column; /* 세로 방향으로 배치 */
+        align-items: center;    /* 중앙 정렬 */
+        
     }
-  .Line {
-    width: 0;
-    height: 0;
-    position: absolute;
-    left: 43.01px;
-    top: 191px;
-    transform: rotate(-44.47deg);
-    transform-origin: 0 0;
-    border: 1px black solid;
+    .Membership{
+       width: 463px; 
+       height: 238px; 
+       left: 14px; 
+       top: 280px; 
+       position: absolute; 
+       color: #FF5C3D; 
+       font-size: 50px; 
+       font-family: Prompt; 
+       font-weight: 700; 
+       word-wrap: break-word;
     }
 
-  .MenuItems {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  /* SAME SAME 로고 */
+  .SameSame {
+        color: #FF5C3D;
+        font-size: 128px;
+        font-weight: 700;
+        text-align: center;
     }
 
-  .MenuItem {
-    width: 256px;
-    height: 40px;
-    padding: 0 16px;
-    background: white;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    cursor: pointer; /* 클릭 가능하게 변경 */
+  /* headbar start*/
+  .head-bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-top: 10px;
     }
 
-  .MenuItem.active {
-    background: #F7F7F7;
+    .head-bar a{
+        text-decoration: none;
     }
 
-  .SubMenu {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding-left: 16px; /* 서브 메뉴의 위치 조정 */
+    .little-same {
+        font-size: 20px;
+        font-weight: bold;
+        color: #FF5C3D;
     }
 
-  .LogoPlaceholder {
-    width: 24px;
-    height: 24px;
-    background: #D9D9D9;
-    border-radius: 9999px;
-    transition: background 0.3s; /* 부드러운 색상 전환 */
+    .head-item {
+        font-size: 20px;
+        color: black;
     }
 
-  .LogoPlaceholder.red {
-    background: #FF5C3D; /* 빨간색 */
+    .search-input {
+        width: 300px;
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        color: black;
     }
 
-  .Label {
-    flex: 1;
-    color: black;
-    font-size: 16px;
-    font-family: Inter, sans-serif;
-    font-weight: 500;
-    line-height: 24px;
+    .search-btn {
+        padding: 10px 20px;
+        background-color: #FF5C3D;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    /*headbar end*/  
+    
+    /* Sidebar */
+    .Sidebar {
+        position: absolute;
+        width: 256px;
+        top: 388px;
+        left: 0px;
+
+    }
+    
+    .MenuItems {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .MenuItem {
+        width: 256px;
+        height: 40px;
+        padding: 0 16px;
+        background: white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        cursor: pointer; /* 클릭 가능하게 변경 */
+    }
+
+    .MenuItem.active {
+        background: #F7F7F7;
+    }
+
+    .SubMenu {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding-left: 16px; /* 서브 메뉴의 위치 조정 */
+    }
+
+    .LogoPlaceholder {
+        width: 24px;
+        height: 24px;
+        background: #D9D9D9;
+        border-radius: 9999px;
+        transition: background 0.3s; /* 부드러운 색상 전환 */
+    }
+
+    .LogoPlaceholder.red {
+        background: #FF5C3D; /* 빨간색 */
+    }
+
+    .Label {
+        flex: 1;
+        color: black;
+        font-size: 16px;
+        font-family: Inter, sans-serif;
+        font-weight: 500;
+        line-height: 24px;
     }
     /* Sidebar End*/
 
     /* Form Section */
     .container {
-      position: absolute;
-      top: 220px; 
-      left: 400px;
-      width: 600px;
+      position: relative;
       background: white;
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      padding: 100px;
-        
+      margin-top: 10%;
     }
 
     .profile-upload {
         display: flex;
         align-items: center; /* 수직 정렬 */
-        margin-bottom: 20px;
     }
 
     .avatar {
@@ -145,28 +191,34 @@
     .category {
         margin-top: 20px;
     }
-
-    .dropdown-container {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 10px;
+    .category-title {
+        font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
     .dropdown {
-        display: flex;
-        align-items: center;
+        display: flex; /* Flexbox 사용 */
+        justify-content: space-between; /* 양쪽 정렬 */
+        align-items: center; /* 수직 정렬 */
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
         margin-bottom: 10px;
-        justify-content: space-between;
     }
-
     .selected {
         background-color: #ff6b6b;
         color: white;
         padding: 5px 10px;
         border-radius: 5px;
-        margin-right: 10px;
         display: flex;
         align-items: center;
+    }
+    .selected-items {
+        display: flex;
+        gap: 8px; /* 선택된 항목 간격 */
+        flex-wrap: wrap; /* 여러 항목이 넘어가면 다음 줄로 */
+        margin-bottom: 10px;
     }
 
     .remove {
@@ -175,61 +227,76 @@
     }
 
     .menu-dropdown {
-        margin-left: 340px;
+        margin-top: 10px;
         width: 80px; 
         height: 30px;
-        
     }
 
-    .education {
-        margin-top: 20px;
+    .section {
+      margin-bottom: 20px;
     }
 
-    .education-item {
-        display: flex;
-        margin-bottom: 9px;
+    .section-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
-    .education-item input {
-        width: 100%; 
-        padding: 10px; 
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        margin-bottom: 5px; /* 아래 여백 추가 */
+    .input-group {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
     }
 
-    .experience {
-        margin-top: 20px;
+    .input-group input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
 
-    .experience-item {
-        display: flex;
-        margin-bottom: 9px;
+    .input-group button {
+      padding: 10px 16px;
+      background-color: #FF5C3D;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 10px;
     }
 
-    .experience-item input {
-        width: 100%; 
-        padding: 10px; 
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        margin-bottom: 5px; /* 아래 여백 추가 */
+    .input-group button:hover {
+      background-color: #e74c3c;
     }
 
-    .language {
-        margin-top: 20px;
+    .list-container {
+      margin-top: 10px;
     }
 
-    .language-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 9px;
+    .list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f7f7f7;
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin-bottom: 8px;
     }
 
-    .language-item input {
-        width: 100%; 
-        padding: 10px; 
-        border: 1px solid #ccc;
-        border-radius: 4px;
+    .list-item span {
+      flex: 1;
+    }
+
+    .list-item button {
+      background-color: transparent;
+      border: none;
+      color: #ff5c3d;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .list-item button:hover {
+      color: #e74c3c;
     }
 
     .portfolio {
@@ -238,6 +305,19 @@
 
     .file-input {
         display: none; /* 파일 선택 버튼 숨기기 */
+    }
+
+    .portfolio-box {
+        display: flex; /* Flexbox 사용 */
+        justify-content: space-between; /* 양쪽 정렬 */
+        align-items: center; /* 수직 정렬 */
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+    }
+    .portfolio-input{
+        margin-left: 400px; /* 오른쪽으로 이동 */
+        
     }
 
     .submit-button {
@@ -255,35 +335,33 @@
     .submit-button:hover {
         background-color: #e74c3c;
     }
-
-    .portfolio-box {
-        display: flex; /* Flexbox 사용 */
-        justify-content: space-between; /* 양쪽 정렬 */
-        align-items: center; /* 수직 정렬 */
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 10px;
-    }
-    .portfolio-input{
-        margin-left: 400px; /* 오른쪽으로 이동 */
-        
-    }
     /* Form Section End*/
 
   </style>
 </head>
 <body>
-
-
-  <div style="width: 1440px; height: 960px; position: relative; background: white"> 
-
-    <!-- 페이지 제목 -->
-    <div class="SameSame" style="width: 816px; height: 238px; left: 356px; top: -1px; position: absolute; color: #FF5C3D; font-size: 128px; font-family: Prompt; font-weight: 700; word-wrap: break-word">SAME SAME</div>
+    <div class="main">
+        <div class="head">
+            <div class="SameSame">SAME SAME</div>
+            
+            <div class="head-bar">
+            <a href="" class="little-same">SAME SAME</a>
+            <a href="" class="head-item">쌤찾기</a>
+            <a href="" class="head-item">커뮤니티</a>
+            <div class="search">
+                <input type="text" class="search-input" placeholder="어떤 서비스가 필요하세요?">
+                <button class="search-btn">검색</button>
+            </div>
+            <a href="" class="head-item">로그인</a>
+            <a href="" class="head-item">마이페이지</a>
+            </div>
+        </div>
+        
+    
+        
+        <!-- 사이드바시작 -->
     <div class="Membership">MEMBERSHIP</div>
-      
-      <!-- 사이드바시작 -->
     <div class="Sidebar">
-      <div class="Line"></div>
       
     <div class="MenuItems">
         <div class="MenuItem" id="memberInfo">
@@ -353,99 +431,188 @@
     <!-- 사이드바끝 -->
   
       
-    <!-- Form Section -->
-    <div class="container">
-      <div class="profile-upload">
-          <label class="avatar" for="file-input"></label>
-          <input type="file" id="file-input" class="file-input" accept="image/*" />
-          <div class="introduction">
-              <textarea placeholder="강사의 한마디 입력하세요"></textarea>
-          </div>
-      </div>
+<!-- Form Section -->
+<div class="container">
+    <div class="profile-upload">
+        <label class="avatar" for="file-input"></label>
+        <input type="file" id="file-input" class="file-input" accept="image/*" />
+        <div class="introduction">
+            <textarea placeholder="강사의 한마디 입력하세요"></textarea>
+        </div>
+    </div>
 
-      <div class="category">
-          <span>카테고리</span>
-          <div class="portfolio-box">
-              <div class="dropdown-container">
-                  <div class="dropdown">
-                      <span class="selected">지역 <span class="remove">×</span></span>
-                      <span class="selected">중구 <span class="remove">×</span></span>
-                      <select class="menu-dropdown">
-                          <option>지역</option>
-                          <option>서울</option>
-                          <option>경기</option>
-                          <option>강원</option>
-                          <option>충북</option>
-                          <option>충남</option>
-                          <option>경북</option>
-                          <option>경남</option>
-                          <option>전북</option>
-                          <option>(제주)서귀포시</option>
-                          <option>(제주)제주시</option>
-                      </select>
-                  </div>
-                  <div class="dropdown">
-                      <span class="selected">과목 <span class="remove">×</span></span>
-                      <select class="menu-dropdown">
-                          <option>강의과목</option>
-                          <option>국/영/수</option>
-                          <option>외국어</option>
-                          <option>과학/수학</option>
-                          <option>예체능</option>
-                          <option>기타</option>
-                      </select>
-                  </div>
+    <div class="category">
+      <div class="category-title">지역</div>
+          <div class="dropdown">
+              <div class="selected-items selected-locations">
+                  <!-- 선택된 지역들이 표시될 영역 -->
               </div>
+              <select class="menu-dropdown location-select">
+                  <option value="">지역</option>
+                  <option value="서울">서울</option>
+                  <option value="경기">경기</option>
+                  <option value="강원">강원</option>
+                  <option value="충북">충북</option>
+                  <option value="충남">충남</option>
+                  <option value="경북">경북</option>
+                  <option value="경남">경남</option>
+                  <option value="전북">전북</option>
+                  <option value="(제주)서귀포시">(제주)서귀포시</option>
+                  <option value="(제주)제주시">(제주)제주시</option>
+              </select>
           </div>
-      </div>
+      <div class="category-title">강의과목</div>
+          <div class="dropdown">
+              <div class="selected-items selected-subjects">
+                  <!-- 선택된 과목들이 표시될 영역 -->
+              </div>
+              <select class="menu-dropdown subject-select">
+                  <option value="">강의과목</option>
+                  <option value="국/영/수">국/영/수</option>
+                  <option value="외국어">외국어</option>
+                  <option value="과학/수학">과학/수학</option>
+                  <option value="예체능">예체능</option>
+                  <option value="기타">기타</option>
+              </select>
+          </div>
 
-      <div class="education">
-          <span>학력</span>
-          <div class="education-item">
-              <input type="text" placeholder="XX고등학교 / 졸업                                                                                          (2009.02 ~ 2012.02)" />
-          </div>
-          <div class="education-item">
-              <input type="text" placeholder="XX대학교 / 영어영문학과 / 졸업                                                                      (2012.03 ~ 2019.02)" />
-          </div>
-      </div>
+      
+    </div>
 
-      <div class="experience">
-          <span>경력</span>
-          <div class="experience-item">
-              <input type="text" placeholder="개인과외 / 고등학생 영어 전 개인과외                                                            (2019.06 ~ 2023.12)" />
-          </div>
-          <div class="experience-item">
-              <input type="text" placeholder="ABCD 영어학원 / 전임강사                                                                             (2017.04 ~ 2018.11)" />
-          </div>
-      </div>
+  <script>
+      // 지역 선택
+      document.querySelector('.location-select').addEventListener('change', function (event) {
+          var selectedValue = event.target.value;
+  
+          if (selectedValue) {
+              var selectedItemsContainer = document.querySelector('.selected-locations');
+  
+              // 중복 방지
+              var existingItem = selectedItemsContainer.querySelector(`[data-value="${selectedValue}"]`);
+              if (!existingItem) {
+                  var item = document.createElement('span');
+                  item.className = 'selected';
+                  item.dataset.value = selectedValue;
+                  item.innerHTML = `${selectedValue} <span class="remove">×</span>`;
+                  selectedItemsContainer.appendChild(item);
+  
+                  // 삭제 이벤트
+                  item.querySelector('.remove').addEventListener('click', function () {
+                      item.remove();
+                  });
+              }
+  
+              event.target.value = '';
+          }
+      });
+  
+      // 강의 과목 선택
+      document.querySelector('.subject-select').addEventListener('change', function (event) {
+          var selectedValue = event.target.value;
+  
+          if (selectedValue) {
+              var selectedItemsContainer = document.querySelector('.selected-subjects');
+  
+              // 중복 방지
+              var existingItem = selectedItemsContainer.querySelector(`[data-value="${selectedValue}"]`);
+              if (!existingItem) {
+                  var item = document.createElement('span');
+                  item.className = 'selected';
+                  item.dataset.value = selectedValue;
+                  item.innerHTML = `${selectedValue} <span class="remove">×</span>`;
+                  selectedItemsContainer.appendChild(item);
+  
+                  // 삭제 이벤트
+                  item.querySelector('.remove').addEventListener('click', function () {
+                      item.remove();
+                  });
+              }
+              event.target.value = '';
+          }
+      });
+  </script>
+  
+<!-- 학력 섹션 -->
+<div class="section" id="education-section">
+  <div class="section-title">학력</div>
+  <div class="list-container" id="education-list">
+    <!-- 입력된 학력 항목이 여기에 표시됩니다 -->
+  </div>
+  <div class="input-group">
+    <input type="text" id="education-input" placeholder="학력 입력 (예: XX대학교 졸업 / 2016-03~2022-02)">
+    <button onclick="addItem('education')">등록</button>
+  </div>
+</div>
 
-      <div class="language">
-          <span>자격증/외국어</span>
-          <div class="language-item">
-              <input type="text" placeholder="TOEIC 850/990" />
-              
-          </div>
-          <div class="language-item">
-              <input type="text" placeholder="TOEIC SPEAKING" />
-              
-          </div>
-      </div>
+<!-- 경력 섹션 -->
+<div class="section" id="experience-section">
+  <div class="section-title">경력</div>
+  <div class="list-container" id="experience-list">
+    <!-- 입력된 경력 항목이 여기에 표시됩니다 -->
+  </div>
+  <div class="input-group">
+    <input type="text" id="experience-input" placeholder="경력 입력 (예: XX회사 근무 / 2022-04~2024-09)">
+    <button onclick="addItem('experience')">등록</button>
+  </div>
+</div>
 
-      <div class="portfolio">
-          <span class="portfolio-title">포트폴리오</span>
-          <div class="portfolio-box">
-              <span></span>
-              <input type="file" class="portfolio-input">
-              
-          </div>
-      </div>
+<!-- 자격증/외국어 섹션 -->
+<div class="section" id="language-section">
+  <div class="section-title">자격증/외국어</div>
+  <div class="list-container" id="language-list">
+    <!-- 입력된 자격증/외국어 항목이 여기에 표시됩니다 -->
+  </div>
+  <div class="input-group">
+    <input type="text" id="language-input" placeholder="자격증/외국어 입력 (예: TOEIC 850점)">
+    <button onclick="addItem('language')">등록</button>
+  </div>
+</div>
+
+<div class="portfolio">
+  <span class="portfolio-title">포트폴리오</span>
+  <div class="portfolio-box">
+      <span></span>
+      <input type="file" class="portfolio-input">
+      
+  </div>
+</div>
+
+<script>
+function addItem(section) {
+  var inputElement = document.getElementById(`${section}-input`);
+  var listContainer = document.getElementById(`${section}-list`);
+  var value = inputElement.value.trim();
+
+  if (value) {
+    // 새로운 항목 생성
+    var listItem = document.createElement('div');
+    listItem.className = 'list-item';
+
+    var textSpan = document.createElement('span');
+    textSpan.textContent = value;
+
+    var deleteButton = document.createElement('button');
+    deleteButton.textContent = '삭제';
+    deleteButton.onclick = () => listItem.remove();
+
+    listItem.appendChild(textSpan);
+    listItem.appendChild(deleteButton);
+    listContainer.appendChild(listItem);
+
+    // 입력 필드 초기화
+    inputElement.value = '';
+  }
+}
+</script>
+
+
 
       <button class="submit-button">완료</button>
-    <!-- Form Section End-->
-   
-    </div>
-    
+      <!-- Form Section End-->
+
   </div>
+</div>
+
 
 </body>
 </html>
