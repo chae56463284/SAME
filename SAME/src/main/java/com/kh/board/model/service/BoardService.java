@@ -12,6 +12,7 @@ import java.util.Locale.Category;
 
 import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.Reply;
+import com.kh.common.model.vo.PageInfo;
 public class BoardService {
 private BoardDao dao= new BoardDao();
 	
