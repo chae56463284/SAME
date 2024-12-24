@@ -15,13 +15,152 @@
         background-color: white;
     }
 
-	.container{
-		width:100%;
-		position:relative;
-	}
-	
-    /* sign-up-form 스타일 */
-    .sign-up-form {
+
+    .main {
+        width: 1440px;
+
+        position: relative;
+        background: rgb(255, 255, 255);
+    }
+    
+    .Membership{
+       width: 463px; 
+       height: 238px; 
+       left: 14px; 
+       top: 280px; 
+       position: absolute; 
+       color: #FF5C3D; 
+       font-size: 50px; 
+       font-family: Prompt; 
+       font-weight: 700; 
+       word-wrap: break-word;
+    }
+
+    /* SAME SAME 로고 */
+    .SameSame {
+        color: #FF5C3D;
+        font-size: 128px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+      /* Sidebar */
+    .Sidebar {
+        position: absolute;
+        width: 256px;
+        top: 388px;
+        left: 0px;
+
+    }
+
+    .Line {
+        width: 0;
+        height: 0;
+        position: absolute;
+        left: 43.01px;
+        top: 191px;
+        transform: rotate(-44.47deg);
+        transform-origin: 0 0;
+        border: 1px black solid;
+    }
+
+    .MenuItems {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .MenuItem {
+        width: 256px;
+        height: 40px;
+        padding: 0 16px;
+        background: white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        cursor: pointer; /* 클릭 가능하게 변경 */
+    }
+
+    .MenuItem.active {
+        background: #F7F7F7;
+    }
+
+    .SubMenu {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding-left: 16px; /* 서브 메뉴의 위치 조정 */
+    }
+
+    .LogoPlaceholder {
+        width: 24px;
+        height: 24px;
+        background: #D9D9D9;
+        border-radius: 9999px;
+        transition: background 0.3s; /* 부드러운 색상 전환 */
+    }
+
+    .LogoPlaceholder.red {
+        background: #FF5C3D; /* 빨간색 */
+    }
+
+    .Label {
+        flex: 1;
+        color: black;
+        font-size: 16px;
+        font-family: Inter, sans-serif;
+        font-weight: 500;
+        line-height: 24px;
+    }
+    /* Sidebar End*/
+
+    /* headbar start*/
+    .head-bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-top: 10px;
+    }
+
+    .head-bar a{
+        text-decoration: none;
+    }
+
+    .little-same {
+        font-size: 20px;
+        font-weight: bold;
+        color: #FF5C3D;
+    }
+
+    .head-item {
+        font-size: 20px;
+        color: black;
+    }
+
+    .search-input {
+        width: 300px;
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        color: black;
+    }
+
+    .search-btn {
+        padding: 10px 20px;
+        background-color: #FF5C3D;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    /*headbar end*/
+
+    /* container 스타일 */
+    .container {
         display: flex;
         flex-direction: column;
         width: 500px;
