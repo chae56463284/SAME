@@ -51,6 +51,7 @@
         }
 
         .search-box {
+            display: flex;
             width: 1054px;
             left: 13%;
             top: 50%;
@@ -68,6 +69,19 @@
             width: 100%;
         }
 
+        .searchInput{
+            display: block;
+            width: 15%;
+            height: auto;
+            background-color: #FF5C3D;
+            position: relative;
+            text-align: center;
+            border-radius: 40px;
+            color: white;
+            line-height: 30px;
+            top: 10px;
+            left:10px;
+        }
         .category-container {
             position: absolute;
             width: 100%;
@@ -97,7 +111,7 @@
         <div class="SameSame">SAME SAME</div>
 
         <div class="login-membership">
-            <a href="/SAME/views/member/login.jsp">LOGIN</a> / <a href="/SAME/views/member/signup.jsp">MEMBERSHIP</a> 
+            <a href="/SAME/views/member/login.jsp">LOGIN</a> / <a href="/SAME/views/member/signup.jsp">MEMBERSHIP</a> / <a href="/SAME/views/manager/managerIndex.jsp">관리자</a>
         </div>
         <!-- <div class="login-membership">
             <a href="">MYPAGE / LOGOUT</a>
@@ -105,7 +119,7 @@
 
         <form class="search-box" action="">
             <input class="search-txt" type="text">
-
+    
             <div class="category-container">
                 <div class="category-item" data-category="subject">과목</div>
                 <div class="sub" id="subject">
@@ -131,7 +145,8 @@
                     <div class="sub-item">부산</div>
                 </div>
 
-            </div>
+                </div>
+        
         </form>
     </div>
 
