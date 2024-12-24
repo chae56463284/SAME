@@ -24,6 +24,7 @@ body {
 	justify-content: flex-start; /* 상단에 배치 */
 }
 
+
 /* SAME SAME 로고 */
 .SameSame {
 	color: #FF5C3D;

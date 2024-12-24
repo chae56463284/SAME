@@ -38,16 +38,18 @@
         flex-direction: column;
         align-items: center;
         gap: 20px; 
-        margin-top: 10%;
+        margin-top: 5%;
     }
 
     .bigBox {
         width: 500px;
         height: 50px;
     }
+    
     .forgotText {
         text-align: center;
-        font-size: 18px; 
+        font-size: 22px; 
+        font-weight: 600;
         margin-bottom: 40%; 
         color: black; 
     }
@@ -68,6 +70,7 @@
         background: #FF5C3D;
         color: white;
     }
+
     a{
     text-decoration-line : none;
     color: white;
@@ -82,8 +85,8 @@
         <div class="bigBox">
              <div class="forgotText">가입하신 이메일주소로 아이디가 전송되었습니다.</div>
              <!-- <div class="forgotText">가입하신 이메일주소로 새로운 비밀번호가 전송되었습니다.</div> -->
-             <div class="btn-id"><a href="/SAME/views/member/login.jsp">로그인하기</a></div>
-             <div class="btn-id"><a href="/SAME">메인으로</a></div>
+             <div class="btn-id"><a href="/same/views/member/login.jsp">로그인하기</a></div>
+             <div class="btn-id"><a href="/same">메인으로</a></div>
          </div>
     </div>
   </div>
