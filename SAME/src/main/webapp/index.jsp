@@ -111,7 +111,7 @@
         <div class="SameSame">SAME SAME</div>
 
         <div class="login-membership">
-            <a href="/SAME/views/member/login.jsp">LOGIN</a> / <a href="/SAME/views/member/signup.jsp">MEMBERSHIP</a> / <a href="/SAME/views/manager/managerIndex.jsp">관리자</a>
+            <a href="/same/views/member/login.jsp">LOGIN</a> / <a href="/same/views/member/signup.jsp">MEMBERSHIP</a> / <a href="/same/views/manager/managerIndex.jsp">관리자</a>
         </div>
         <!-- <div class="login-membership">
             <a href="">MYPAGE / LOGOUT</a>
