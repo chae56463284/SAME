@@ -193,7 +193,6 @@
         <% } else if (firstChar == 'A') { %>
             <a href="<%= contextPath %>/views/member/menteePage/main.jsp">MYPAGE</a> /
         <% } %>
-        <a href="<%= contextPath %>/member/logout">LOGOUT</a>
     <% } %>
 </div>
 </div>
