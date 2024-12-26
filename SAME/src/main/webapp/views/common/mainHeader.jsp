@@ -41,7 +41,7 @@ body {
 </head>
 <body>
 	<div class="main">
-		<div class="SameSame">SAME SAME</div>
+		<div class="SameSame"><a href="/same" style="color: #FF5C3D;">SAME SAME</a></div>
 	</div>
 </body>
 </html>

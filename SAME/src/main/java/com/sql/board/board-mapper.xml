@@ -19,7 +19,7 @@
 		FROM BOARD
 		WHERE IS_DELETE = 'N'
 	</entry>
-	
+
 		<entry key="selectBoardListC">
 	SELECT *
 	FROM   (SELECT ROWNUM RNUM, A.*
@@ -166,5 +166,6 @@
 		AND R.STATUS ='Y'
 		ORDER BY CREATE_DATE DESC
 	</entry>
+
 
 </properties>
