@@ -23,4 +23,15 @@ public class memberService {
 		close(conn);
 		return result;
 	}
+
+	public Member login(String memberId, String memberPwd) {
+		Connection conn = getConnection();
+		
+		Member m = dao.login(conn, memberId, memberPwd);
+		
+		close(conn);
+		
+		return m;
+		
+	}
 }
