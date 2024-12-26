@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="com.kh.member.model.vo.Member" %>
 <%
+	
+	 Member loginUser = (Member) session.getAttribute("loginUser");
+
 	String contextPath = request.getContextPath(); // /same
+
 %>
 <!DOCTYPE html>
 <html>
@@ -172,9 +177,28 @@
     <div class="SameSame">SAME SAME</div>
 
 
-    <div class="login-membership">
-        <a href="<%= contextPath %>/views/member/login.jsp">LOGIN</a> / <a href="<%= contextPath %>/views/member/signup.jsp">MEMBERSHIP</a> / <a href="<%= contextPath %>/views/manager/managerIndex.jsp">관리자</a>
-    </div>
+
+<div class="login-membership">
+    <% if (loginUser == null) { %>
+        <!-- 로그인하지 않은 상태 -->
+        <a href="<%= contextPath %>/views/member/login.jsp">LOGIN</a> /
+        <a href="<%= contextPath %>/views/member/signup.jsp">MEMBERSHIP</a> /
+        <a href="<%= contextPath %>/views/manager/managerIndex.jsp">관리자</a>
+    <% } else { %>
+        <!-- 로그인한 상태 -->
+        <% 
+            String memberNo = loginUser.getMemberNo();
+            char firstChar = memberNo.charAt(0); // MEMBER_NO의 첫 글자 확인
+        %>
+        <% if (firstChar == 'B') { %>
+            <a href="<%= contextPath %>/views/member/mentorPage/main.jsp">MYPAGE</a> /
+        <% } else if (firstChar == 'A') { %>
+            <a href="<%= contextPath %>/views/member/menteePage/main.jsp">MYPAGE</a> /
+        <% } %>
+        <a href="<%= contextPath %>/member/logout">LOGOUT</a>
+    <% } %>
+</div>
+
 </div>
   
     <!-- <div class="login-membership">
