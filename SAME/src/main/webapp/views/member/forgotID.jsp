@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
   <style>
-    body {
+   body {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -42,6 +42,10 @@
     }
 
 
+    .bigBox {
+        width: 500px;
+        height: 50px;
+    }
     /* 멘티/멘토 버튼 컨테이너 */
     .login-tabs {
         display: flex;
@@ -90,15 +94,13 @@
 
     .forgot {
         color: #FF5C3D;
-        font-size: 80px;
-        font-weight: 1000;
+        font-size: 50px;
+        font-weight: 900;
+        text-align: center;
         margin-top: -5%;
     }
 
-    .bigBox {
-        width: 500px;
-        height: 50px;
-    }
+    
     .writing-name, .writing-email {
         width: 100%;
         height: 100%;
@@ -110,7 +112,7 @@
     }
 
     .text-input {
-        width: auto;
+        width: 90%;
         height: 100%;
         border: none;
         font-size: 16px;

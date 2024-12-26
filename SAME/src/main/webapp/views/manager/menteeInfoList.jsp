@@ -311,15 +311,18 @@
       location.assign('/manager/menteeInfoList?cpage='+cpage);
     }
     </script> -->
-      <!-- 페이지 제목 -->
-      <div class="SameSame" style="width: 816px; height: 238px; left: 356px; top: -1px; position: absolute; color: #FF5C3D; font-size: 128px; font-family: Prompt; font-weight: 700; word-wrap: break-word">SAME SAME</div>
+     <div class="SameSame" style="width: 816px; height: 238px; left: 356px; top: -1px; position: absolute; font-size: 128px; font-family: Prompt; font-weight: 700; word-wrap: break-word">
+      <a href="/same/views/manager/managerIndex.jsp" style="color: #FF5C3D;">SAME SAME</a>
+      </div>
       
       <!-- 매니져 제목 -->
-      <div class="Manager" style="width: 463px; height: 238px; left: 14px; top: 162px; position: absolute; color: #FF5C3D; font-size: 50px; font-family: Prompt; font-weight: 700; word-wrap: break-word">MANAGER</div>
+      <div class="Manager" style="width: 463px; height: 238px; left: 14px; top: 162px; position: absolute; color: #FF5C3D; font-size: 50px; font-family: Prompt; font-weight: 700; word-wrap: break-word">
+      MANAGER
+      </div>
       
       <!-- 사이드바시작 -->
-      <div class="Sidebar">
-        <div class="Line"></div>
+       <div class="Sidebar">
+        
         
         <div class="MenuItems">
             <div class="MenuItem" id="memberInfo">
@@ -329,11 +332,11 @@
             <div class="SubMenu" id="subMenu">
                 <div class="MenuItem">
                     <div class="LogoPlaceholder gray"></div>
-                    <div class="Label">멘토 회원정보</div>
+                    <div class="Label"><a href="/same/views/manager/mentorInfoList.jsp">멘토 회원정보</a></div>
                 </div>
                 <div class="MenuItem">
                     <div class="LogoPlaceholder gray"></div>
-                    <div class="Label">멘티 회원정보</div>
+                    <div class="Label"><a href="/same/views/manager/menteeInfoList.jsp">멘티 회원정보</a></div>
                 </div>
             </div>
             
@@ -344,29 +347,29 @@
             <div class="SubMenu" id="boardSubMenu">
                 <div class="MenuItem">
                     <div class="LogoPlaceholder gray"></div>
-                    <div class="Label">자유게시판</div>
+                    <div class="Label"><a href="/same/views/manager/boardAList.jsp">자유게시판</a></div>
                 </div>
                 <div class="MenuItem">
                     <div class="LogoPlaceholder gray"></div>
-                    <div class="Label">리뷰게시판</div>
+                    <div class="Label"><a href="/same/views/manager/boardBList.jsp">리뷰게시판</a></div>
                 </div>
                 <div class="MenuItem">
                     <div class="LogoPlaceholder gray"></div>
-                    <div class="Label">문의게시판</div>
+                    <div class="Label"><a href="/same/views/manager/boardCList.jsp">문의게시판</a></div>
                 </div>
             </div>
             
             <div class="MenuItem">
                 <div class="LogoPlaceholder gray"></div>
-                <div class="Label">카테고리</div>
+                <div class="Label"><a href="/same/views/manager/category.jsp">카테고리</a></div>
             </div>
             <div class="MenuItem">
                 <div class="LogoPlaceholder gray"></div>
-                <div class="Label">결제관리</div>
+                <div class="Label"> <a href="/same/views/manager/transactionList.jsp">결제관리</a></div>
             </div>
             <div class="MenuItem">
                 <div class="LogoPlaceholder gray"></div>
-                <div class="Label">신고관리</div>
+                <div class="Label"><a href="/same/views/manager/complaintList.jsp">신고관리</a></div>
             </div>
             <div class="MenuItem">
                 <div class="LogoPlaceholder gray"></div>
@@ -375,7 +378,6 @@
             
         </div>
     </div>
-
     <script>
         // 회원정보 클릭 시 서브 메뉴 토글
         document.getElementById('memberInfo').addEventListener('click', function () {

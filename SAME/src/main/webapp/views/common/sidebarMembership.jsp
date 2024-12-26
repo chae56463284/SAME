@@ -10,7 +10,7 @@
 	position: absolute;
 	width: 256px;
 	top: 0; /* 위치 조정 */
-	left: 26px;
+	left: 0px;
 }
 
 .SidebarTitle {
@@ -22,7 +22,6 @@
 	margin-bottom: 16px;
 	text-align: left; /* 텍스트 왼쪽 정렬 */
 }
-
 
 
 .MenuItems {
@@ -76,94 +75,66 @@
 <body>
 	<div class="Sidebar">
 		<!-- 제목 추가 -->
-		<div class="SidebarTitle">MANAGER</div>
-
+		<div class="SidebarTitle">MEMBERSHIP</div>
+		
 		<div class="MenuItems">
 			<div class="MenuItem" id="memberInfo">
 				<div class="LogoPlaceholder"></div>
-				<div class="Label">회원정보</div>
+				<div class="Label">로그인</div>
 			</div>
-			<div class="SubMenu" id="subMenu">
-				<div class="MenuItem">
-					<div class="LogoPlaceholder gray"></div>
-					<div class="Label">멘토 회원정보</div>
-				</div>
-				<div class="MenuItem">
-					<div class="LogoPlaceholder gray"></div>
-					<div class="Label">멘티 회원정보</div>
-				</div>
-			</div>
-
 			<div class="MenuItem" id="boardMenu">
 				<div class="LogoPlaceholder gray"></div>
-				<div class="Label">게시판</div>
+				<div class="Label">회원가입</div>
 			</div>
 			<div class="SubMenu" id="boardSubMenu">
 				<div class="MenuItem">
 					<div class="LogoPlaceholder gray"></div>
-					<div class="Label">자유게시판</div>
+					<div class="Label">멘티 회원가입</div>
 				</div>
 				<div class="MenuItem">
 					<div class="LogoPlaceholder gray"></div>
-					<div class="Label">리뷰게시판</div>
-				</div>
-				<div class="MenuItem">
-					<div class="LogoPlaceholder gray"></div>
-					<div class="Label">문의게시판</div>
+					<div class="Label">멘토 회원가입</div>
 				</div>
 			</div>
 
 			<div class="MenuItem">
 				<div class="LogoPlaceholder gray"></div>
-				<div class="Label">신고관리</div>
-			</div>
-			<div class="MenuItem">
-				<div class="LogoPlaceholder gray"></div>
-				<div class="Label">카테고리</div>
-			</div>
-			<div class="MenuItem">
-				<div class="LogoPlaceholder gray"></div>
-				<div class="Label">결제관리</div>
+				<div class="Label">문의게시판</div>
 			</div>
 		</div>
 	</div>
 
 	<script>
-        // 회원정보 클릭 시 서브 메뉴 토글
-        document.getElementById('memberInfo').addEventListener('click', function () {
-            const subMenu = document.getElementById('subMenu');
-            subMenu.style.display = subMenu.style.display === 'none' ? 'flex' : 'none';
+        // LogoPlaceholder 색상 변경 함수
+        function changeLogoColor(clickedLogo) {
+            // 모든 LogoPlaceholder의 색상을 초기화
+            const placeholders = document.querySelectorAll('.LogoPlaceholder');
+            placeholders.forEach(placeholder => {
+                placeholder.classList.remove('red');
+            });
+
+            // 클릭한 LogoPlaceholder만 색상을 활성화
+            clickedLogo.classList.add('red');
+        }
+
+        // MenuItem 클릭 시 이벤트 처리
+        document.querySelectorAll('.MenuItem').forEach(menuItem => {
+            menuItem.addEventListener('click', function (event) {
+                // 클릭한 요소 중 LogoPlaceholder가 있는지 확인
+                const logoPlaceholder = this.querySelector('.LogoPlaceholder');
+                if (logoPlaceholder) {
+                    changeLogoColor(logoPlaceholder);
+                }
+
+                // 클릭 이벤트가 전파되지 않도록 방지
+                event.stopPropagation();
+            });
         });
 
-        // 게시판 클릭 시 서브 메뉴 토글
+        // 게시판 메뉴 클릭 시 서브 메뉴 토글
         document.getElementById('boardMenu').addEventListener('click', function () {
             const boardSubMenu = document.getElementById('boardSubMenu');
             boardSubMenu.style.display = boardSubMenu.style.display === 'none' ? 'flex' : 'none';
-        });
-
-        // LogoPlaceholder 색상 변경 함수
-        function changeColor(element) {
-            // 모든 LogoPlaceholder에서 빨간색 클래스를 제거
-            const placeholders = document.querySelectorAll('.LogoPlaceholder');
-            placeholders.forEach(function(placeholder) {
-                placeholder.classList.remove('red');
-            });
-            // 클릭한 LogoPlaceholder에 빨간색 클래스 추가
-            element.classList.add('red');
-        }
-
-        // MenuItem 클릭 시 색상 변경 및 이벤트 버블링 처리
-        document.querySelectorAll('.MenuItem').forEach(item => {
-            item.addEventListener('click', function (event) {
-                // LogoPlaceholder 색상 변경
-                const logoPlaceholder = this.querySelector('.LogoPlaceholder');
-                if (logoPlaceholder) {
-                    changeColor(logoPlaceholder);
-                }
-
-                // 클릭 이벤트가 전파되지 않도록 함
-                event.stopPropagation();
-            });
         });
     </script>
 </body>

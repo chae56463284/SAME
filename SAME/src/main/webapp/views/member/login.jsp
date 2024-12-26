@@ -41,7 +41,10 @@
         margin-top: 5%;
     }
 
-
+    .bigBox {
+        width: 500px;
+        height: 50px;
+    }
     /* 멘티/멘토 버튼 컨테이너 */
     .login-tabs {
         display: flex;
@@ -90,15 +93,14 @@
 
     /* LOGIN 텍스트 */
     .Login {
+        margin-top: 10px;
         color: #FF5C3D;
-        font-size: 80px;
-        font-weight: 1000;
+        font-size: 50px;
+        font-weight: 900;
+        text-align: center;
     }
 
-    .bigBox {
-        width: 500px;
-        height: 50px;
-    }
+    
     /* 입력 박스 */
     .idBox, .passBox {
         width: 100%;
@@ -111,7 +113,7 @@
     }
 
     .text-input {
-        width: auto;
+        width: 90%;
         height: 100%;
         border: none;
         font-size: 16px;
@@ -183,14 +185,14 @@
      
              <div class="loginGo">로그인</div>
      
-             <div class="info-text"><a href="/SAME/views/member/forgotID.jsp">아이디 찾기</a> / <a href="/SAME/views/member/forgotPass.jsp">비밀번호 찾기</a></div>
+             <div class="info-text"><a href="/same/views/member/forgotID.jsp">아이디 찾기</a> / <a href="/same/views/member/forgotPass.jsp">비밀번호 찾기</a></div>
      
              <!-- 카카오 추후 로그인 로고 추가-->
              <div class="kakaoGo">
                <div class="Image2">카카오 로그인</div>
              </div>
              
-             <div class="link-button"><a href="/SAME/views/member/signup.jsp">회원가입</a></div>
+             <div class="link-button"><a href="/same/views/member/signup.jsp">회원가입</a></div>
 
          </div>
     </div>
