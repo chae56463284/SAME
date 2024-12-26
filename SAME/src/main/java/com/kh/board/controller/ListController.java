@@ -45,7 +45,7 @@ public class ListController extends HttpServlet {
 				
 				
 				// *listCount
-				listCount = new BoardService().selectListCount(1); // 1. 일반게시글만 얻어오기
+				listCount = new BoardService().selectListCount(); // 1. 일반게시글만 얻어오기
 				
 				currentPage = request.getParameter("cpage") == null ? 1 : Integer.parseInt(request.getParameter("cpage"));
 				

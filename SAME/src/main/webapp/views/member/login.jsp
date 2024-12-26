@@ -1,10 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="com.kh.member.model.vo.Member" %>
+    <%
+    	String contextPath = request.getContextPath();
+    
+    	Member loginUser = (Member)session.getAttribute("loginUser");
+    	
+    	System.out.println(loginUser);
+    %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
  <title>로그인 페이지</title>
+ <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
   <style>
     body {
         display: flex;
@@ -49,9 +58,8 @@
     .login-tabs {
         display: flex;
         justify-content: center;
-        gap: 10px;
+        gap: 13px;
         margin-left: -35%;
-        
     }
 
     .loginMe, .loginMt {
@@ -101,25 +109,26 @@
     }
 
     
-    /* 입력 박스 */
-    .idBox, .passBox {
-        width: 100%;
-        height: 100%;
-        background: white;
-        border-radius: 5px;
-        border: 1px solid #828282;
-        margin-bottom: 5%;
-        
-    }
+.idBox, .passBox {
+    width: 100%;
+    height: 50px; /* 높이를 설정합니다. */
+    background: white;
+    border-radius: 5px;
+    border: 1px solid #828282;
+    margin-bottom: 5%;
+    display: flex; /* 자식 요소를 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
+}
 
-    .text-input {
-        width: 90%;
-        height: 100%;
-        border: none;
-        font-size: 16px;
-        padding: 0 15px;
-        outline: none;
-    }
+.text-input {
+    width: 100%; /* 부모 박스의 100% 사용 */
+    height: 100%; /* 부모 박스의 높이와 동일하게 설정 */
+    border: none;
+    font-size: 16px;
+    padding: 0 15px;
+    outline: none;
+}
+
 
     /* 버튼 스타일 */
     .loginGo, .kakaoGo {
@@ -167,23 +176,25 @@
     <div class="set">
       
       <div class="bigBox">
-           <!-- 멘티/멘토 버튼 -->
-            <div class="login-tabs">
-                <div class="loginMe active" id="mentee">멘티</div>
-                <div class="loginMt inactive" id="mentor">멘토</div>
-            </div>
-
-            <div class="Login">LOGIN</div>
-        
-                <!-- id 비밀번호 작성 -->
-             <div class="idBox">
-               <input type="text" class="text-input" placeholder="ID">
-             </div>
-             <div class="passBox">
-               <input type="password" class="text-input" placeholder="PASS">
-             </div>
-     
-             <div class="loginGo">로그인</div>
+		<form id="login" action="${pageContext.request.contextPath}/member/login" method="post">
+		    <!-- 멘티/멘토 버튼 -->
+		    <div class="login-tabs">
+		        <div class="loginMe active" id="mentee">멘티</div>
+		        <div class="loginMt inactive" id="mentor">멘토</div>
+		    </div>
+		
+		    <div class="Login">LOGIN</div>
+		
+		    <!-- ID 입력 -->
+		    <div class="idBox">
+		        <input type="text" name="memberId" class="text-input" placeholder="ID">
+		    </div>
+		
+		    <!-- 비밀번호 입력 -->
+		    <div class="passBox">
+		        <input type="password" name="memberPwd" class="text-input" placeholder="PASS">
+		    </div>
+		    <button type="submit" class="loginGo">로그인</button>
      
              <div class="info-text"><a href="/same/views/member/forgotID.jsp">아이디 찾기</a> / <a href="/same/views/member/forgotPass.jsp">비밀번호 찾기</a></div>
      
@@ -193,7 +204,7 @@
              </div>
              
              <div class="link-button"><a href="/same/views/member/signup.jsp">회원가입</a></div>
-
+         </form>
          </div>
     </div>
   </div>
@@ -202,20 +213,23 @@
   <script>
     var menteeButton = document.getElementById("mentee");
     var mentorButton = document.getElementById("mentor");
+    var memberTypeInput = document.getElementById("memberType");
 
     menteeButton.addEventListener("click", () => {
-      menteeButton.classList.add("active");
-      menteeButton.classList.remove("inactive");
-      mentorButton.classList.add("inactive");
-      mentorButton.classList.remove("active");
+        menteeButton.classList.add("active");
+        menteeButton.classList.remove("inactive");
+        mentorButton.classList.add("inactive");
+        mentorButton.classList.remove("active");
+        memberTypeInput.value = "멘티"; // 멘티로 설정
     });
 
     mentorButton.addEventListener("click", () => {
-      mentorButton.classList.add("active");
-      mentorButton.classList.remove("inactive");
-      menteeButton.classList.add("inactive");
-      menteeButton.classList.remove("active");
+        mentorButton.classList.add("active");
+        mentorButton.classList.remove("inactive");
+        menteeButton.classList.add("inactive");
+        menteeButton.classList.remove("active");
+        memberTypeInput.value = "멘토"; // 멘토로 설정
     });
-  </script>
+    </script>
 </body>
 </html>
