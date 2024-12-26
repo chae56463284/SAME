@@ -21,4 +21,5 @@ public class Board {
 	private Date editDate;
 	private char isDelete;
 	private char isHidden;
+	private int count;
 }

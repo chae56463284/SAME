@@ -19,4 +19,34 @@
     <servlet-name>ListController</servlet-name>
     <url-pattern>/ListController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListAController</display-name>
+    <servlet-name>ListAController</servlet-name>
+    <servlet-class>com.kh.board.controller.ListAController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListAController</servlet-name>
+    <url-pattern>/ListAController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListBController</display-name>
+    <servlet-name>ListBController</servlet-name>
+    <servlet-class>com.kh.board.controller.ListBController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListBController</servlet-name>
+    <url-pattern>/ListBController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListCController</display-name>
+    <servlet-name>ListCController</servlet-name>
+    <servlet-class>com.kh.board.controller.ListCController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListCController</servlet-name>
+    <url-pattern>/ListCController</url-pattern>
+  </servlet-mapping>
 </web-app>
