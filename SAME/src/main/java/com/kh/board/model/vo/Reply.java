@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Reply {
 	private int commentNo; // 댓글번호
 	private int boardNo;  // 참조게시글 번호
-	private int memeberNo; // 작성자
+	private String memberNo; // 작성자
 	private String commentContent;
 	private Date createDate;
 	private Date editDate;
