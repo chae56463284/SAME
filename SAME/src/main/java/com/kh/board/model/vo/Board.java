@@ -18,11 +18,12 @@ public class Board {
 	private int boardNo;
 	private String memberNo;
 	private char boardType;
+	private Category category;
+	private int count;
 	private String boardTitle;
 	private String boardContent;
 	private Date createDate;
 	private Date editDate;
 	private char isDelete;
 	private char isHidden;
-	
 }
