@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+	String contextPath = request.getContextPath(); // /same
+%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -78,17 +81,12 @@
 				<div class="LogoPlaceholder"></div>
 				<div class="Label">전체글보기</div>
 			</div>
-			<div class="MenuItems">
-				<div class="MenuItem">
-					<div class="LogoPlaceholder gray"></div>
-					<div class="Label">공지사항</div>
-				</div>
 
 				<div class="MenuItem">
 					<div class="LogoPlaceholder gray"></div>
 					<div class="Label">인기글모음</div>
 				</div>
-			</div>
+	
 
 			<div class="MenuItem" id="boardMenu">
 				<div class="LogoPlaceholder gray"></div>
@@ -100,7 +98,7 @@
 			</div>
 			<div class="MenuItem">
 				<div class="LogoPlaceholder gray"></div>
-				<div class="Label">문의게시판</div>
+				<div class="Label"><a href="<%=contextPath %>/board/listc">문의게시판</a></div>
 			</div>
 		</div>
 	</div>

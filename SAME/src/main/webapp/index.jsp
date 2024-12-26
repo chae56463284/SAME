@@ -176,6 +176,8 @@
     </div> -->
     <div class="SameSame">SAME SAME</div>
 
+
+
 <div class="login-membership">
     <% if (loginUser == null) { %>
         <!-- 로그인하지 않은 상태 -->
@@ -196,6 +198,7 @@
         <a href="<%= contextPath %>/member/logout">LOGOUT</a>
     <% } %>
 </div>
+
 </div>
   
     <!-- <div class="login-membership">

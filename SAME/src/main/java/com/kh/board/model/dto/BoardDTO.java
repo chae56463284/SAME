@@ -15,9 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BoardDTO {
 	private Board b;
-//	private BoardA ba;
-//	private BoardB bb;
-//	private BoardC bc;
 	
 	private Attachment at;
 	

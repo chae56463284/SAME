@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+String contextPath = request.getContextPath(); // /same
+
+String alertMsg = (String)session.getAttribute("alertMsg");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -100,6 +105,7 @@ body {
 </style>
 </head>
 <body>
+
 	<!-- head 시작-->
 	<div class="main">
 
@@ -163,6 +169,7 @@ body {
                     alert('이미 사용 중인 아이디입니다.');
                 } else {
                     alert('사용 가능한 아이디입니다.');
+
                 }
             });
     });
