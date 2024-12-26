@@ -19,4 +19,14 @@
     <servlet-name>ListController</servlet-name>
     <url-pattern>/ListController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>menteeInsert</display-name>
+    <servlet-name>menteeInsert</servlet-name>
+    <servlet-class>com.kh.member.menteeInsert</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>menteeInsert</servlet-name>
+    <url-pattern>/menteeInsert</url-pattern>
+  </servlet-mapping>
 </web-app>
