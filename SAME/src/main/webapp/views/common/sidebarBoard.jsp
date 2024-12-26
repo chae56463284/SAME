@@ -78,16 +78,10 @@
 				<div class="LogoPlaceholder"></div>
 				<div class="Label">전체글보기</div>
 			</div>
-			<div class="MenuItems">
-				<div class="MenuItem">
-					<div class="LogoPlaceholder gray"></div>
-					<div class="Label">공지사항</div>
-				</div>
-
-				<div class="MenuItem">
-					<div class="LogoPlaceholder gray"></div>
-					<div class="Label">인기글모음</div>
-				</div>
+			
+			<div class="MenuItem">
+				<div class="LogoPlaceholder gray"></div>
+				<div class="Label">인기글모음</div>
 			</div>
 
 			<div class="MenuItem" id="boardMenu">
