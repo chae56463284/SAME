@@ -26,7 +26,7 @@ public class BoardDao {
 private Properties prop = new Properties();
 	
 	public BoardDao() {
-		String path = BoardDao.class.getResource("/sql/board/board-mapper.xml").getPath();
+		String path = BoardDao.class.getResource("/com/sql/board/board-mapper.xml").getPath();
 		
 		try {
 			prop.loadFromXML(new FileInputStream(path));
@@ -68,11 +68,10 @@ private Properties prop = new Properties();
 			while(rset.next()) {
 				Board b = Board.builder()
 						 	   .boardNo(rset.getInt("BOARD_NO"))
-						 	   .category(new Category(rset.getString("CATEGORY_NAME"),"말머리"))
+						 	   .memberNo(rset.getString("MEMBER_NAME"))
 						 	   .boardTitle(rset.getString("BOARD_TITLE"))
-						 	   .memberNo(rset.getString("MEMBER_NO"))
-						 	   .count(rset.getInt("COUNT"))
 						 	   .createDate(rset.getDate("CREATE_DATE"))
+						 	   .count(rset.getInt("COUNT"))
 						 	   .build();
 				list.add(b);
 			}
@@ -88,7 +87,7 @@ private Properties prop = new Properties();
 		return list;
 	}
 
-	public int selectListCount(Connection conn, int boardType) {
+	public int selectListCount(Connection conn) {
 		int listCount = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -96,7 +95,31 @@ private Properties prop = new Properties();
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, boardType);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return listCount;
+		
+	}
+	
+	public int selectListCount(Connection conn,char boardType) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectListCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {

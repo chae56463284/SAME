@@ -173,7 +173,7 @@
 
 
     <div class="login-membership">
-        <a href="/same/views/member/login.jsp">LOGIN</a> / <a href="/same/views/member/signup.jsp">MEMBERSHIP</a> / <a href="/same/views/manager/managerIndex.jsp">관리자</a>
+        <a href="<%= contextPath %>/views/member/login.jsp">LOGIN</a> / <a href="<%= contextPath %>/views/member/signup.jsp">MEMBERSHIP</a> / <a href="<%= contextPath %>/views/manager/managerIndex.jsp">관리자</a>
     </div>
 </div>
   
