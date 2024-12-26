@@ -23,16 +23,6 @@
 	text-align: left; /* 텍스트 왼쪽 정렬 */
 }
 
-.Line {
-	width: 0;
-	height: 0;
-	position: absolute;
-	left: 43.01px;
-	top: 191px;
-	transform: rotate(-44.47deg);
-	transform-origin: 0 0;
-	border: 1px black solid;
-}
 
 .MenuItems {
 	display: flex;
@@ -86,7 +76,6 @@
 	<div class="Sidebar">
 		<!-- 제목 추가 -->
 		<div class="SidebarTitle">MYPAGE</div>
-		<div class="Line"></div>
 
 		<div class="MenuItems">
 			<div class="MenuItem" id="boardMenu">
