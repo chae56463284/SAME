@@ -1,5 +1,6 @@
 package com.kh.board.model.dao;
 
+
 import static com.kh.common.template.JDBCTemplate.close;
 
 import java.io.FileInputStream;
@@ -484,4 +485,5 @@ private Properties prop = new Properties();
 		return list;
 		
 	}
+
 }
