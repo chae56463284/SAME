@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Locale.Category;
 
+import com.kh.board.model.dao.BoardDao;
+import com.kh.board.model.dto.BoardDTO;
+import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.Reply;
 import com.kh.common.model.vo.PageInfo;
@@ -96,7 +99,7 @@ private BoardDao dao= new BoardDao();
 			Attachment deleteAttachment = new BoardDao().selectBoardList(conn, b.getBoardNo())
 					.getAt();
 			// 파일의 저장경로 + 파일의 수정명
-			String changeName = deleteAttachment.getChangeName();
+			String changeName = deleteAttachment.getChangedName();
 			if(at.getFileNo() !=0 && at.getOriginName() !=null) {
 				
 				// 1. at 수정
