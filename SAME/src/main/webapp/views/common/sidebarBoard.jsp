@@ -10,7 +10,7 @@
 	position: absolute;
 	width: 256px;
 	top: 0; /* 위치 조정 */
-	left: 26px;
+	left: 5%;
 }
 
 .SidebarTitle {
