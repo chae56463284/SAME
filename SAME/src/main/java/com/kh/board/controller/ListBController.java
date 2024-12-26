@@ -1,21 +1,25 @@
 package com.kh.board.controller;
 
+
+import java.io.IOException;
+import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-
 import com.kh.board.model.service.BoardService;
 import com.kh.board.model.vo.Board;
 import com.kh.common.model.vo.PageInfo;
+
+
+
 
 /**
  * Servlet implementation class ListBController
  */
 @WebServlet("/board/listb")
+
 public class ListBController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -31,6 +35,8 @@ public class ListBController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
 		// 페이징 처리에 필요한 변수
 				int listCount; // 게시글 총 개수
 				int currentPage; // 요청한 페이지
@@ -52,7 +58,7 @@ public class ListBController extends HttpServlet {
 				
 				startPage = (currentPage -1) / pageLimit * pageLimit + 1;
 				endPage = startPage + pageLimit - 1;
-				
+
 				if(endPage > maxPage) {
 					endPage = maxPage;
 				}
@@ -64,9 +70,12 @@ public class ListBController extends HttpServlet {
 				request.setAttribute("list", list);
 				request.setAttribute("pi", pi);
 				
+
+
 			
 				// 2. 게시글 목록 데이터를 request에 저장한 후 목록 페이지로 forward
 				request.getRequestDispatcher("/views/board/boardBList.jsp").forward(request, response);
+
 	}
 
 	/**
@@ -77,4 +86,6 @@ public class ListBController extends HttpServlet {
 		doGet(request, response);
 	}
 
+
 }
+

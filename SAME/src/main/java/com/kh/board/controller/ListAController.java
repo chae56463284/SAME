@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ListAController
+ * Servlet implementation class ListController
  */
 @WebServlet("/board/lista")
 public class ListAController extends HttpServlet {
@@ -25,13 +25,13 @@ public class ListAController extends HttpServlet {
      */
     public ListAController() {
         super();
-       
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		// 페이징 처리에 필요한 변수
 		int listCount; // 게시글 총 개수
 		int currentPage; // 요청한 페이지
@@ -69,6 +69,7 @@ public class ListAController extends HttpServlet {
 		// 2. 게시글 목록 데이터를 request에 저장한 후 목록 페이지로 forward
 		request.getRequestDispatcher("/views/board/boardAList.jsp").forward(request, response);
 	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -78,3 +79,4 @@ public class ListAController extends HttpServlet {
 	}
 
 }
+
