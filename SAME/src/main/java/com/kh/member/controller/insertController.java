@@ -29,8 +29,14 @@ public class insertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/views/member/signup.jsp?memberType=B").forward(request, response);
-	}
+		// 기본값으로 멘티 설정
+				String memberType = request.getParameter("memberType");
+				if (memberType == null || memberType.isEmpty()) {
+					response.sendRedirect(request.getContextPath() + "/views/member/signup.jsp?memberType=B");
+					return;
+				}
+				request.getRequestDispatcher("/views/member/signup.jsp").forward(request, response);
+			}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -59,14 +65,22 @@ public class insertController extends HttpServlet {
 		
 		int result = new memberService().insert(m);
 		
-		if(result > 0) {
+		if (result > 0) {
 			HttpSession session = request.getSession();
 			session.setAttribute("alertMsg", "회원가입 되었습니다");
-			
-			response.sendRedirect(request.getContextPath());
-		}else {
-			request.setAttribute("alertMag", "회원가입 실패 다시 시도해주세요");
+
+			// 멘토/멘티에 따라 리다이렉트
+			if ("A".equals(memberType)) {
+				// 멘토: 이력서 입력 페이지로 이동
+				response.sendRedirect(request.getContextPath() + "/views/member/signupResume.jsp");
+			} else {
+				// 멘티: 메인 페이지로 이동
+				response.sendRedirect(request.getContextPath());
+			}
+		} else {
+			// 실패 시 처리
+			request.setAttribute("alertMsg", "회원가입 실패. 다시 시도해주세요.");
 			request.getRequestDispatcher("/views/member/signup.jsp").forward(request, response);
 		}
-	}
+	} 
 }

@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,7 +63,6 @@ body {
 	cursor: pointer;
 }
 
-
 .submit-btn {
 	height: 50px;
 	background-color: #FF5C3D;
@@ -95,13 +95,15 @@ body {
 		<%@ include file="/views/common/searchbar.jsp"%>
 
 		<div class="container">
-				<%@ include file="/views/common/sidebarMembership.jsp"%>
+			<%@ include file="/views/common/sidebarMembership.jsp"%>
 			<!-- 컨테이너 시작-->
 			<div class="sign-up-form">
 				<!-- 사이드바 -->
 				<form id="signup"
 					action="${pageContext.request.contextPath}/member/insert"
 					method="post">
+					<!-- 히든 필드로 memberType 값 전달 -->
+					<input type="hidden" name="memberType" value="<%=memberType != null ? memberType : "B"%>">
 					<div class="writing-box">
 						<input type="text" id="id" name="memberId" class="id-box"
 							placeholder="아이디" required>
@@ -144,25 +146,40 @@ body {
 	</div>
 
 	<script>
-        document.querySelector('.duplicate-btn').addEventListener('click', function() {
-            const userId = document.getElementById('id').value;
-            fetch('${pageContext.request.contextPath}/checkDuplicate?userId=' + userId)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.isDuplicate) {
-                        alert('이미 사용 중인 아이디입니다.');
-                    } else {
-                        alert('사용 가능한 아이디입니다.');
-                    }
-                });
-        });
-
-        document.getElementById('signup').addEventListener('submit', function(event) {
+	fetch('${pageContext.request.contextPath}/checkDuplicate?userId=' + userId)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('네트워크 응답에 문제가 있습니다.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.isDuplicate) {
+            alert('이미 사용 중인 아이디입니다.');
+        } else {
+            alert('사용 가능한 아이디입니다.');
+        }
+    })
+    .catch(error => {
+        console.error('오류 발생:', error);
+        alert('중복 확인 중 오류가 발생했습니다. 다시 시도해주세요.');
+    });
+        
+        document.getElementById('signup').addEventListener('submit', function (event) {
+            const memberType = document.querySelector('input[name="memberType"]').value;
             const password = document.getElementById('password').value;
             const passwordConfirm = document.getElementById('password-confirm').value;
+
+            // 비밀번호 확인
             if (password !== passwordConfirm) {
                 alert('비밀번호가 일치하지 않습니다.');
                 event.preventDefault();
+                return;
+            }
+
+            // 멘토 회원가입인 경우 알림
+            if (memberType === 'A') {
+                alert('회원가입 후 이력서 입력 페이지로 이동합니다.');
             }
         });
     </script>
