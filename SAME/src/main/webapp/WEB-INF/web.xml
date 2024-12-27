@@ -19,9 +19,11 @@
     <servlet-name>ListController</servlet-name>
     <url-pattern>/ListController</url-pattern>
   </servlet-mapping>
-  <servlet>
+  
+  <!-- <servlet>
     <description></description>
-  </servlet-mapping>
+  </servlet-mapping> -->
+  
   <filter>
     <display-name>EncodingFilter</display-name>
     <filter-name>EncodingFilter</filter-name>

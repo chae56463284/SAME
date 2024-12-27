@@ -26,7 +26,7 @@ public class BoardDao {
 private Properties prop = new Properties();
 	
 	public BoardDao() {
-		String path = BoardDao.class.getResource("/com/sql/board/board-mapper.xml").getPath();
+		String path = BoardDao.class.getResource("/sql/board/board-mapper.xml").getPath();
 		
 		try {
 			prop.loadFromXML(new FileInputStream(path));
@@ -87,6 +87,63 @@ private Properties prop = new Properties();
 		return list;
 	}
 
+	
+	public List<Board> selectBoardList(Connection conn, PageInfo pi, char boardType) {
+		List<Board> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectBoardListC");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			// 위치홀더 들어갈 자리
+			/*
+			 * rownum 값은 boardLimit와 currentPage에 영향을 받음
+			 * currentPage boardLimit
+			 * 		1			10
+			 * 시작값 : (currentPage-1) *boardLimit +1;
+			 * 	끝값 : 시작값 + boardLimit -1;
+			 * */
+			
+			int startRow = (pi.getCurrentPage() -1)* pi.getBoardLimit() +1 ;
+			int endRow = startRow + pi.getBoardLimit() -1 ;
+			
+			pstmt.setString(1, Character.toString(boardType));
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Board b = Board.builder()
+						 	   .boardNo(rset.getInt("BOARD_NO"))
+						 	   .memberNo(rset.getString("MEMBER_NAME"))
+						 	   .boardTitle(rset.getString("BOARD_TITLE"))
+						 	   .createDate(rset.getDate("CREATE_DATE"))
+						 	   .count(rset.getInt("COUNT"))
+						 	   .build();
+				list.add(b);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	
+	
+	
+	
+	
+	
+	// 전체 게시글 조회
 	public int selectListCount(Connection conn) {
 		int listCount = 0;
 		PreparedStatement pstmt = null;
@@ -111,15 +168,15 @@ private Properties prop = new Properties();
 		
 	}
 	
-	public int selectListCount(Connection conn,char boardType) {
+	public int selectListCount(Connection conn, char boardType) {
 		int listCount = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectListCount");
+		String sql = prop.getProperty("selectListCountC");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
+			pstmt.setString(1,Character.toString(boardType));
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
@@ -156,7 +213,7 @@ private Properties prop = new Properties();
 									.boardContent(rset.getString("BOARD_CONTENT"))
 									.memberNo(rset.getString("MEMBER_NO"))
 									.createDate(rset.getDate("CREATE_DATE"))
-									.category(Category.builder().categoryName(rset.getString("CATEGORY_NAME")).build())
+									.category(Category.builder().category(rset.getString("CATEGORY_NAME")).build())
 									.build()
 									).at(Attachment.builder()
 												   .fileNo(rset.getInt("FILE_NO"))
@@ -188,8 +245,8 @@ private Properties prop = new Properties();
 			
 			while(rset.next()) {
 				Category c = Category.builder()
-									 .categoryName(rset.getString("CATEGORY_NAME"))
-									 .categoryType(rset.getString("CATEGORY_TYPE"))
+									 .category(rset.getString("CATEGORY"))
+									 .boardNo(rset.getString("BOARD_NO"))
 									 .build();
 				list.add(c);
 			}
@@ -213,10 +270,10 @@ private Properties prop = new Properties();
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, 1); // 일반 게시판
-			pstmt.setString(2, b.getCategory().getCategoryName());
+			pstmt.setString(2, b.getCategory().getBoardNo());
 			pstmt.setString(3, b.getBoardTitle());
 			pstmt.setString(4, b.getBoardContent());
-			pstmt.setString(5,(b.getMemberNo());
+			pstmt.setString(5, b.getMemberNo());
 			
 			updateCount = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -255,7 +312,7 @@ private Properties prop = new Properties();
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, b.getCategory().getCategoryName());
+			pstmt.setString(1, b.getCategory().getCategory());
 			pstmt.setString(2, b.getBoardTitle());
 			pstmt.setString(3, b.getBoardContent());
 			pstmt.setInt(4, b.getBoardNo());

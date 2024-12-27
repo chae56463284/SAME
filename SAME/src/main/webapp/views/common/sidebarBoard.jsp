@@ -107,7 +107,7 @@ a {
 			<div class="MenuItem">
 
 				<div class="LogoPlaceholder gray"></div>
-				<div class="Label"><a href="<%=contextPath %>/board/listc">문의게시판</a></div>
+				<div class="Label"><a href="../board/boardCList.jsp">문의게시판</a></div>
 
 			</div>
 		</div>

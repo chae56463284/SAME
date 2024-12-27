@@ -17,9 +17,11 @@ import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.Reply;
 import com.kh.common.model.vo.PageInfo;
 
+
 public class BoardService {
 private BoardDao dao= new BoardDao();
 	
+//전체 게시글 조회
 	public List<Board> selectBoardList(PageInfo pi) {
 		
 		Connection conn = getConnection();
@@ -30,7 +32,20 @@ private BoardDao dao= new BoardDao();
 		
 		return list;
 	}
+	
+	// 특정 게시판 게시글 조회
+	public List<Board> selectBoardList(PageInfo pi, char boardType) {
+		
+		Connection conn = getConnection();
+		
+		List<Board> list = dao.selectBoardList(conn, pi, boardType);
+		
+		close(conn);
+		
+		return list;
+	}
 
+// 전체 게시글 페이징
 	public int selectListCount() {
 		
 		Connection conn = getConnection();
@@ -41,7 +56,10 @@ private BoardDao dao= new BoardDao();
 		
 		return listCount;
 	}		
-		public int selectListCount(char boardType) {
+	
+	
+	// 특정 게시판 게시글 페이징
+public int selectListCount(char boardType) {
 			
 			Connection conn = getConnection();
 			
@@ -66,7 +84,7 @@ private BoardDao dao= new BoardDao();
 
 	public List<Category> selectCategoryList() {
 		Connection conn = getConnection();
-		List<Category> list =dao.selectCategoryList(conn);
+		List<Category> list = dao.selectCategoryList(conn);
 		
 		close(conn);
 		

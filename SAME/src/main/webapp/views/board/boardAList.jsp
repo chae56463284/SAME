@@ -5,10 +5,12 @@
 	List<Board> list = (List<Board>) request.getAttribute("list");
 	PageInfo pi = (PageInfo) request.getAttribute("pi");
 	
+	
 	int currentPage = pi.getCurrentPage();
 	int startPage = pi.getStartPage();
 	int endPage= pi.getEndPage();
-	int maxPage = pi.getMaxPage();
+	int maxPage = pi.getMaxPage(); 
+	
 %>    
 <!DOCTYPE html>
 <html>
@@ -18,6 +20,7 @@
 	<style>
 		/* 화면 중앙 배치 스타일 적용 */
 		body {
+			
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -122,8 +125,8 @@
 	
 		<div class="container">
 			
-				<div class="table">
-					<%@ include file="/views/common/sidebarBoard.jsp" %> <!-- 사이드바메뉴 -->
+			<div class="table">
+				<%@ include file="/views/common/sidebarBoard.jsp" %> <!-- 사이드바메뉴 -->
 				<div class="Title">
 					<div class="PlaylistSectionTitle">자유게시판_관리모드</div>
 				</div>
@@ -134,20 +137,32 @@
 					<div>작성일</div>
 					<div>조회수</div>
 				</div>
+				
 				<!-- 반복되는 행 -->
-				<%--  <% for(Board b : list) { %>
 				<div class="table-row">
-					<div><%= b.getboardNo() %></div>
-					<div class="title"><a href=""> <%= b.getboardTitle() %> </a></div>
-					<div> <%= b.getmemberNo() %> </div>
-					<div> <%= b.getCreateDate() %> </div>
+				<%if(list.isEmpty()) { %>
+                    <div colspan="6">조회된 리스트가 없습니다.</div>
+				<% } else{ %>				
+				
+				
+				<% for(Board b : list) { %>
+					<div><%= b.getBoardNo() %></div>
+					<div class="title"><a href=""> <%= b.getBoardTitle() %> </a></div>
+					<div> <%= b.getMemberNo() %> </div>
 					<div> <%= b.getCount() %> </div> 
+					<div> <%= b.getCreateDate() %> </div>
 				</div>
 				 <% } %>
-                <% } %> --%>
+                <% } %> 
+				
+			</div>
+		</div>
+	</div>
+		
+</body>
+</html>
 				<!-- 추가 행들 -->
-
-				<div class="table-row">
+				<!-- <div class="table-row">
 					<div>NO_100</div>
 					<div class="title"><a href="">최근 가장 인기 있는 멘토는?</a></div>
 					<div>mentor02</div>
@@ -202,7 +217,7 @@
 					<div>mentor02</div>
 					<div>2024-12-01</div>
 					<div><button>삭제</button></div>
-				</div>
+				</div> -->
 						
 				<!--강의시 사용한 페이징 바-->
 				<%-- <div align="center" class="paging-area">
@@ -228,10 +243,4 @@
 			<!--강의시 사용한 페이징 바-->
 
 
-		</div>
-</div>
-		
 	
-
-</body>
-</html>
