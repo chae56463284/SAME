@@ -7,4 +7,10 @@
 		WHERE MEMBER_ID = ?
 		  AND MEMBER_PWD = ?
 	</entry>
+	<entry key="forgotId">
+		SELECT *
+		  FROM MEMBER
+		 WHERE MEMBER_NAME = ?
+		   AND EMAIL = ?
+	</entry>
 </properties>

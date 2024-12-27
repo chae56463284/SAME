@@ -37,37 +37,75 @@ public class memberDao {
 	}
 
 	public Member login(Connection conn, String memberId, String memberPwd) {
+	    Member m = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rset = null;
+	    String sql = prop.getProperty("login");
+
+	    try {
+	        // Prepare SQL query
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, memberId);
+	        pstmt.setString(2, memberPwd);
+
+	        // Execute query
+	        rset = pstmt.executeQuery();
+
+	        // Check if a result exists
+	        if (rset.next()) {
+	            m = Member.builder()
+	                    .memberNo(rset.getString("MEMBER_NO"))
+	                    .memberId(rset.getString("MEMBER_ID"))
+	                    .memberName(rset.getString("MEMBER_NAME"))
+	                    .phone(rset.getInt("PHONE"))
+	                    .memberSSN(rset.getString("MEMBER_SSN"))
+	                    .email(rset.getString("EMAIL"))
+	                    .isQuit(rset.getString("IS_QUIT"))
+	                    .socialCode(rset.getString("SOCIAL_CODE"))
+	                    .memberType(rset.getString("MEMBERTYPE"))
+	                    .build();
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	    	close(rset);
+	    	close(pstmt);
+	    }
+	    return m;
+	}
+
+	public Member forgotId(Connection conn, String memberName, String email) {
 		Member m = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("login");
+		String sql = prop.getProperty("forgotId");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memberId);
-			pstmt.setString(2, memberPwd);
+			pstmt.setString(1, memberName);
+			pstmt.setString(2, email);
+			
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				m = Member.builder().memberNo(rset.getString("MEMBER_NO"))
-									.memberId(memberId)
-									.memberName(rset.getString("MEMBER_NAME"))
-									.phone(rset.getInt("PHONE"))
-									.memberSSN(rset.getString("MEMBER_SSN"))
-									.email(rset.getString("EMAIL"))
-									.isQuit(rset.getString("IS_QUIT"))
-									.socialCode(rset.getString("SOCIAL_CODE"))
-									.memberType(rset.getString("MEMBERTYPE"))
-									.build();
+				m = Member.builder()
+						.memberNo(rset.getString("MEMBER_NO"))
+	                    .memberId(rset.getString("MEMBER_ID"))
+	                    .memberName(rset.getString("MEMBER_NAME"))
+	                    .phone(rset.getInt("PHONE"))
+	                    .memberSSN(rset.getString("MEMBER_SSN"))
+	                    .email(rset.getString("EMAIL"))
+	                    .isQuit(rset.getString("IS_QUIT"))
+	                    .socialCode(rset.getString("SOCIAL_CODE"))
+	                    .memberType(rset.getString("MEMBERTYPE"))
+	                    .build();
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(rset);
-			close(pstmt);
+	    	close(rset);
+	    	close(pstmt);
 		}
 		return m;
 	}
-
 }
