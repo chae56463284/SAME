@@ -100,22 +100,23 @@ public class memberDao {
 	    return m;
 	}
 
-	public Member forgotId(Connection conn, String memberName, String email) {
-		Member m = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("forgotId");
-		try {
-			// Prepare SQL query
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memberName);
-			pstmt.setString(2, email);
-			
-			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				m = Member.builder()
-						.memberNo(rset.getString("MEMBER_NO"))
+	public Member forgotId(Connection conn, String memberName, String email, String memberType) {
+	    Member m = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rset = null;
+	    String sql = prop.getProperty("forgotId");
+	    
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, memberName);
+	        pstmt.setString(2, email);
+	        pstmt.setString(3, memberType);
+	        
+	        rset = pstmt.executeQuery();
+	        
+	        if (rset.next()) {
+	            m = Member.builder()
+	                    .memberNo(rset.getString("MEMBER_NO"))
 	                    .memberId(rset.getString("MEMBER_ID"))
 	                    .memberName(rset.getString("MEMBER_NAME"))
 	                    .phone(rset.getInt("PHONE"))
@@ -125,15 +126,30 @@ public class memberDao {
 	                    .socialCode(rset.getString("SOCIAL_CODE"))
 	                    .memberType(rset.getString("MEMBERTYPE"))
 	                    .build();
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(rset);
+	        close(pstmt);
+	    }
+	    return m;
+	}
 
-			}
+
+	public Member forgotPass(Connection conn, String memberName, String email, String memberId) {
+		Member m = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("forgotPass");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, );
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-	    	close(rset);
-	    	close(pstmt);
 		}
-		return m;
+		
 	}
 }
 

@@ -159,6 +159,7 @@
     <div class="set">
         
         <div class="bigBox">
+        <form id="forgotPass" action="${pageContext.request.contextPath}/member/forgotPass" method="post">
             <div class="login-tabs">
                 <!-- 멘티/멘토 버튼 -->
                 <div class="loginMe active" id="mentee">멘티</div>
