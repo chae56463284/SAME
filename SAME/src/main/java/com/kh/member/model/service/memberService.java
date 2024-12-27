@@ -34,4 +34,15 @@ public class memberService {
 		return m;
 
 	}
+
+	public Member forgotId(String memberName, String email) {
+		Connection conn = getConnection();
+		
+		Member m = dao.forgotId(conn, memberName, email);
+		
+		close(conn);
+		
+		return m;
+	
+	}
 }

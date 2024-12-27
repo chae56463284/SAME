@@ -42,8 +42,8 @@ public class LoginController extends HttpServlet {
 
         // 3. 로그인 결과 처리
         if (m == null) { // 로그인 실패
-            request.setAttribute("errorMsg", "로그인 실패! ID, 비밀번호 또는 회원 유형을 확인하세요.");
-            request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
+            request.setAttribute("errorMsg", "로그인 실패!.");
+            request.getRequestDispatcher("/views/").forward(request, response);
         } else { // 로그인 성공
             HttpSession session = request.getSession();
             session.setAttribute("loginUser", m);
