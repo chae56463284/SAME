@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+String contextPath = request.getContextPath(); // /same
+
+String alertMsg = (String)session.getAttribute("alertMsg");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,7 +58,7 @@
 <body>
 	<div class="head-bar">
 		<a href="" class="little-same">SAME SAME</a> <a href=""
-			class="head-item">쌤찾기</a> <a href="" class="head-item">커뮤니티</a>
+			class="head-item">쌤찾기</a> <a href="/same/views/board/boardList.jsp" class="head-item">커뮤니티</a>
 		<div class="search">
 			<input type="text" class="search-input" placeholder="어떤 서비스가 필요하세요?">
 			<button class="search-btn">검색</button>

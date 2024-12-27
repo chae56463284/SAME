@@ -17,6 +17,7 @@ import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.Reply;
 import com.kh.common.model.vo.PageInfo;
 
+
 public class BoardService {
 private BoardDao dao= new BoardDao();
 	
@@ -30,6 +31,18 @@ private BoardDao dao= new BoardDao();
 		
 		return list;
 	}
+	
+	public List<Board> selectBoardList(PageInfo pi, char boardType) {
+		
+		Connection conn = getConnection();
+		
+		List<Board> list = dao.selectBoardList(conn, pi, boardType);
+		
+		close(conn);
+		
+		return list;
+	}
+
 
 	public int selectListCount() {
 		
@@ -66,7 +79,7 @@ private BoardDao dao= new BoardDao();
 
 	public List<Category> selectCategoryList() {
 		Connection conn = getConnection();
-		List<Category> list =dao.selectCategoryList(conn);
+		List<Category> list = dao.selectCategoryList(conn);
 		
 		close(conn);
 		

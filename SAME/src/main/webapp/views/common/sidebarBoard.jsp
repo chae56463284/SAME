@@ -79,7 +79,7 @@
 		<div class="MenuItems">
 			<div class="MenuItem" id="memberInfo">
 				<div class="LogoPlaceholder"></div>
-				<div class="Label">전체글보기</div>
+				<div class="Label"><a href="<%=contextPath %>/board/list">전체글보기</a></div>
 			</div>
 
 				<div class="MenuItem">
@@ -90,11 +90,11 @@
 
 			<div class="MenuItem" id="boardMenu">
 				<div class="LogoPlaceholder gray"></div>
-				<div class="Label">자유게시판</div>
+				<div class="Label"><a href="<%=contextPath %>/board/lista">자유게시판</a></div>
 			</div>
 			<div class="MenuItem">
 				<div class="LogoPlaceholder gray"></div>
-				<div class="Label">리뷰게시판</div>
+				<div class="Label"><a href="<%=contextPath %>/board/listb">리뷰게시판</a></div>
 			</div>
 			<div class="MenuItem">
 				<div class="LogoPlaceholder gray"></div>
