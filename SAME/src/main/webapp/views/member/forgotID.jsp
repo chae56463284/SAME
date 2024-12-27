@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+
+	String contextPath = request.getContextPath(); // /same
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,23 +125,26 @@
         outline: none;
     }
 
-    .btn-id {
-        width: 100%;
-        height: 100%;
-        border-radius: 5px;
-        font-size: 16px;
-        font-weight: 500;
-        text-align: center;
-        line-height: 50px;
-        cursor: pointer;
-        margin-bottom: 5%;
-    }
+.btn-id {
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    background: #FF5C3D;
+    color: white;
+    cursor: pointer;
+    border: none;
+    margin-top: 15%;
+}
 
-    .btn-id {
-        background: #FF5C3D;
-        color: white;
-        margin-top: 15%;
-    }
+.btn-id button {
+    all: unset;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
 
     /* 하단 텍스트 */
     .forgot-pass {
@@ -159,32 +167,37 @@
     <div class="set">
         
         <div class="bigBox">
-        <form id="forgotId" action="${pageContext.request.contextPath}/member/forgotID" method="post">
+        <form id="forgotId" action="<%=contextPath%>/member/forgotID" method="post">
             <div class="login-tabs">
                 <!-- 멘티/멘토 버튼 -->
-                <div class="loginMe active" id="mentee">멘티</div>
-                <div class="loginMt inactive" id="mentor">멘토</div>
+				<input type="hidden" id="memberType" name="memberType" value="A%">
+				<div class="loginMe active" id="mentee" onclick="setType('A%')">멘티</div>
+				<div class="loginMt inactive" id="mentor" onclick="setType('B%')">멘토</div>
             </div>
 
             <div class="forgot">아이디찾기</div>
             <div class="forgot">ID</div>
         
                 <!-- 이름 email 작성 -->
-             <div class="writing-name">
-               <input type="text" class="text-input" placeholder="NAME">
-             </div>
-             <div class="writing-email">
-               <input type="text" class="text-input" placeholder="EMAIL">
-             </div>
-     
-             <div class="btn-id"><a href="/SAME/views/member/forgotIDPASSResult.jsp">아이디 찾기</a></div>
-     
-             <div class="forgot-pass"><a href="/SAME/views/member/forgotPass.jsp">비밀번호 찾기</a></div>
+             	<div class="writing-name">
+    			    <input type="text" class="text-input" name="memberName" placeholder="NAME">
+    			</div>
+    			<div class="writing-email">
+        			<input type="text" class="text-input" name="email" placeholder="EMAIL">
+    			</div>
 
-         </div>
+ 			    <div class="btn-id">
+        			<button type="submit">아이디 찾기</button>
+			    </div>
+
+			    <div class="forgot-pass">
+        			<a href="/same/views/member/forgotPass.jsp">비밀번호 찾기</a>
+    			</div>
+    	</form>
+    	</div>
     </div>
-  </div>
-
+</div>
+	
   <!-- 멘토, 멘티 클릭시 색을 바꾸는 script-->
   <script>
     var menteeButton = document.getElementById("mentee");
@@ -203,6 +216,10 @@
       menteeButton.classList.add("inactive");
       menteeButton.classList.remove("active");
     });
+    
+    function setType(type) {
+        document.getElementById("memberType").value = type;
+    }
   </script>
 </body>
 </html>

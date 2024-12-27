@@ -35,10 +35,21 @@ public class memberService {
 
 	}
 
-	public Member forgotId(String memberName, String email) {
+	public Member forgotId(String memberName, String email, String memberType) {
 		Connection conn = getConnection();
 		
-		Member m = dao.forgotId(conn, memberName, email);
+		Member m = dao.forgotId(conn, memberName, email, memberType);
+		
+		close(conn);
+		
+		return m;
+	
+	}
+
+	public Member forgotPass(String memberId, String memberName, String email) {
+		Connection conn = getConnection();
+		
+		Member m = dao.forgotPass(conn, memberId, memberName, email);
 		
 		close(conn);
 		

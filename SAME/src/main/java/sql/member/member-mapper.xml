@@ -7,12 +7,12 @@
 		WHERE MEMBER_ID = ?
 		  AND MEMBER_PWD = ?
 	</entry>
-	<entry key="forgotId">
-		SELECT *
-		  FROM MEMBER
-		 WHERE MEMBER_NAME = ?
-		   AND EMAIL = ?
-	</entry>
-	<entry key="insert"> INSERT INTO MEMBER VALUES 
-	( CASE WHEN ? = 'A' THEN SEQ_MENTOR_NO.NEXTVAL ELSE SEQ_MENTEE_NO.NEXTVAL END, ?, ?, ?, ?, ?, ?, DEFAULT, DEFAULT, ?, ? ) </entry>
+<entry key="forgotId">
+	SELECT *
+	FROM MEMBER
+	WHERE MEMBER_NAME = ?
+	  AND EMAIL = ?
+	  AND MEMBER_NO LIKE ?
+</entry>
+
 </properties>
