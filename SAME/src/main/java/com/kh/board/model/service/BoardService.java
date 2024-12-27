@@ -31,25 +31,16 @@ private BoardDao dao= new BoardDao();
 		return list;
 	}
 
-	public int selectListCount() {
+public int selectListCount(int boardType) {
 		
 		Connection conn = getConnection();
 		
-		int listCount = dao.selectListCount(conn);
+		int listCount = dao.selectListCount(conn, boardType);
 		
 		close(conn);
 		
 		return listCount;
-	}		
-		public int selectListCount(char boardType) {
-			
-			Connection conn = getConnection();
-			
-			int listCount = dao.selectListCount(conn,boardType);
-			
-			close(conn);
-			
-			return listCount;
+		
 		
 	}
 

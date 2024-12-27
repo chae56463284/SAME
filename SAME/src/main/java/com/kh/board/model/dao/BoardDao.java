@@ -1,6 +1,5 @@
 package com.kh.board.model.dao;
 
-
 import static com.kh.common.template.JDBCTemplate.close;
 
 import java.io.FileInputStream;
@@ -23,11 +22,11 @@ import com.kh.board.model.vo.Reply;
 import com.kh.common.model.vo.PageInfo;
 
 public class BoardDao {
-private Properties prop = new Properties();
-	
+	private Properties prop = new Properties();
+
 	public BoardDao() {
 		String path = BoardDao.class.getResource("/com/sql/board/board-mapper.xml").getPath();
-		
+
 		try {
 			prop.loadFromXML(new FileInputStream(path));
 		} catch (InvalidPropertiesFormatException e) {
@@ -38,56 +37,50 @@ private Properties prop = new Properties();
 			e.printStackTrace();
 		}
 	}
-	
+
 	public List<Board> selectBoardList(Connection conn, PageInfo pi) {
 		List<Board> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("selectBoardList");
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
+
 			// 위치홀더 들어갈 자리
 			/*
-			 * rownum 값은 boardLimit와 currentPage에 영향을 받음
-			 * currentPage boardLimit
-			 * 		1			10
-			 * 시작값 : (currentPage-1) *boardLimit +1;
-			 * 	끝값 : 시작값 + boardLimit -1;
-			 * */
-			
-			int startRow = (pi.getCurrentPage() -1)* pi.getBoardLimit() +1 ;
-			int endRow = startRow + pi.getBoardLimit() -1 ;
-			
+			 * rownum 값은 boardLimit와 currentPage에 영향을 받음 currentPage boardLimit 1 10 시작값 :
+			 * (currentPage-1) *boardLimit +1; 끝값 : 시작값 + boardLimit -1;
+			 */
+
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, endRow);
-			
+
 			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				Board b = Board.builder()
-						 	   .boardNo(rset.getInt("BOARD_NO"))
-						 	   .memberNo(rset.getString("MEMBER_NAME"))
-						 	   .boardTitle(rset.getString("BOARD_TITLE"))
-						 	   .createDate(rset.getDate("CREATE_DATE"))
-						 	   .count(rset.getInt("COUNT"))
-						 	   .build();
+
+			while (rset.next()) {
+				Board b = Board.builder().boardNo(rset.getInt("BOARD_NO"))
+						.category(new Category(rset.getString("CATEGORY_NAME"), "말머리"))
+						.boardTitle(rset.getString("BOARD_TITLE")).memberNo(rset.getString("MEMBER_NO"))
+						.count(rset.getInt("COUNT")).createDate(rset.getDate("CREATE_DATE")).build();
 				list.add(b);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			
+
 			close(rset);
 			close(pstmt);
 		}
-		
+
 		return list;
 	}
 
-	public int selectListCount(Connection conn) {
+	public int selectListCount(Connection conn, int boardType) {
 		int listCount = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -95,31 +88,7 @@ private Properties prop = new Properties();
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				listCount = rset.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
-		
-		return listCount;
-		
-	}
-	
-	public int selectListCount(Connection conn,char boardType) {
-		int listCount = 0;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectListCount");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
+			pstmt.setInt(1, boardType);
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {

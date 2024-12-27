@@ -18,7 +18,6 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/member/insert")
 public class insertController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -26,14 +25,12 @@ public class insertController extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/views/member/signup.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/member/signup.jsp?memberType=B").forward(request, response);
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -46,6 +43,8 @@ public class insertController extends HttpServlet {
 		int phone = Integer.parseInt(request.getParameter("phone"));
 		String memberSSN = request.getParameter("memberSSN");
 		String email = request.getParameter("email");
+		String address = request.getParameter("address");
+		String memberType = request.getParameter("memberType"); // 멘토/멘티 구분
 		
 		Member m = Member.builder().memberId(memberId)
 									.memberPwd(memberPwd)
@@ -53,7 +52,10 @@ public class insertController extends HttpServlet {
 									.phone(phone)
 									.memberSSN(memberSSN)
 									.email(email)
+									.address(address)
+									.memberType(memberType)
 									.build();
+		
 		
 		int result = new memberService().insert(m);
 		
@@ -64,8 +66,7 @@ public class insertController extends HttpServlet {
 			response.sendRedirect(request.getContextPath());
 		}else {
 			request.setAttribute("alertMag", "회원가입 실패 다시 시도해주세요");
-			response.sendRedirect(request.getContextPath());
+			request.getRequestDispatcher("/views/member/signup.jsp").forward(request, response);
 		}
 	}
-
 }

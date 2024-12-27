@@ -7,4 +7,6 @@
 		WHERE MEMBER_ID = ?
 		  AND MEMBER_PWD = ?
 	</entry>
+	<entry key="insert"> INSERT INTO MEMBER VALUES 
+	( CASE WHEN ? = 'A' THEN SEQ_MENTOR_NO.NEXTVAL ELSE SEQ_MENTEE_NO.NEXTVAL END, ?, ?, ?, ?, ?, ?, DEFAULT, DEFAULT, ?, ? ) </entry>
 </properties>
