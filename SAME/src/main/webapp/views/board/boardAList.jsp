@@ -2,13 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, com.kh.board.model.vo.Board, com.kh.common.model.vo.PageInfo" %>
 <%
-	/* List<Board> list = (List<Board>) request.getAttribute("list");
+	List<Board> list = (List<Board>) request.getAttribute("list");
 	PageInfo pi = (PageInfo) request.getAttribute("pi");
 	
 	int currentPage = pi.getCurrentPage();
 	int startPage = pi.getStartPage();
 	int endPage= pi.getEndPage();
-	int maxPage = pi.getMaxPage(); */
+	int maxPage = pi.getMaxPage();
 %>    
 <!DOCTYPE html>
 <html>

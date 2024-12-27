@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class Board {
 	private int boardNo;
 	private String memberNo;
@@ -23,5 +24,4 @@ public class Board {
 	private Date editDate;
 	private char isDelete;
 	private char isHidden;
-	private int count;
 }

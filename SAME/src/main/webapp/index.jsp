@@ -173,6 +173,8 @@
 <div class="main">
     <div class="SameSame">SAME SAME</div>
 
+
+
 <div class="login-membership">
         <% if (loginUser == null) { %>
             <!-- 로그인 전 -->
@@ -190,9 +192,10 @@
             <% } else if (firstChar == 'A') { %>
                 <a href="<%= contextPath %>/views/member/menteePage/main.jsp">MYPAGE</a> /
             <% } %>
-            <a href="<%= contextPath %>/views/member/logout.jsp">LOGOUT</a>
+                 <a href="<%= contextPath %>/member/logout">LOGOUT</a>
         <% } %>
-    </div>
+</div>
+
 </div>
   
     <!-- <div class="login-membership">

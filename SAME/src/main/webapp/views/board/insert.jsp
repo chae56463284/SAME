@@ -115,7 +115,7 @@ body {
 					<input type="checkbox" id="anonymous" name="anonymous"> <label
 						for="anonymous">익명</label>
 				</div>
-				<form>
+				<form method="POST">
 					<!-- 선택 -->
 					<div class="form-group">
 						<label for="category">선택</label> <select id="category"

@@ -10,16 +10,17 @@ import java.sql.SQLException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
-import static com.kh.common.template.JDBCTemplate.*;
 import com.kh.member.model.vo.Member;
+import static com.kh.common.template.JDBCTemplate.*;
 
 public class memberDao {
-	
+
 	private Properties prop = new Properties();
-	
+
 	public memberDao() {
-		String fileName = memberDao.class.getResource("/sql/member/member.xml").getPath();
-		
+
+		String fileName = memberDao.class.getResource("/sql/member/member-mapper.xml").getPath();
+
 		try {
 			prop.loadFromXML(new FileInputStream(fileName));
 		} catch (InvalidPropertiesFormatException e) {
@@ -30,10 +31,35 @@ public class memberDao {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int insert(Connection conn, Member m) {
-		
-	
+		int updatecount = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insert");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, m.getMemberType()); // 'A' 또는 기타 값 전달
+			pstmt.setString(2, m.getMemberId());
+			pstmt.setString(3, m.getMemberPwd());
+			pstmt.setString(4, m.getMemberName());
+			pstmt.setInt(5, m.getPhone());
+			pstmt.setString(6, m.getMemberSSN());
+			pstmt.setString(7, m.getEmail());
+			pstmt.setString(8, m.getAddress());
+			pstmt.setString(9, m.getMemberType());
+
+			updatecount = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return updatecount;
+
 	}
 
 	public Member login(Connection conn, String memberId, String memberPwd) {
@@ -79,8 +105,8 @@ public class memberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("forgotId");
-		
 		try {
+			// Prepare SQL query
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, memberName);
 			pstmt.setString(2, email);
@@ -99,6 +125,7 @@ public class memberDao {
 	                    .socialCode(rset.getString("SOCIAL_CODE"))
 	                    .memberType(rset.getString("MEMBERTYPE"))
 	                    .build();
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -109,3 +136,4 @@ public class memberDao {
 		return m;
 	}
 }
+

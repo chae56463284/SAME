@@ -13,4 +13,6 @@
 		 WHERE MEMBER_NAME = ?
 		   AND EMAIL = ?
 	</entry>
+	<entry key="insert"> INSERT INTO MEMBER VALUES 
+	( CASE WHEN ? = 'A' THEN SEQ_MENTOR_NO.NEXTVAL ELSE SEQ_MENTEE_NO.NEXTVAL END, ?, ?, ?, ?, ?, ?, DEFAULT, DEFAULT, ?, ? ) </entry>
 </properties>

@@ -46,7 +46,7 @@ public class ListCController extends HttpServlet {
 				int endPage; // 페이징바의 끝 수
 				int maxPage; // 가장 마지막 페이지
 				// * listCount : 예상결과값 100
-				listCount = new BoardService().selectListCount(1);// 1: 일반게시글
+				listCount = new BoardService().selectListCount('c');// 1: 일반게시글
 				
 				currentPage = request.getParameter("cpage") == null ? 1 : Integer.parseInt(request.getParameter("cpage"));
 				

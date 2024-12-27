@@ -1,11 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List, com.kh.board.model.vo.Board, com.kh.common.model.vo.PageInfo,com.kh.member.model.vo.Member" %>
+<%
+String contextPath = request.getContextPath(); // /same
+
+Member loginUser = (Member)session.getAttribute("loginUser");
+// loginUser -> 로그인 전 : null
+//			 -> 로그인 후 : 회원의 정보
+System.out.println(loginUser);
+
+String alertMsg = (String)session.getAttribute("alertMsg");
+	List<Board> list = (List<Board>)request.getAttribute("list");
+	PageInfo pi = (PageInfo) request.getAttribute("pi");
+	
+	int currentPage = pi.getCurrentPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
+	int maxPage = pi.getMaxPage();
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>커뮤니티 전체글</title>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+	var msg = "<%=alertMsg%>";
+	
+	if(msg !="null"){ 
+		alert(msg);
+	}
+	
+	<% session.removeAttribute("alertMsg"); %>
+</script>
   <style>
     /* 화면 중앙 배치 스타일 적용 */
     body {
@@ -187,7 +216,7 @@
     <div style="width: 1440px; height: 960px; position: relative; background: white">
         <div class="table">
             <div class="Title">
-                <div class="PlaylistSectionTitle">자유게시판_관리모드</div>
+                <div class="PlaylistSectionTitle">전체글 보기</div>
             </div>
             <div class="table-header">
             <div>Border_No</div>
@@ -196,19 +225,36 @@
             <div>작성일</div>
             <div>상태</div>
             </div>
+            
             <!-- 반복되는 행 -->
-            <div class="table-row">
-            <div>NO_100</div>
+             <div class="table-row">
+                         <%if(list.isEmpty()) { %>
+                    <div colspan="6">조회된 리스트가 없습니다.</div>
+			<% } else{ %>
+			
+			<% for (Board b : list) { %>
+					<div><%= b.getBoardNo() %></div>
+					<div class="title"><a href=""><%= b.getBoardTitle() %></a></div>
+					<div><%= b.getMemberNo() %></div>
+					<div><%= b.getCount() %></div>
+					<div><%= b.getCreateDate() %></div>
+
+				<% } %>
+			<% } %>
+             
+             
+ <!--           <div>NO_100</div>
             <div class="title"><a href="">당신의 기억에 남는 멘토는 누구?</a></div>
             <div>mentor01</div>
             <div>2024-12-15</div>
             <div>
                 <button>삭제</button>
             </div>
-            </div>
+            </div> -->
+            
             <!-- 추가 행들 -->
 
-            <div class="table-row">
+           <!--  <div class="table-row">
             <div>NO_100</div>
             <div class="title"><a href="">최근 가장 인기 있는 멘토는?</a></div>
             <div>mentor02</div>
@@ -264,7 +310,7 @@
             <div>2024-12-01</div>
             <div><button>삭제</button></div>
             </div>
-            <!-- 페이징바,,, 배운대로 다시 설정해야함. 임의로 숫자 써 넣음-->
+            페이징바,,, 배운대로 다시 설정해야함. 임의로 숫자 써 넣음
             <div class="pagination">
                 <button class="pagination-button">&laquo;</button>
                 <span class="page-number">1</span>
@@ -277,22 +323,16 @@
                 <span class="page-number">8</span>
                 <span class="page-number">9</span>
                 <span class="page-number">10</span>
-                <button class="pagination-button">&raquo;</button>
+                <button class="pagination-button">&raquo;</button> -->
 
             </div>
         </div>
 
 
-
- 
-      
-    
-    
-  
   
   <!-- 페이징 바-->
-  <!-- <div align="center" class="paging-area">
-   <%--  <% if(currentPage != 1){ %>
+  <div align="center" class="paging-area">
+<% if(currentPage != 1){ %>
       <button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
     <% }%>
     
@@ -305,14 +345,14 @@
       
       <% if(maxPage != currentPage) { %>
         <button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
-      <% } %> --%>
+      <% } %>
   </div>
 
     <script>
     function movePage(cpage){
       location.assign('/board/list?cpage='+cpage);
     }
-    </script> -->
+    </script>
       <!-- 페이지 제목 -->
       <div class="SameSame" style="width: 816px; height: 238px; left: 356px; top: -1px; position: absolute; color: #FF5C3D; font-size: 128px; font-family: Prompt; font-weight: 700; word-wrap: break-word">SAME SAME</div>
       
