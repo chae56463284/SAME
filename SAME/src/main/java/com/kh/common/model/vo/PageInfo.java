@@ -1,14 +1,15 @@
 package com.kh.common.model.vo;
 
 import lombok.AllArgsConstructor;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 	public class PageInfo {
 		private int listCount; // 게시글 총 갯수
 		private int currentPage; // 요청한 페이지

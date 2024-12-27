@@ -104,37 +104,61 @@
 	</div>
 
 	<script>
-        // LogoPlaceholder 색상 변경 함수
-        function changeLogoColor(clickedLogo) {
-            // 모든 LogoPlaceholder의 색상을 초기화
-            const placeholders = document.querySelectorAll('.LogoPlaceholder');
-            placeholders.forEach(placeholder => {
-                placeholder.classList.remove('red');
-            });
-
-            // 클릭한 LogoPlaceholder만 색상을 활성화
-            clickedLogo.classList.add('red');
-        }
-
-        // MenuItem 클릭 시 이벤트 처리
-        document.querySelectorAll('.MenuItem').forEach(menuItem => {
-            menuItem.addEventListener('click', function (event) {
-                // 클릭한 요소 중 LogoPlaceholder가 있는지 확인
-                const logoPlaceholder = this.querySelector('.LogoPlaceholder');
-                if (logoPlaceholder) {
-                    changeLogoColor(logoPlaceholder);
-                }
-
-                // 클릭 이벤트가 전파되지 않도록 방지
-                event.stopPropagation();
-            });
-        });
-
+        
         // 게시판 메뉴 클릭 시 서브 메뉴 토글
         document.getElementById('boardMenu').addEventListener('click', function () {
             const boardSubMenu = document.getElementById('boardSubMenu');
             boardSubMenu.style.display = boardSubMenu.style.display === 'none' ? 'flex' : 'none';
         });
+
+		// LogoPlaceholder 색상 변경 함수
+		function changeColor(element) {
+            // 모든 LogoPlaceholder에서 빨간색 클래스를 제거
+            const placeholders = document.querySelectorAll('.LogoPlaceholder');
+            placeholders.forEach(function(placeholder) {
+                placeholder.classList.remove('red');
+            });
+            // 클릭한 LogoPlaceholder에 빨간색 클래스 추가
+            element.classList.add('red');
+        }
+
+		 // 현재 선택된 메뉴 아이템을 저장하는 변수
+		 let selectedMenuItem = null;
+
+        // MenuItem 클릭 시 색상 변경 및 이벤트 버블링 처리
+        document.querySelectorAll('.MenuItem').forEach(item => {
+            item.addEventListener('click', function (event) {
+                // LogoPlaceholder 색상 변경
+                const logoPlaceholder = this.querySelector('.LogoPlaceholder');
+                if (logoPlaceholder) {
+                    changeColor(logoPlaceholder);
+					selectedMenuItem = logoPlaceholder; // 선택된 메뉴 아이템 저장
+                }
+				// 페이지 전환을 약간 지연
+				const link = this.querySelector('.Label a').href; // 링크 주소
+            	setTimeout(() => {
+                window.location.href = link; // 페이지 전환
+           		}, 300); // 0.3초 후에 전환
+
+
+                // 클릭 이벤트가 전파되지 않도록 함
+                event.stopPropagation();
+            });
+        });
+			// 페이지 로드 시 선택된 메뉴 아이템의 색상 유지
+		window.addEventListener('load', function() {
+			// URL에 따라 선택된 메뉴 아이템을 찾기
+			const currentUrl = window.location.href;
+			document.querySelectorAll('.MenuItem').forEach(item => {
+				const link = item.querySelector('.Label a').href;
+				if (link === currentUrl) {
+					const logoPlaceholder = item.querySelector('.LogoPlaceholder');
+					if (logoPlaceholder) {
+						changeColor(logoPlaceholder);
+					}
+				}
+			});
+		});
     </script>
 </body>
 </html>

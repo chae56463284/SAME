@@ -2,6 +2,7 @@ package com.kh.board.model.vo;
 
 import java.sql.Date;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,4 +27,5 @@ public class Board {
 	private char isHidden;
 	private int count;
 	private Category category; //vo에 생성된 카테고리 객체를 가져온다
+//	 private int typeSpecificNo; // 게시판별 넘버링 작업필요 필드 논의 필요
 }

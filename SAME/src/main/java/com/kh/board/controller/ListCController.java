@@ -66,7 +66,7 @@ public class ListCController extends HttpServlet {
 				PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, startPage, endPage, maxPage);
 				
 				// 1. 현재 사용자가 요청한 페이지에 맞는 "게시글 목록" 데이터 조회하기
-				List<Board> list = new BoardService().selectBoardList(pi);
+				List<Board> list = new BoardService().selectBoardList(pi, 'c');
 				request.setAttribute("list", list);
 				request.setAttribute("pi", pi);
 				

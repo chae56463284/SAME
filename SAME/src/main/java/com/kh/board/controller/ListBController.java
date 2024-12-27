@@ -12,32 +12,16 @@ import com.kh.board.model.service.BoardService;
 import com.kh.board.model.vo.Board;
 import com.kh.common.model.vo.PageInfo;
 
-
-
-
-/**
- * Servlet implementation class ListBController
- */
 @WebServlet("/board/listb")
-
 public class ListBController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ListBController() {
+    
+	public ListBController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
-		// 페이징 처리에 필요한 변수
 				int listCount; // 게시글 총 개수
 				int currentPage; // 요청한 페이지
 				int pageLimit; // 페이징바에 표시할 최대 갯수
@@ -66,7 +50,7 @@ public class ListBController extends HttpServlet {
 				PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, startPage, endPage, maxPage);
 				
 				// 1. 현재 사용자가 요청한 페이지에 맞는 "게시글 목록" 데이터 조회하기
-				List<Board> list = new BoardService().selectBoardList(pi);
+				List<Board> list = new BoardService().selectBoardList(pi,'b');
 				request.setAttribute("list", list);
 				request.setAttribute("pi", pi);
 				

@@ -3,6 +3,7 @@ package com.kh.board.model.dao;
 
 import static com.kh.common.template.JDBCTemplate.close;
 
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -72,6 +73,7 @@ private Properties prop = new Properties();
 						 	   .boardTitle(rset.getString("BOARD_TITLE"))
 						 	   .createDate(rset.getDate("CREATE_DATE"))
 						 	   .count(rset.getInt("COUNT"))
+//						 	   .typeSpecificNo(rset.getInt("TYPE_SPECIFIC_NO"))  게시판별넘버링필요 getter
 						 	   .build();
 				list.add(b);
 			}
@@ -92,7 +94,7 @@ private Properties prop = new Properties();
 		List<Board> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectBoardListC");
+		String sql = prop.getProperty("selectBoardList"+(boardType == 'a'?"A":boardType=='b'?"B":"C" ));
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -109,9 +111,9 @@ private Properties prop = new Properties();
 			int startRow = (pi.getCurrentPage() -1)* pi.getBoardLimit() +1 ;
 			int endRow = startRow + pi.getBoardLimit() -1 ;
 			
-			pstmt.setString(1, Character.toString(boardType));
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
+
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
 			
 			rset = pstmt.executeQuery();
 			
@@ -143,7 +145,7 @@ private Properties prop = new Properties();
 	
 	
 	
-	// 전체 게시글 조회
+	
 	public int selectListCount(Connection conn) {
 		int listCount = 0;
 		PreparedStatement pstmt = null;
@@ -213,7 +215,7 @@ private Properties prop = new Properties();
 									.boardContent(rset.getString("BOARD_CONTENT"))
 									.memberNo(rset.getString("MEMBER_NO"))
 									.createDate(rset.getDate("CREATE_DATE"))
-									.category(Category.builder().category(rset.getString("CATEGORY_NAME")).build())
+									.category(Category.builder().categoryName(rset.getString("CATEGORY_NAME")).build())
 									.build()
 									).at(Attachment.builder()
 												   .fileNo(rset.getInt("FILE_NO"))
@@ -245,8 +247,8 @@ private Properties prop = new Properties();
 			
 			while(rset.next()) {
 				Category c = Category.builder()
-									 .category(rset.getString("CATEGORY"))
-									 .boardNo(rset.getString("BOARD_NO"))
+									 .categoryName(rset.getString("CATEGORY_NAME"))
+									 .categoryType(rset.getString("CATEGORY_TYPE"))
 									 .build();
 				list.add(c);
 			}
@@ -270,7 +272,7 @@ private Properties prop = new Properties();
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, 1); // 일반 게시판
-			pstmt.setString(2, b.getCategory().getBoardNo());
+			pstmt.setString(2, b.getCategory().getCategoryName());
 			pstmt.setString(3, b.getBoardTitle());
 			pstmt.setString(4, b.getBoardContent());
 			pstmt.setString(5, b.getMemberNo());
@@ -312,7 +314,7 @@ private Properties prop = new Properties();
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, b.getCategory().getCategory());
+			pstmt.setString(1, b.getCategory().getCategoryName());
 			pstmt.setString(2, b.getBoardTitle());
 			pstmt.setString(3, b.getBoardContent());
 			pstmt.setInt(4, b.getBoardNo());

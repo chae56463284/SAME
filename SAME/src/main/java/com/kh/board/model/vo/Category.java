@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Category {
 
-	private String category;
-	private String boardNo;
+	private String categoryName;
+	private String categoryType;
 }

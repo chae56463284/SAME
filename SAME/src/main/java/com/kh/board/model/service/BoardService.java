@@ -1,6 +1,7 @@
 package com.kh.board.model.service;
 
 import static com.kh.common.template.JDBCTemplate.close;
+
 import static com.kh.common.template.JDBCTemplate.commit;
 import static com.kh.common.template.JDBCTemplate.getConnection;
 import static com.kh.common.template.JDBCTemplate.rollback;
@@ -8,8 +9,9 @@ import static com.kh.common.template.JDBCTemplate.rollback;
 import java.io.File;
 import java.sql.Connection;
 import java.util.List;
-import java.util.Locale.Category;
+//import java.util.Locale.Category; //변경필요
 
+import com.kh.board.model.vo.Category;
 import com.kh.board.model.dao.BoardDao;
 import com.kh.board.model.dto.BoardDTO;
 import com.kh.board.model.vo.Attachment;
@@ -21,7 +23,6 @@ import com.kh.common.model.vo.PageInfo;
 public class BoardService {
 private BoardDao dao= new BoardDao();
 	
-//전체 게시글 조회
 	public List<Board> selectBoardList(PageInfo pi) {
 		
 		Connection conn = getConnection();
@@ -33,7 +34,6 @@ private BoardDao dao= new BoardDao();
 		return list;
 	}
 	
-	// 특정 게시판 게시글 조회
 	public List<Board> selectBoardList(PageInfo pi, char boardType) {
 		
 		Connection conn = getConnection();
@@ -45,7 +45,7 @@ private BoardDao dao= new BoardDao();
 		return list;
 	}
 
-// 전체 게시글 페이징
+
 	public int selectListCount() {
 		
 		Connection conn = getConnection();
@@ -56,10 +56,7 @@ private BoardDao dao= new BoardDao();
 		
 		return listCount;
 	}		
-	
-	
-	// 특정 게시판 게시글 페이징
-public int selectListCount(char boardType) {
+		public int selectListCount(char boardType) {
 			
 			Connection conn = getConnection();
 			
@@ -83,6 +80,7 @@ public int selectListCount(char boardType) {
 	}
 
 	public List<Category> selectCategoryList() {
+		
 		Connection conn = getConnection();
 		List<Category> list = dao.selectCategoryList(conn);
 		

@@ -19,11 +19,6 @@
     <servlet-name>ListController</servlet-name>
     <url-pattern>/ListController</url-pattern>
   </servlet-mapping>
-  
-  <!-- <servlet>
-    <description></description>
-  </servlet-mapping> -->
-  
   <filter>
     <display-name>EncodingFilter</display-name>
     <filter-name>EncodingFilter</filter-name>
@@ -33,4 +28,34 @@
     <filter-name>EncodingFilter</filter-name>
     <url-pattern>/EncodingFilter</url-pattern>
   </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>forgotidController</display-name>
+    <servlet-name>forgotidController</servlet-name>
+    <servlet-class>com.kh.member.controller.forgotidController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>forgotidController</servlet-name>
+    <url-pattern>/forgotidController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Search</display-name>
+    <servlet-name>Search</servlet-name>
+    <servlet-class>com.kh.Search.controller.Search</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Search</servlet-name>
+    <url-pattern>/Search</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListInsertController</display-name>
+    <servlet-name>ListInsertController</servlet-name>
+    <servlet-class>com.kh.board.controller.ListInsertController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListInsertController</servlet-name>
+    <url-pattern>/ListInsertController</url-pattern>
+  </servlet-mapping>
 </web-app>

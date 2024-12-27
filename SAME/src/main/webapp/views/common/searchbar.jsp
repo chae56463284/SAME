@@ -49,16 +49,29 @@
 }
 /*headbar end*/
 </style>
+	<!-- 검색창기능 -->
+	<script>
+	function performSearch() {
+	    const searchInput = document.querySelector('.search-input').value;
+	    const contextPath = '<%= contextPath %>'; // JSP에서 contextPath 가져오기
+	    if (searchInput) {
+	        // 검색어가 있을 경우 검색 페이지로 이동
+	        window.location.href = contextPath + '/search?keyword=' + encodeURIComponent(searchInput);
+	    } else {
+	        alert('검색어를 입력하세요.');
+	    }
+	}
+	</script>
 </head>
 <body>
 	<div class="head-bar">
-		<a href="" class="little-same">SAME SAME</a> <a href=""
-			class="head-item">쌤찾기</a> <a href="/same/views/board/boardList.jsp" class="head-item">커뮤니티</a>
+		<a href="" class="little-same">SAME SAME</a> <a href="<%=contextPath%>"
+			class="head-item">쌤찾기</a> <a href="<%=contextPath%>/board/list" class="head-item">커뮤니티</a>
 		<div class="search">
 			<input type="text" class="search-input" placeholder="어떤 서비스가 필요하세요?">
-			<button class="search-btn">검색</button>
+			<button class="search-btn" onclick="performSearch()">검색</button>
 		</div>
-		<a href="" class="head-item">로그인</a> <a href="" class="head-item">마이페이지</a>
+		<a href="" class="head-item">로그인</a> <a href="<%=contextPath%>" class="head-item">마이페이지</a>
 	</div>
 </body>
 </html>

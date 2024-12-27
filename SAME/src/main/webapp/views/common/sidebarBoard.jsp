@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%
-	String contextPath = request.getContextPath(); // /same
-%>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -85,30 +83,28 @@ a {
 		<div class="MenuItems">
 
 			
-				<div class="MenuItem">
-						<div class="LogoPlaceholder"></div>
-						<div class="Label"><a href="">전체글보기</a></div>
-				</div>
+			<div class="MenuItem">
+					<div class="LogoPlaceholder gray"></div>
+					<div class="Label"><a href="<%=contextPath %>/board/list">전체글보기</a></div>
+			</div>
 			
 			
 			<div class="MenuItem">
 					<div class="LogoPlaceholder gray"></div>
-					<div class="Label"><a href="">인기글모음</a></div>
+					<div class="Label"><a href="<%=contextPath %>">인기글모음</a></div>
 			</div>
 			<div class="MenuItem">
 					<div class="LogoPlaceholder gray"></div>
-					<div class="Label"><a href="../board/boardAList.jsp">자유게시판</a></div>
+					<div class="Label"><a href="<%=contextPath %>/board/lista">자유게시판</a></div>
 
 			</div>
 			<div class="MenuItem">
 					<div class="LogoPlaceholder gray"></div>
-					<div class="Label"><a href="../board/boardBList.jsp">리뷰게시판</a></div>
+					<div class="Label"><a href="<%=contextPath %>/board/listb">리뷰게시판</a></div>
 			</div>
 			<div class="MenuItem">
-
 				<div class="LogoPlaceholder gray"></div>
-				<div class="Label"><a href="../board/boardCList.jsp">문의게시판</a></div>
-
+				<div class="Label"><a href="<%=contextPath %>/board/listc">문의게시판</a></div>
 			</div>
 		</div>
 	</div>

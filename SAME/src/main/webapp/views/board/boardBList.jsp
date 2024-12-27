@@ -2,13 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, com.kh.board.model.vo.Board, com.kh.common.model.vo.PageInfo" %>
 <%
-	/* List<Board> list = (List<Board>) request.getAttribute("list");
+	List<Board> list = (List<Board>) request.getAttribute("list");
 	PageInfo pi = (PageInfo) request.getAttribute("pi");
 	
 	int currentPage = pi.getCurrentPage();
 	int startPage = pi.getStartPage();
 	int endPage= pi.getEndPage();
-	int maxPage = pi.getMaxPage(); */
+	int maxPage = pi.getMaxPage(); 
 %>    
 <!DOCTYPE html>
 <html>
@@ -132,78 +132,25 @@
 					<div>조회수</div>
 				</div>
 				<!-- 반복되는 행 -->
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">채소연 선생님 수업 별루~</a></div>
-					<div>mentor01</div>
-					<div>2024-12-15</div>
-					<div>
-						<button>삭제</button>
-					</div>
-				</div>
-				<!-- 추가 행들 -->
+				 <div class="table-row">
+                         <%if(list.isEmpty()) { %>
+                    <div colspan="6">조회된 리스트가 없습니다.</div>
+			<% } else{ %>
+			
+			<% for (Board b : list) { %>
+					<div><%= b.getBoardNo() %></div>
+					<div class="title"><a href=""><%= b.getBoardTitle() %></a></div>
+					<div><%= b.getMemberNo() %></div>
+					<div><%= b.getCreateDate() %></div>
+					<div><%= b.getCount() %></div>
 
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">안광주 멘토 추천합니다</a></div>
-					<div>mentor02</div>
-					<div>2024-12-01</div>
-					<div><button>삭제</button></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">이가격에 이런 강의를?!</a></div>
-					<div>mentor01</div>
-					<div>2024-12-15</div>
-					<div><button>삭제</button></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">어그로맨!~</a></div>
-					<div>mentor02</div>
-					<div>2024-12-01</div>
-					<div><button>삭제</button></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">친절해요!!</a></div>
-					<div>mentor01</div>
-					<div>2024-12-15</div>
-					<div><button>삭제</button></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">굿!!!웃</a></div>
-					<div>mentor02</div>
-					<div>2024-12-01</div>
-					<div><button>삭제</button></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">이 멘토는 멋있고 강의가 머리에 쏙쏙</a></div>
-					<div>mentor01</div>
-					<div>2024-12-15</div>
-					<div><button>삭제</button></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">내생각을 적어본다</a></div>
-					<div>mentor02</div>
-					<div>2024-12-01</div>
-					<div><button>삭제</button></div>
-				</div>
-					<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">강사님들 고생 많으셧습니다~</a></div>
-					<div>mentor02</div>
-					<div>2024-12-01</div>
-					<div><button>삭제</button></div>
-				</div>
+				<% } %>
+			<% } %>
 
             
             
              <!--강의시 사용한 페이징 바-->
-			<%-- <div align="center" class="paging-area">
+				<div align="center" class="paging-area">
 				<% if(currentPage != 1){ %>
 				<button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
 				<% }%>
@@ -222,7 +169,7 @@
 				function movePage(cpage){
 					location.assign('<%= contextPath %>/board/list?cpage='+cpage);
 				}
-			</script> --%>
+			</script> 
 			<!--강의시 사용한 페이징 바-->
         </div>
 	</div>
