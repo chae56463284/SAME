@@ -1,17 +1,20 @@
 package com.kh.common.template;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import org.apache.commons.dbcp2.BasicDataSource;
+
 public class JDBCTemplate {
 	static BasicDataSource dataSource = new BasicDataSource(); // ConnectionPool 생성 방법
 	static {
 	// 커넥션풀을 통해 생성하고자 하는 커넥션 옵션을 기술
 	dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver"); // 드라이버 선택
 	dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:xe"); // url 선택
-	dataSource.setUsername("C##SSAM"); // 계정명
-	dataSource.setPassword("SSAM"); // 비밀번호
+	dataSource.setUsername("C##SAME"); // 계정명
+	dataSource.setPassword("SAME"); // 비밀번호
 	dataSource.setInitialSize(10); // 초기 커넥션풀 사이즈 설정
 	dataSource.setMaxTotal(50); // 최대 메모리 제한
 	dataSource.setDefaultAutoCommit(false); // 자동커밋 여부 F
@@ -26,6 +29,7 @@ public class JDBCTemplate {
 	
 	
 	
+
 	// 1. Connection 반환 메서드
 	public static Connection getConnection() {
 		
