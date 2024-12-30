@@ -34,15 +34,14 @@
 		/* 게시판스타일 시작 */
 		.table {
 			width: 910px;
-			flex-direction: column; /*태그 컬럼형식으로 표기*/
-			display: flex;
-			font-size: 14px;
-			/* border-collapse: collapse; 테이블 경계 합치기 */
-			/* font-family: 'Inter', sans-serif;  본문 글꼴 설정*/
-			background-color: #fff; /* 배경색 추가로 테이블 강조 */
-			border: 1px solid #ddd; /* 테두리 추가 */
-			border-radius: 5px; /* 테두리 둥글게 */
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px; /* 패딩 추가 */
 			margin-left: 27%;
 			margin-right: auto;
 			margin-top: 5%;
@@ -74,10 +73,7 @@
 			align-items: center;        /* 세로 중앙 정렬 */
 			justify-content: center;    /* 가로 중앙 정렬 */
 		}
-		.button-container {
-			display: flex;               /* Flexbox 활성화 */
-			gap: 10px;                  /* 버튼 간의 간격 설정 */
-		}
+		
 
 		
 		a {
@@ -135,6 +131,21 @@
 			font-size: 14px;
 			cursor: pointer;
 		}
+		.write-button {
+            background-color: #FF5C3D; /* 버튼 배경색 */
+            color: white; /* 버튼 글자색 */
+            border: none; /* 테두리 제거 */
+            padding: 8px 12px; /* 패딩 줄이기 */
+            border-radius: 5px; /* 둥근 모서리 */
+            font-size: 14px; /* 글자 크기 줄이기 */
+            cursor: pointer; /* 커서 포인터 */
+            float: right; /* 오른쪽 정렬 */
+            margin-left: 20px; /* 제목과 버튼 사이 마진 추가 */
+            transition: background-color 0.3s; /* 배경색 전환 효과 */
+        }
+        .write-button:hover {
+            background-color: #e54c2e; /* 호버시 배경색 변경 */
+        }
 
 
 	</style>
@@ -151,14 +162,10 @@
 					<%@ include file="/views/common/sidebarBoard.jsp" %> <!-- 사이드바메뉴 -->
 				<div class="Title">
 					<div class="PlaylistSectionTitle">자유게시판</div>
-					<div class="button-container">
-						<a href="/same/views/board/insert.jsp" class="btn btn-secondary">글작성</a>
-						<a href="<%= contextPath %>/board/update" class="btn btn-secondary">수정</a>
-					</div>
-
+					<button class="write-button" onclick="location.href='<%= contextPath %>/board/insert'">글 작성</button> <!-- 글 작성 버튼 -->
 				</div>
 				<div class="table-header">
-					<div>Border_No</div>
+					<div>번호</div>
 					<div class="title">글제목</div>
 					<div>작성자ID</div>
 					<div>작성일</div>
@@ -171,8 +178,8 @@
 			<% } else{ %>
 			
 			<% for (Board b : list) { %>
-					<div><%= b.getBoardNo() %></div>
-					<%-- <div><%= b.getTypeSpecificNo() %></div>	 --%>
+					<div><%= b.getRNum() %></div>
+					
 					<div class="title"><a href=""><%= b.getBoardTitle() %></a></div>
 					<div><%= b.getMemberNo() %></div>
 					<div><%= b.getCreateDate() %></div>
@@ -200,7 +207,7 @@
 			</dis>
 			<script>
 				function movePage(cpage){
-					location.assign('<%= contextPath %>/board/list?cpage='+cpage);
+					location.assign('<%= contextPath %>/board/lista?cpage='+cpage);
 				}
 			</script>
 			<!--강의시 사용한 페이징 바-->

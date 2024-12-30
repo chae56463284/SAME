@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="java.util.List, com.kh.board.model.vo.Board, com.kh.common.model.vo.PageInfo" %>
+    <%
+        List<Board> list = (List<Board>) request.getAttribute("list");
+        PageInfo pi = (PageInfo) request.getAttribute("pi");
+        
+        int currentPage = pi.getCurrentPage();
+        int startPage = pi.getStartPage();
+        int endPage= pi.getEndPage();
+        int maxPage = pi.getMaxPage();
+    %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -186,122 +196,61 @@
             <div class="table">
                 <%@ include file="/views/common/sidebarManager.jsp" %> <!-- 사이드바메뉴 -->
                 <div class="Title">
-                <div class="PlaylistSectionTitle">문의게시판_관리모드</div>
-            </div>
-            <div class="table-header">
-            <div>Border_No</div>
-            <div class="title">글제목</div>
-            <div>작성자ID</div>
-            <div>작성일</div>
-            <div>관리도구</div>
-            </div>
-            <!-- 반복되는 행 -->
-            <div class="table-row">
-            <div>NO_100</div>
-            <div class="title"><a href="">[문의] 결제 오류 발생했습니다</a></div>
-            <div>mentor01</div>
-            <div>2024-12-15</div>
-            <div>
-                <button>삭제</button>
-            </div>
-            </div>
-            <!-- 추가 행들 -->
+                    <div class="PlaylistSectionTitle">문의게시판_관리모드</div>
+                </div>
 
-            <div class="table-row">
-            <div>NO_100</div>
-            <div class="title"><a href="">[문의]계정 관련 질문입니다</a></div>
-            <div>mentor02</div>
-            <div>2024-12-01</div>
-            <div><button>삭제</button></div>
-            </div>
-            <div class="table-row">
-            <div>NO_100</div>
-            <div class="title"><a href="">[문의] 회원가입 문제 해결 부탁드립니다</a></div>
-            <div>mentor01</div>
-            <div>2024-12-15</div>
-            <div><button>삭제</button></div>
-            </div>
-            <div class="table-row">
-            <div>NO_100</div>
-            <div class="title"><a href="">[문의] 이벤트 참여 방법 문의</a></div>
-            <div>mentor02</div>
-            <div>2024-12-01</div>
-            <div><button>삭제</button></div>
-            </div>
-            <div class="table-row">
-            <div>NO_100</div>
-            <div class="title"><a href="">[문의] 환불 절차에 대한 질문입니다</a></div>
-            <div>mentor01</div>
-            <div>2024-12-15</div>
-            <div><button>삭제</button></div>
-            </div>
-            <div class="table-row">
-            <div>NO_100</div>
-            <div class="title"><a href="">[문의] 기술 지원이 필요합니다</a></div>
-            <div>mentor02</div>
-            <div>2024-12-01</div>
-            <div><button>삭제</button></div>
-            </div>
-            <div class="table-row">
-            <div>NO_100</div>
-            <div class="title"><a href="">[문의] 기타 문의사항입니다</a></div>
-            <div>mentor01</div>
-            <div>2024-12-15</div>
-            <div><button>삭제</button></div>
-            </div>
-            <div class="table-row">
-            <div>NO_100</div>
-            <div class="title"><a href="">[문의] 계정 잠금 해제 요청</a></div>
-            <div>mentor02</div>
-            <div>2024-12-01</div>
-            <div><button>삭제</button></div>
-            </div>
-            <div class="table-row">
-            <div>NO_100</div>
-            <div class="title"><a href="">
-                [문의] 환불 절차에 대한 질문입니다</a></div>
-            <div>mentor02</div>
-            <div>2024-12-01</div>
-            <div><button>삭제</button></div>
-            </div>
+                <div class="table-header">
+					<div>번호</div>
+					<div class="title">글제목</div>
+					<div>작성자ID</div>
+					<div>작성일</div>
+					<div>상태</div>
+				</div>
+				<!-- 반복되는 행 -->
+             <div class="table-row">
+                         <%if(list.isEmpty()) { %>
+                    <div colspan="6">조회된 리스트가 없습니다.</div>
+			<% } else{ %>
+			
+			<% for (Board b : list) { %>
+					<div><%= b.getRNum() %></div>
+					
+					<div class="title"><a href=""><%= b.getBoardTitle() %></a></div>
+					<div><%= b.getMemberNo() %></div>
+					<div><%= b.getCreateDate() %></div>
+					<div><%= b.getCount() %></div> 
+					
 
-           
-        </div>
-
-
-
- 
-      
-    
-    
-  
-  
-            <!-- 페이징 바-->
-            <!-- <div align="center" class="paging-area">
-            <%--   <% if(currentPage != 1){ %>
-                <button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
-                <% }%>
+				<% } %>
+			<% } %>
+                <!-- 페이징 바-->
+                <div align="center" class="paging-area">
+                    <% if(currentPage != 1){ %>
+                    <button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
+                    <% }%>
+                    
+                    <% for(int p = startPage; p <= endPage; p++) { %>
+                        <button onclick="movePage(<%=p %>);" 
+                        <% if(currentPage == p) { %>
+                        class="on"
+                        <% } %>><%= p %></button>
+                    <% } %>
+                    
+                    <% if(maxPage != currentPage) { %>
+                        <button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
+                    <% } %>
+                </div>
                 
-                <% for(int p = startPage; p <= endPage; p++) { %>
-                    <button onclick="movePage(<%=p %>);" 
-                    <% if(currentPage == p) { %>
-                    class="on"
-                    <% } %>><%= p %></button>
-                <% } %>
-                
-                <% if(maxPage != currentPage) { %>
-                    <button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
-                <% } %> --%>
-            </div>
-
                 <script>
                 function movePage(cpage){
-                location.assign('/board/list?cpage='+cpage);
+                location.assign('/manager/lista?cpage='+cpage);
                 }
-                </script> -->
-               
+                </script>  
+                    
         </div>
     </div>
+            
+
 
 
 

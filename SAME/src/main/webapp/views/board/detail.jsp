@@ -1,5 +1,26 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page 
+    language="java" 
+    contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    import="com.kh.board.model.vo.*, 
+            com.kh.board.model.dto.BoardDTO" 
+%>
+<%
+    // null 체크 추가
+    BoardDTO b = (BoardDTO) request.getAttribute("b");
+    if(b == null) {
+        request.setAttribute("errorMsg", "게시글 정보를 찾을 수 없습니다.");
+        request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
+        return;
+    }
+    
+    Board board = b.getB();
+    Category c = board.getCategory();
+    Attachment at = b.getAt();
+    
+    // 현재 페이지 정보 가져오기
+    int cPage = (Integer)request.getAttribute("cPage");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -222,25 +243,35 @@ to {
 			<div class="detail-container">
 				<!-- 글 제목과 정보 -->
 				<div class="detail-header">
-					<span class="category">기타</span>
-					<h1 class="detail-title">채비누너무기여워!!!!!!!!!!</h1>
-					<div>
-						<span class="detail-user">익명</span> <span class="detail-date">2024.12.12.
-							16:53</span>
-					</div>
+					<span class="category"><%= c != null ? c.getCategoryName() : "" %></span>
+					<h2 class="detail-title"><%= board.getBoardTitle() %></h2>
+					<span class="detail-user"><%= board.getMemberNo() %></span>
+					<span class="detail-date"><%= board.getCreateDate() %></span>
+					<span class="detail-count">조회수: <%= board.getCount() %></span>
 				</div>
 				<hr>
 				<!-- 작성 내용 -->
-				<div class="detail-content">완죠니 귀엽자나!!!!!!!!!</div>
+				<div class="detail-content"><%= board.getBoardContent() %></div>
 
 				<!-- 이미지 -->
-				<div class="image-container">
-					<img src="https://via.placeholder.com/381x276" alt="Uploaded Image">
+				<% if(at != null && at.getFilePath() != null) { %>
+					<div class="image-container">
+						<img src="<%= request.getContextPath() %><%= at.getFilePath() + at.getChangedName() %>" 
+							 alt="첨부이미지">
+					</div>
+				<% } %>
+
+				 <!-- 목록으로 돌아가기 버튼 추가 -->
+				 <div class="button-container">
+					<button onclick="location.href='<%= request.getContextPath() %>/board/list?cPage=<%= cPage %>'">
+						목록으로
+					</button>
 				</div>
+
+				<!-- 신고 버튼 -->
 				<div class="report">
-					<!-- 신고 버튼 -->
-					<button class="report-button" id="reportBtn">
-						<div class="report-icon"></div>
+					<button type="button" class="report-button" onclick="showReportPopup()">
+						<span class="report-icon"></span>
 					</button>
 				</div>
 
@@ -253,7 +284,7 @@ to {
 						</div>
 						<div class="popup-content">
 							<form id="reportForm">
-								<!-- 말머리 -->
+								말머리
 								<div class="form-group">
 									<label for="reason">말머리</label> <select id="reason"
 										name="reason">
@@ -261,7 +292,7 @@ to {
 										<option value="스팸">스팸</option>
 										<option value="부적절한 내용">부적절한 내용</option>
 									</select>
-								</div>
+								</div> 
 
 								<!-- 내용 -->
 								<div class="form-group">
@@ -274,7 +305,7 @@ to {
 						</div>
 					</div>
 				</div>
-				<%@ include file="/views/board/comment.jsp"%>
+				<%@ include file="/views/board/reply.jsp"%>
 			</div>
 		</div>
 	</div>

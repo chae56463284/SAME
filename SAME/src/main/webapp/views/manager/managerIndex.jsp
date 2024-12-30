@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>관리자 메인</title>
+
 <style>
         /* 화면 중앙 배치 스타일 적용 */
         body {
@@ -188,7 +190,10 @@
 </head>
 <body>
 
-    <div class="container">
+    <div>
+
+        <div class="container">
+            <%@ include file="/views/common/mainHeader.jsp" %> <!-- 샘샘해더글 -->
         <!-- 각 링크 필요한 박스 부분 -->
         <!-- <a href="" class="box 회원정보" style="font-size: 25px;" onclick="toggleUserDropdown(event)">회원정보</a> -->
         <!-- <a href="" class="box 게시판" style="font-size: 25px;" onclick="toggleBoardDropdown">게시판</a> -->
@@ -209,9 +214,9 @@
            <div class="Group">
                <a href="" class="box 게시판" style="font-size: 25px;" onclick="toggleBoardDropdown(event)">게시판</a>
                <div class="board-dropdown" id="boardDropdown">
-                <a href="/same/views/manager/boardAList.jsp">자유게시판</a>
-                <a href="/same/views/manager/boardBList.jsp">리뷰게시판</a>
-                <a href="/same/views/manager/boardCList.jsp">문의게시판</a>
+                <a href="<%=contextPath %>/manager/lista">자유게시판</a>
+                <a href="<%=contextPath %>/manager/listb">리뷰게시판</a>
+                <a href="<%=contextPath %>/manager/listc">문의게시판</a>
             </div>
            </div>
            <div class="Group">
@@ -225,8 +230,6 @@
            </div>
        </div>
 
-        <!-- 메인제목부분 -->
-        <div class="title">SAME SAME</div>
         
         <!-- 우상단 관리자 관리 설정 링크 필요? -->
         <div class="Component Component6">
@@ -263,5 +266,6 @@
             }
         }
     </script>
+    </div>
 </body>
 </html>

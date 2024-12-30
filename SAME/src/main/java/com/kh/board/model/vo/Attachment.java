@@ -2,6 +2,8 @@ package com.kh.board.model.vo;
 
 import java.sql.Date;
 
+
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,4 +23,6 @@ public class Attachment {
 	private Date uploadDate;
 	private String isDelete;
 	private int atType; // 게시판첨부 or 프로필첨부
+	private int boardNo;
+
 }

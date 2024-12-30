@@ -39,7 +39,7 @@ private Properties prop = new Properties();
 			e.printStackTrace();
 		}
 	}
-	
+	// 게시글 전체 목록 조회
 	public List<Board> selectBoardList(Connection conn, PageInfo pi) {
 		List<Board> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -73,7 +73,7 @@ private Properties prop = new Properties();
 						 	   .boardTitle(rset.getString("BOARD_TITLE"))
 						 	   .createDate(rset.getDate("CREATE_DATE"))
 						 	   .count(rset.getInt("COUNT"))
-//						 	   .typeSpecificNo(rset.getInt("TYPE_SPECIFIC_NO"))  게시판별넘버링필요 getter
+					 	   
 						 	   .build();
 				list.add(b);
 			}
@@ -89,8 +89,9 @@ private Properties prop = new Properties();
 		return list;
 	}
 
-	
+	//selectBoardListByType 매서드명 변경 제한 구분을 위한?
 	public List<Board> selectBoardList(Connection conn, PageInfo pi, char boardType) {
+	
 		List<Board> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -124,6 +125,7 @@ private Properties prop = new Properties();
 						 	   .boardTitle(rset.getString("BOARD_TITLE"))
 						 	   .createDate(rset.getDate("CREATE_DATE"))
 						 	   .count(rset.getInt("COUNT"))
+						 	   .rNum(rset.getInt("RNUM"))
 						 	   .build();
 				list.add(b);
 			}
@@ -195,45 +197,70 @@ private Properties prop = new Properties();
 		
 	}
 
-	public BoardDTO selectBoardList(Connection conn, int bno) {
-		BoardDTO b = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectBoard");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, bno);
-			
-			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				b = BoardDTO.builder()
-							.b(Board.builder()
-									.boardNo(bno)
-									.boardTitle(rset.getString("BOARD_TITLE"))
-									.boardContent(rset.getString("BOARD_CONTENT"))
-									.memberNo(rset.getString("MEMBER_NO"))
-									.createDate(rset.getDate("CREATE_DATE"))
-									.category(Category.builder().categoryName(rset.getString("CATEGORY_NAME")).build())
-									.build()
-									).at(Attachment.builder()
-												   .fileNo(rset.getInt("FILE_NO"))
-												   .originName(rset.getString("ORIGIN_NAME"))
-												   .changedName(rset.getString("CHANGED_NAME"))
-												   .filePath(rset.getString("FILE_PATH"))
-												   .build()
-									).build();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
-		return b;
-	}
+	// 게시글 상세 조회 - 메서드명 변경 (이유_중복사용메서드명)
+	public BoardDTO selectBoard(Connection conn, int bno) {
+		 BoardDTO b = null;
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        String sql = prop.getProperty("selectBoard");
+        
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bno);
+            
+            rset = pstmt.executeQuery();
+            
+            if(rset.next()) {
+                b = BoardDTO.builder()
+                    .b(Board.builder()
+                        .boardNo(bno)
+                        .boardTitle(rset.getString("BOARD_TITLE"))
+                        .boardContent(rset.getString("BOARD_CONTENT"))
+                        .memberNo(rset.getString("MEMBER_NO"))
+                        .createDate(rset.getDate("CREATE_DATE"))
+                        .category(Category.builder()
+                            .categoryName(rset.getString("CATEGORY_NAME"))
+                            .build())
+                        .build())
+                    .at(Attachment.builder()
+                        .fileNo(rset.getInt("FILE_NO"))
+                        .originName(rset.getString("ORIGIN_NAME"))
+                        .changedName(rset.getString("CHANGED_NAME"))
+                        .filePath(rset.getString("FILE_PATH"))
+                        .build())
+                    .build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rset);
+            close(pstmt);
+        }
+        return b;
+    }
 
+	 // 조회수 증가 메서드 추가
+    public int increaseCount(Connection conn, int boardNo) {
+        int result = 0;
+        PreparedStatement pstmt = null;
+        String sql = prop.getProperty("increaseCount");
+        
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, boardNo);
+            
+            result = pstmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(pstmt);
+        }
+        return result;
+    }
+	
+	
+	
 	public List<Category> selectCategoryList(Connection conn) {
 		
 		List<Category> list = new ArrayList<>();
@@ -268,24 +295,28 @@ private Properties prop = new Properties();
 		int updateCount = 0;
 		PreparedStatement pstmt =null;
 		String sql = prop.getProperty("insertBoard");
-		
 		try {
+			System.out.println("회원번호 확인: " + b.getMemberNo()); // 디버깅용
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, 1); // 일반 게시판
-			pstmt.setString(2, b.getCategory().getCategoryName());
-			pstmt.setString(3, b.getBoardTitle());
-			pstmt.setString(4, b.getBoardContent());
-			pstmt.setString(5, b.getMemberNo());
-			
+			 // 바인딩할 값 4개
+	        pstmt.setString(1, b.getMemberNo());      // MEMBER_NO
+	        pstmt.setString(2, Character.toString(b.getBoardType()));     // BOARD_TYPE (적절한 값으로 수정)
+	        pstmt.setString(3, b.getBoardTitle());    // BOARD_TITLE
+	        pstmt.setString(4, b.getBoardContent());  // BOARD_CONTENT
+	        
 			updateCount = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			 System.out.println("SQL 오류: " + e.getMessage());  // 디버깅용
+			 
 		} finally {
 			close(pstmt);
 		}
 		return updateCount;
 	}
-
+	
+	
 	public int insertAttachment(Connection conn, Attachment at) {
 		int updateCount = 0;
 		PreparedStatement pstmt =null;
@@ -566,6 +597,32 @@ private Properties prop = new Properties();
 		}
 		return list;
 		
+	}
+
+	public int selectLastBoardNo(Connection conn) {
+		int boardNo = 0;
+	    PreparedStatement pstmt = null;
+	    ResultSet rset = null;
+	    
+	    String sql = "SELECT MAX(BOARD_NO) FROM BOARD";  // 또는
+	    // String sql = "SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'SEQ_BOARD_NO'";
+	    
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+	        rset = pstmt.executeQuery();
+	        
+	        if(rset.next()) {
+	            boardNo = rset.getInt(1);
+	        }
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(rset);
+	        close(pstmt);
+	    }
+	    
+	    return boardNo;
 	}
 
 }

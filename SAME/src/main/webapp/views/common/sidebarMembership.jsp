@@ -80,7 +80,7 @@
 		<div class="MenuItems">
 			<div class="MenuItem" id="memberInfo">
 				<div class="LogoPlaceholder"></div>
-				<div class="Label">로그인</div>
+				<div class="Label"><a href="<%= contextPath %>/views/member/login.jsp">로그인</a></div>
 			</div>
 			<div class="MenuItem" id="boardMenu">
 				<div class="LogoPlaceholder gray"></div>

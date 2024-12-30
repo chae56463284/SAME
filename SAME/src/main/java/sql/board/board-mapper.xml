@@ -30,8 +30,8 @@
 		AND BOARD_TYPE =  ?
 	</entry>
 	
-	
-	
+
+    
 		<!-- 특정 게시판 조회  -->
 	<entry key="selectBoardListA">
 	SELECT *
@@ -44,6 +44,7 @@
 					ORDER BY BOARD_NO DESC) A
 			)
 	WHERE RNUM BETWEEN ? AND ?
+	ORDER BY RNUM DESC
 	</entry>
 		<entry key="selectBoardListB">
 	SELECT *
@@ -56,6 +57,7 @@
 					ORDER BY BOARD_NO DESC) A
 			)
 	WHERE RNUM BETWEEN ? AND ?
+	ORDER BY RNUM DESC
 	</entry>
 		<entry key="selectBoardListC">
 	SELECT *
@@ -68,8 +70,11 @@
 					ORDER BY BOARD_NO DESC) A
 			)
 	WHERE RNUM BETWEEN ? AND ?
+	ORDER BY RNUM DESC
 	</entry>
-	
+
+
+
 	<entry key="selectBoard">
 		SELECT 
 			BOARD_NO, CATEGORY_NAME, BOARD_TITLE, BOARD_CONTENT,
@@ -77,24 +82,46 @@
 		FROM BOARD B
 		LEFT JOIN CATEGORY C USING(CATEGORY_NO)
 		JOIN MEMBER M ON B.BOARD_WRITER = USER_NO
-		LEFT JOIN ATTACHMENT A ON (BOARD_NO = REF_BNO) AND A.STATUS = 'Y'
+		LEFT JOIN ATTACHMENT A ON (BOARD_NO = REF_BNO) AND A.IS_DELETE = 'N'
 		WHERE BOARD_NO = ?
-		    AND B.STATUS = 'Y'
+		    AND B.IS_DELETE = 'N'
 	</entry>
 	
-	
+	<!-- 말머리 선택  -->
 	<entry key="selectCategoryList">
 		SELECT
-			BOARD_NO, CATEGORY
-		FROM BOARD_CATEGORY
+			CATEGORY_NAME, CATEGORY_TYPE
+		FROM CATEGORY
+		WHERE CATEGORY_TYPE = '말머리'
 	</entry>
 	
 	
 	<!-- 게시글 작성  -->
 	<entry key="insertBoard">
-	INSERT INTO BOARD
-	VALUES(SEQ.BNO.NEXTVAL, ?,?,?,?,DEFAULT,null,DEFAULT,DEFAULT,DEFAULT);
-	</entry>
+    INSERT INTO BOARD (
+        BOARD_NO,
+        MEMBER_NO,
+        BOARD_TYPE,
+        BOARD_TITLE,
+        BOARD_CONTENT,
+        CREATE_DATE,
+        EDIT_DATE,
+        IS_DELETE,
+        IS_HIDDEN,
+        COUNT
+    ) VALUES (
+        SEQ_BNO.NEXTVAL,
+        ?,      
+        ?,      
+        ?,     
+        ?,      
+        SYSDATE,
+        NULL,   
+        'N',    
+        'N',    
+        0       
+    )
+</entry>
 	
 	
 	<entry key="insertAttachment">
@@ -107,10 +134,10 @@
 	<!-- 게시글 수정  -->
 	<entry key="updateBoard">
 		UPDATE BOARD
-			SET CATEGORY_NO= ?,
+			SET CATEGORY_NAME= ?,
 				BOARD_TITLE =?,
 				BOARD_CONTENT=?
-		WHERE STATUS ='Y'
+		WHERE IS_DELETE ='N'
 		AND BOARD_NO =?
 	</entry>
 	
@@ -140,7 +167,7 @@
 	
 	<entry key="deleteAttachment">
 		UPDATE ATTACHMENT
-			SET STATUS ='N'
+			SET IS_DELETE ='N'
 		WHERE FILE_NO = ?
 	</entry>
 	
@@ -149,8 +176,8 @@
 	<!-- 게시글 삭제  -->
 	<entry key="deleteBoard">
 		UPDATE BOARD
-			SET STATUS='N'
-		WHERE STATUS ='Y'
+			SET IS_DELETE='N'
+		WHERE IS_DELETE ='Y'
 		AND BOARD_NO =?
 	</entry>
 	
@@ -159,7 +186,7 @@
 	<entry key="increaseCount">
 	UPDATE BOARD
 	SET COUNT = COUNT + 1
-	WHERE STATUS ='Y'
+	WHERE IS_DELETE ='N'
 	AND NOTICE_NO = ?
 	</entry>
 	

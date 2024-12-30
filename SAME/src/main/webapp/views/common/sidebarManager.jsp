@@ -101,15 +101,15 @@
             <div class="SubMenu" id="boardSubMenu">
                 <div class="MenuItem">
                     <div class="LogoPlaceholder gray"></div>
-                    <div class="Label"><a href="/same/views/manager/boardAList.jsp">자유게시판</a></div>
+                    <div class="Label"><a href="<%=contextPath %>/manager/lista">자유게시판</a></div>
                 </div>
                 <div class="MenuItem">
                     <div class="LogoPlaceholder gray"></div>
-                    <div class="Label"><a href="/same/views/manager/boardBList.jsp">리뷰게시판</a></div>
+                    <div class="Label"><a href="<%=contextPath %>/manager/listb">리뷰게시판</a></div>
                 </div>
                 <div class="MenuItem">
                     <div class="LogoPlaceholder gray"></div>
-                    <div class="Label"><a href="/same/views/manager/boardCList.jsp">문의게시판</a></div>
+                    <div class="Label"><a href="<%=contextPath %>/manager/listc">문의게시판</a></div>
                 </div>
             </div>
             

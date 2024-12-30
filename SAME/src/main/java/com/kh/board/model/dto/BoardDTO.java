@@ -1,6 +1,7 @@
 package com.kh.board.model.dto;
 
 import com.kh.board.model.vo.Attachment;
+
 import com.kh.board.model.vo.Board;
 
 import lombok.AllArgsConstructor;

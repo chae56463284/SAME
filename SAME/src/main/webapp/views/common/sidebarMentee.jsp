@@ -93,7 +93,7 @@
 				</div>
 				<div class="MenuItem">
 					<div class="LogoPlaceholder gray"></div>
-					<div class="Label">커뮤니티</div>
+					<div class="Label"><a href="<%=contextPath%>/board/list" class="head-item">커뮤니티</a></div>
 				</div>
 				<div class="MenuItem">
 					<div class="LogoPlaceholder gray"></div>

@@ -1,6 +1,7 @@
 package com.kh.Search.controller;
 
 import java.io.IOException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,14 +9,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.kh.Search.model.dao.DatabaseHelper;
 import com.kh.board.model.vo.Board;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
 
 @WebServlet("/search")
 public class Search extends HttpServlet {
@@ -63,7 +66,7 @@ public class Search extends HttpServlet {
         request.setAttribute("filteredPosts", filteredPosts);
         request.getRequestDispatcher("/views/searchResults.jsp").forward(request, response);
     }
-	}
+	
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

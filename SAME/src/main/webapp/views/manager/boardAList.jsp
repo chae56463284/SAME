@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="java.util.List, com.kh.board.model.vo.Board, com.kh.common.model.vo.PageInfo" %>
+    <%
+        List<Board> list = (List<Board>) request.getAttribute("list");
+        PageInfo pi = (PageInfo) request.getAttribute("pi");
+        
+        int currentPage = pi.getCurrentPage();
+        int startPage = pi.getStartPage();
+        int endPage= pi.getEndPage();
+        int maxPage = pi.getMaxPage();
+    %>        
 <!DOCTYPE html>
 <html>
 <head>
@@ -119,106 +129,55 @@
                     <div class="PlaylistSectionTitle">자유게시판_관리모드</div>
                 </div>
                 <div class="table-header">
-                    <div>Border_No</div>
-                    <div class="title">글제목</div>
-                    <div>작성자ID</div>
-                    <div>작성일</div>
-                    <div>상태</div>
+					<div>번호</div>
+					<div class="title">글제목</div>
+					<div>작성자ID</div>
+					<div>작성일</div>
+					<div>상태</div>
+				</div>
+				<!-- 반복되는 행 -->
+             <div class="table-row">
+                         <%if(list.isEmpty()) { %>
+                    <div colspan="6">조회된 리스트가 없습니다.</div>
+			<% } else{ %>
+			
+			<% for (Board b : list) { %>
+					<div><%= b.getRNum() %></div>
+					
+					<div class="title"><a href=""><%= b.getBoardTitle() %></a></div>
+					<div><%= b.getMemberNo() %></div>
+					<div><%= b.getCreateDate() %></div>
+					<div><%= b.getCount() %></div> 
+					
+
+				<% } %>
+			<% } %>
+                <!-- 페이징 바-->
+                <div align="center" class="paging-area">
+                <% if(currentPage != 1){ %>
+                    <button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
+                    <% }%>
+                    
+                    <% for(int p = startPage; p <= endPage; p++) { %>
+                        <button onclick="movePage(<%=p %>);" 
+                        <% if(currentPage == p) { %>
+                        class="on"
+                        <% } %>><%= p %></button>
+                    <% } %>
+                    
+                    <% if(maxPage != currentPage) { %>
+                        <button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
+                    <% } %>
                 </div>
-                <!-- 반복되는 행 -->
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">당신의 기억에 남는 멘토는 누구?</a></div>
-                    <div>mentor01</div>
-                    <div>2024-12-15</div>
-                    <div><button>삭제</button></div>
-                </div>
-                <!-- 추가 행들 -->
-    
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">최근 가장 인기 있는 멘토는?</a></div>
-                    <div>mentor02</div>
-                    <div>2024-12-01</div>
-                    <div><button>삭제</button></div>
-                </div>
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">가장 기억에 남는 포트폴리오 추천해주세요!</a></div>
-                    <div>mentor01</div>
-                    <div>2024-12-15</div>
-                    <div><button>삭제</button></div>
-                </div>
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">기억에 남는 수강 경험이 있나요?</a></div>
-                    <div>mentor02</div>
-                    <div>2024-12-01</div>
-                    <div><button>삭제</button></div>
-                </div>
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">궁금한점 무엇이든 물어보세요!</a></div>
-                    <div>mentor01</div>
-                    <div>2024-12-15</div>
-                    <div><button>삭제</button></div>
-                </div>
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">나의 공부법을 공개합니다!</a></div>
-                    <div>mentor02</div>
-                    <div>2024-12-01</div>
-                    <div><button>삭제</button></div>
-                </div>
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">어떤 음악을 듣고 계신가요?</a></div>
-                    <div>mentor01</div>
-                    <div>2024-12-15</div>
-                    <div><button>삭제</button></div>
-                </div>
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">내생각을 적어본다</a></div>
-                    <div>mentor02</div>
-                    <div>2024-12-01</div>
-                    <div><button>삭제</button></div>
-                </div>
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">관리자님 프로모션 계획은 없나요?~</a></div>
-                    <div>mentor02</div>
-                    <div>2024-12-01</div>
-                    <div><button>삭제</button></div>
-                </div>
-               
-            </div>
+                
+                    <script>
+                    function movePage(cpage){
+                    location.assign('/manager/lista?cpage='+cpage);
+                    }
+                    </script>  
+                    
         </div>
     </div>
-    <!-- 페이징 바-->
-    <!-- <div align="center" class="paging-area">
-    <%--  <% if(currentPage != 1){ %>
-        <button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
-        <% }%>
-        
-        <% for(int p = startPage; p <= endPage; p++) { %>
-            <button onclick="movePage(<%=p %>);" 
-            <% if(currentPage == p) { %>
-            class="on"
-            <% } %>><%= p %></button>
-        <% } %>
-        
-        <% if(maxPage != currentPage) { %>
-            <button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
-        <% } %> --%>
-    </div>
-    
-        <script>
-        function movePage(cpage){
-        location.assign('/board/list?cpage='+cpage);
-        }
-        </script> -->
-        
         
         
         

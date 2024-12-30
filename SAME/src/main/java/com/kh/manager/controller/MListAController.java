@@ -1,6 +1,8 @@
-package com.kh.board.controller;
+package com.kh.manager.controller;
+
 
 import java.io.IOException;
+
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,22 +15,21 @@ import com.kh.board.model.service.BoardService;
 import com.kh.board.model.vo.Board;
 import com.kh.common.model.vo.PageInfo;
 
-
-
 /**
- * Servlet implementation class ListController
+ * Servlet implementation class MListAController
  */
-@WebServlet("/board/lista")
-public class ListAController extends HttpServlet {
+@WebServlet("/manager/lista")
+public class MListAController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public ListAController() {
+   
+    public MListAController() {
         super();
+       
     }
 
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		// 페이징 처리에 필요한 변수
 		int listCount; // 게시글 총 개수
 		int currentPage; // 요청한 페이지
 		int pageLimit; // 페이징바에 표시할 최대 갯수
@@ -63,16 +64,13 @@ public class ListAController extends HttpServlet {
 		
 	
 		// 2. 게시글 목록 데이터를 request에 저장한 후 목록 페이지로 forward
-		request.getRequestDispatcher("/views/board/boardAList.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/manager/boardAList.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 
 }
-

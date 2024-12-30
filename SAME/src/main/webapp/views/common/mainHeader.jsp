@@ -1,7 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="com.kh.member.model.vo.Member" %>
 <%
 	String contextPath = request.getContextPath();
+
+	Member loginUser = (Member)session.getAttribute("loginUser");
+	// loginUser -> 로그인 전 : null
+	//              로그인 후 : 로그인한 회원의 정보	
+	System.out.println(loginUser);
+	
+	
 %>
 <!DOCTYPE html>
 <html>

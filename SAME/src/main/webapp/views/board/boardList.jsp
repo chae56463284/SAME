@@ -3,10 +3,7 @@
 <%@ page
 	import="java.util.List, com.kh.board.model.vo.Board, com.kh.common.model.vo.PageInfo,com.kh.member.model.vo.Member"%>
 <%
-Member loginUser = (Member)session.getAttribute("loginUser");
-// loginUser -> 로그인 전 : null
-//			 -> 로그인 후 : 회원의 정보
-System.out.println(loginUser);
+
 String alertMsg = (String)session.getAttribute("alertMsg");
 
 	List<Board> list = (List<Board>)request.getAttribute("list");

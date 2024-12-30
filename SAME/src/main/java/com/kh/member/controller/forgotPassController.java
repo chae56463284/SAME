@@ -1,6 +1,5 @@
 package com.kh.member.controller;
 
-
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -13,16 +12,16 @@ import com.kh.member.model.service.memberService;
 import com.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class forgotIdController
+ * Servlet implementation class forgotPassController
  */
-@WebServlet("/member/forgotID")
-public class forgotIdController extends HttpServlet {
+@WebServlet("/member/forgotPass")
+public class forgotPassController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public forgotIdController() {
+    public forgotPassController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,20 +39,21 @@ public class forgotIdController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		
-		String memberName = request.getParameter("memberName");
-		String email = request.getParameter("email");
-		String memberType = request.getParameter("memberType");
-		
-		memberService service = new memberService();
-		Member m = service.forgotId(memberName, email, memberType);
-		
-		if(m == null) {
-		   request.setAttribute("errorMsg", "아이디 찾기 실패.");
-	       request.getRequestDispatcher("/views/").forward(request, response);
-		} else {
-			request.setAttribute("memberId", m.getMemberId());
-	        request.getRequestDispatcher("/views/member/forgotIDPASSResult.jsp").forward(request, response);
-		}
+
+        String memberId = request.getParameter("memberId");
+        String memberName = request.getParameter("memberName");
+        String email = request.getParameter("email");
+        
+        memberService service = new memberService();
+        Member m = service.forgotPass(memberId, memberName, email);
+
+        if (m != null) {
+            request.setAttribute("memberId", memberId);
+            request.getRequestDispatcher("/views/member/forgotPassModify.jsp").forward(request, response);
+        } else {
+            request.setAttribute("errorMsg", "입력한 정보와 일치하는 회원이 없습니다.");
+            request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
+        }
 	}
+
 }

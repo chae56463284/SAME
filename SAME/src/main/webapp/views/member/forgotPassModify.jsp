@@ -53,6 +53,14 @@
         margin-bottom: 40%; 
         color: black; 
     }
+        .forgotText input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
 
     .btn-id {
         width: 100%;
@@ -83,13 +91,17 @@
     <div class="set">
         
         <div class="bigBox">
+        <form id="forgotPassModify" action="/same/member/forgotPassModify" method="post">
              <!-- 찾은 아이디 출력 -->
-        <div class="forgotText">
-          당신의 아이디는 <b><%= request.getAttribute("memberId") %></b> 입니다.
-        </div>
+	        <div class="forgotText">
+	          	<input type="hidden" name="memberId" value="${memberId}" />
+	            <input type="password" name="newPassword" placeholder="새 비밀번호" required />
+	            <input type="password" name="confirmPassword" placeholder="비밀번호 확인" required />
+	        </div>
              <!-- <div class="forgotText">가입하신 이메일주소로 새로운 비밀번호가 전송되었습니다.</div> -->
-             <div class="btn-id"><a href="/same/views/member/login.jsp">로그인하기</a></div>
+             <div type="submit" class="btn-id"><a href="javascript:document.querySelector('#forgotPassModify').submit()">비밀번호 변경</a></div>
              <div class="btn-id"><a href="/same">메인으로</a></div>
+         </form>
          </div>
     </div>
   </div>
