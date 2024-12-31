@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+
+	String contextPath = request.getContextPath();
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -183,84 +188,86 @@ body {
 		<div class="container">
 			<%@ include file="/views/common/sidebarMentee.jsp"%>
 			<div class="payment">
-				<div class="filter-section">
-					<div class="filter-row">
-						<div class="filter-item">
-							<label for="start-date">정산등록일</label>
+				<form action="<%=contextPath%>/member/mentorPage/payment" method="post" name="payment">
+					<div class="filter-section">
+						<div class="filter-row">
+							<div class="filter-item">
+								<label for="start-date">정산등록일</label>
+							</div>
+							<div class="filter-content">
+								<input type="date" id="start-date" class="date-input"
+									value="2024-12-01" /> <span class="date-separator">~</span> <input
+									type="date" id="end-date" class="date-input" value="2024-12-01" />
+							</div>
 						</div>
-						<div class="filter-content">
-							<input type="date" id="start-date" class="date-input"
-								value="2024-12-01" /> <span class="date-separator">~</span> <input
-								type="date" id="end-date" class="date-input" value="2024-12-01" />
+						<div class="divider"></div>
+						<div class="filter-row">
+							<div class="filter-item">
+								<label>정산처리상태</label>
+							</div>
+							<div class="filter-content radio-group">
+								<label><input type="radio" name="status" value="all"
+									checked /> 전체</label> <label><input type="radio" name="status"
+									value="processed" /> 처리</label> <label><input type="radio"
+									name="status" value="unprocessed" /> 미처리</label>
+							</div>
+						</div>
+						<div class="divider"></div>
+						<div class="filter-row">
+							<div class="filter-item">
+								<label for="mentee-name">멘티명</label>
+							</div>
+							<div class="filter-content">
+								<input type="text" id="mentee-name" class="text-input"
+									placeholder="검색어 입력" />
+								<button class="search-button">검색</button>
+							</div>
 						</div>
 					</div>
-					<div class="divider"></div>
-					<div class="filter-row">
-						<div class="filter-item">
-							<label>정산처리상태</label>
+	
+					<div class="table">
+						<div class="table-header">
+							<div>거래번호</div>
+							<div>강좌명</div>
+							<div>멘티명</div>
+							<div>수업 기간</div>
+							<div>결제수단</div>
+							<div>거래액</div>
+							<div>정산 상태</div>
 						</div>
-						<div class="filter-content radio-group">
-							<label><input type="radio" name="status" value="all"
-								checked /> 전체</label> <label><input type="radio" name="status"
-								value="processed" /> 처리</label> <label><input type="radio"
-								name="status" value="unprocessed" /> 미처리</label>
+						<div class="table-row">
+							<div>NO_100</div>
+							<div>중국어 강의 초급반</div>
+							<div>홍길동</div>
+							<div>2024-12-01 ~ 2024-12-15</div>
+							<div>신용카드</div>
+							<div>15,000</div>
+							<div>처리</div>
 						</div>
-					</div>
-					<div class="divider"></div>
-					<div class="filter-row">
-						<div class="filter-item">
-							<label for="mentee-name">멘티명</label>
+						<!-- 반복되는 행 -->
+						<div class="table-row">
+							<div>NO_99</div>
+							<div>중국어 강의 초급반</div>
+							<div>정상희</div>
+							<div>2024-12-01 ~ 2024-12-15</div>
+							<div>카카오페이</div>
+							<div>15,000</div>
+							<div>미처리</div>
 						</div>
-						<div class="filter-content">
-							<input type="text" id="mentee-name" class="text-input"
-								placeholder="검색어 입력" />
-							<button class="search-button">검색</button>
-						</div>
+						<!-- 추가 행들 -->
 					</div>
-				</div>
-
-				<div class="table">
-					<div class="table-header">
-						<div>거래번호</div>
-						<div>강좌명</div>
-						<div>멘티명</div>
-						<div>수업 기간</div>
-						<div>결제수단</div>
-						<div>거래액</div>
-						<div>정산 상태</div>
+	
+					<!-- 페이징바,,, 배운대로 다시 설정해야함. 임의로 숫자 써 넣음-->
+					<div class="pagination">
+						<button class="pagination-button">&laquo;</button>
+						<span class="page-number">1</span> <span class="page-number">2</span>
+						<span class="page-number">3</span> <span class="page-number">4</span>
+						<span class="page-number">5</span> <span class="page-number">6</span>
+						<span class="page-number">7</span> <span class="page-number">8</span>
+						<span class="page-number">9</span> <span class="page-number">10</span>
+						<button class="pagination-button">&raquo;</button>
 					</div>
-					<div class="table-row">
-						<div>NO_100</div>
-						<div>중국어 강의 초급반</div>
-						<div>홍길동</div>
-						<div>2024-12-01 ~ 2024-12-15</div>
-						<div>신용카드</div>
-						<div>15,000</div>
-						<div>처리</div>
-					</div>
-					<!-- 반복되는 행 -->
-					<div class="table-row">
-						<div>NO_99</div>
-						<div>중국어 강의 초급반</div>
-						<div>정상희</div>
-						<div>2024-12-01 ~ 2024-12-15</div>
-						<div>카카오페이</div>
-						<div>15,000</div>
-						<div>미처리</div>
-					</div>
-					<!-- 추가 행들 -->
-				</div>
-
-				<!-- 페이징바,,, 배운대로 다시 설정해야함. 임의로 숫자 써 넣음-->
-				<div class="pagination">
-					<button class="pagination-button">&laquo;</button>
-					<span class="page-number">1</span> <span class="page-number">2</span>
-					<span class="page-number">3</span> <span class="page-number">4</span>
-					<span class="page-number">5</span> <span class="page-number">6</span>
-					<span class="page-number">7</span> <span class="page-number">8</span>
-					<span class="page-number">9</span> <span class="page-number">10</span>
-					<button class="pagination-button">&raquo;</button>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>

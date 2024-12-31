@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    String contextPath = request.getContextPath();
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -117,6 +120,7 @@ body {
 	border-radius: 5px;
 	font-size: 16px;
 }
+
 .submit-btn {
 	height: 50px;
 	background-color: #FF5C3D;
@@ -137,6 +141,7 @@ body {
       <div class="container">
         <%@ include file="/views/common/sidebarMentee.jsp"%>
        <div class="full">
+        <form action="<%= contextPath %>/member/modify" method="post">
         <div class="mentor-info">
             <!-- 회원 정보 박스 -->
             <div class="info-box">
@@ -147,12 +152,12 @@ body {
                 <input type="file" id="file-upload" style="display: none;" accept="image/*">
                 <button id="upload-btn">업로드</button>
             </div>
-            <div class="input-box" style="top: 21px;">id01</div>
-            <div class="input-box" style="top: 99px;">이용희</div>
+            <input type="text" name="memberId" value="<%= loginUser.getMemberId() %>" readonly class="input-box" style="top: 21px;">
+            <input type="text" name="memberName" value="<%= loginUser.getMemberName() %>" readonly class="input-box" style="top: 99px;">
             <div class="gender">
                 <span>성별</span>
-                <label><input type="radio" name="gender" value="male" checked disabled> 남성</label>
-                <label><input type="radio" name="gender" value="female" disabled> 여성</label>
+                <input type="radio" name="gender" value="male" <% if (loginUser.getMemberSSN().charAt(6) == '1' || loginUser.getMemberSSN().charAt(6) == '3') { %> checked <% } %> disabled> 남성
+        <input type="radio" name="gender" value="female" <% if (loginUser.getMemberSSN().charAt(6) == '2' || loginUser.getMemberSSN().charAt(6) == '4') { %> checked <% } %> disabled> 여성
             </div>
         </div>
 
@@ -188,22 +193,23 @@ body {
             removeBtn.style.display = 'none'; // X 버튼 숨기기
         });
     </script>
-        
-        <div class="under-box">
-          <div class="writing-box">
-            <input type="text" class="password" placeholder="비밀번호">
-          </div>
-          <div class="writing-box">
-            <input type="text" class="phone" placeholder="연락처">
-          </div>
-          <div class="writing-box">
-            <input type="text" class="email" placeholder="이메일">
-          </div>
-          <div class="writing-box">
-            <input type="text" class="address" placeholder="주소">
-          </div>
-          <button type="submit" class="submit-btn">회원정보수정</button>
-        </div>
+
+		<div class="under-box">
+			<div class="writing-box">
+			    <input type="password" name="password" value="<%= loginUser.getMemberPwd() %>">
+			</div>
+			<div class="writing-box">
+			    <input type="text" name="phone" value="<%= loginUser.getPhone() %>">
+			</div>
+			<div class="writing-box">
+			    <input type="email" name="email" value="<%= loginUser.getEmail() %>">
+			</div>
+			<div class="writing-box">
+			    <input type="text" name="address" value="<%= loginUser.getAddress() %>">
+			</div>
+			<button type="submit" class="submit-btn">회원정보수정</button>
+		</div>
+        </form>
        </div>
       </div>
     </div>

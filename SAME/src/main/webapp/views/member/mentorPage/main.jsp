@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+    String contextPath = request.getContextPath();
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -184,6 +188,7 @@ body {
 	margin: 20px 0;
 }
 </style>
+</head>
 <body>
 	<div class="main">
 		<%@ include file="/views/common/mainHeader.jsp"%>
@@ -191,19 +196,18 @@ body {
 		<br> <br>
 		<!-- 컨테이너 시작-->
 		<div class="container">
-			<%@ include file="/views/common/sidebarMentee.jsp"%>
+			<%@ include file="/views/common/sidebarMentor.jsp"%>
 			<div class="mentor-info">
 				<!-- 회원 정보 박스 -->
 				<div class="info-box">
 					<img class="profile-image"
 						src="https://via.placeholder.com/256x256" alt="Profile Image" />
-					<a href="회원정보수정.html" class="text-red"
-						style="text-decoration: none;">회원정보 수정</a>
 				</div>
-				<input type="text" class="input-box" style="top: 21px;"
-					placeholder="아이디" /> <input type="text" class="input-box"
-					style="top: 99px;" placeholder="이름" /> <input type="text"
-					class="input-box" style="top: 185px;" placeholder="이메일" />
+					<a href="<%=contextPath%>/member/modify" class="text-red" style="text-decoration: none;">회원정보 수정</a>
+
+				<div class="input-box" style="top: 21px">아이디</div>
+				<div class="input-box" style="top: 99px;">이름</div>
+				<div class="input-box" style="top: 185px;">이메일</div>
 
 				<div class="container">
 					<div class="section">
@@ -223,7 +227,7 @@ body {
 					<div class="section">
 						<div class="section-title">정산</div>
 						<div class="item">
-							<span class="item-title">정산 내역 조회</span>
+							<span class="item-title"><a href="<%=contextPath%>/views/member/mentorPage/payment.jsp" style="text-decoration: none; color: rgb(0, 0, 0);">정산 내역 조회</a></span>
 						</div>
 					</div>
 
@@ -246,12 +250,23 @@ body {
 					<div class="section">
 						<div class="section-title">스케줄표</div>
 						<div class="item">
-							<span class="item-title">스케줄표 수정/삭제</span>
+							<span class="item-title"><a href="<%=contextPath%>/views/member/mentorPage/schedule.jsp" style="text-decoration: none; color: rgb(0, 0, 0);">스케줄표 수정/삭제</a></span>
 						</div>
 					</div>
-
-					<input type="submit" class="delete-button" value="회원탈퇴" />
-				</div>
+					
+					<form action="<%=contextPath%>/member/quitMember" method="post" name="quitMember">
+						<input type="hidden" name="memberId" value="${sessionScope.memberId}">
+						<input type="submit" class="delete-button" value="회원탈퇴" onclick="confirmQuit()"/>
+					</form>
+										
+					<script>
+						function confirmQuit() {
+							const quitScuccess = confirm("정말 회원 탈퇴하시겠습니까?");
+							if (quitScuccess) {
+								document.quitForm.submit();
+							}
+						}
+					</script>
 			</div>
 		</div>
 	</div>

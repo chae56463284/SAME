@@ -19,14 +19,4 @@
     <filter-name>EncodingFilter</filter-name>
     <url-pattern>/EncodingFilter</url-pattern>
   </filter-mapping>
-  <servlet>
-    <description></description>
-    <display-name>mentorInsertController</display-name>
-    <servlet-name>mentorInsertController</servlet-name>
-    <servlet-class>com.kh.member.controller.mentorInsertController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>mentorInsertController</servlet-name>
-    <url-pattern>/mentorInsertController</url-pattern>
-  </servlet-mapping>
 </web-app>
