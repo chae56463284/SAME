@@ -83,7 +83,10 @@
     <div class="set">
         
         <div class="bigBox">
-             <div class="forgotText">가입하신 이메일주소로 아이디가 전송되었습니다.</div>
+             <!-- 찾은 아이디 출력 -->
+        <div class="forgotText">
+          당신의 아이디는 <b><%= request.getAttribute("memberId") %></b> 입니다.
+        </div>
              <!-- <div class="forgotText">가입하신 이메일주소로 새로운 비밀번호가 전송되었습니다.</div> -->
              <div class="btn-id"><a href="/same/views/member/login.jsp">로그인하기</a></div>
              <div class="btn-id"><a href="/same">메인으로</a></div>

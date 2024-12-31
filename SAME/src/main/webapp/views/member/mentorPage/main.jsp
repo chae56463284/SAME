@@ -191,7 +191,7 @@ body {
 		<br> <br>
 		<!-- 컨테이너 시작-->
 		<div class="container">
-			<%@ include file="/views/common/sidebarMentee.jsp"%>
+			<%@ include file="/views/common/sidebarMentor.jsp"%>
 			<div class="mentor-info">
 				<!-- 회원 정보 박스 -->
 				<div class="info-box">

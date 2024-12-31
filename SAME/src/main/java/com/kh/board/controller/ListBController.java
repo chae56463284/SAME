@@ -3,11 +3,11 @@ package com.kh.board.controller;
 
 import java.io.IOException;
 import java.util.List;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import com.kh.board.model.service.BoardService;
 import com.kh.board.model.vo.Board;
 import com.kh.common.model.vo.PageInfo;
@@ -66,7 +66,7 @@ public class ListBController extends HttpServlet {
 				PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, startPage, endPage, maxPage);
 				
 				// 1. 현재 사용자가 요청한 페이지에 맞는 "게시글 목록" 데이터 조회하기
-				List<Board> list = new BoardService().selectBoardList(pi);
+				List<Board> list = new BoardService().selectBoardList(pi,'b');
 				request.setAttribute("list", list);
 				request.setAttribute("pi", pi);
 				

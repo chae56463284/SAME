@@ -63,18 +63,6 @@ body {
 	cursor: pointer;
 }
 
-/* 성별 정렬문제 해결을 위해 추가 */
-.gender {
-	gap: 20px; /* 성별 텍스트와 체크박스 간격 */
-	font-size: 16px;
-}
-
-.gender label {
-	display: flex;
-	gap: 5px; /* 체크박스와 텍스트 간격 */
-	font-size: 14px;
-}
-
 .submit-btn {
 	height: 50px;
 	background-color: #FF5C3D;
@@ -100,7 +88,6 @@ body {
 </style>
 </head>
 <body>
-
 	<!-- head 시작-->
 	<div class="main">
 
@@ -108,44 +95,48 @@ body {
 		<%@ include file="/views/common/searchbar.jsp"%>
 
 		<div class="container">
+			<%@ include file="/views/common/sidebarMembership.jsp"%>
 			<!-- 컨테이너 시작-->
 			<div class="sign-up-form">
 				<!-- 사이드바 -->
-				<%@ include file="/views/common/sidebarMembership.jsp"%>
-				<form id="signup" action="${pageContext.request.contextPath}/member/insert" method="post">
+				<form id="signup"
+					action="${pageContext.request.contextPath}/member/insert"
+					method="post">
+					<!-- 히든 필드로 memberType 값 전달 -->
+					<input type="hidden" name="memberType" value="<%=memberType != null ? memberType : "B"%>">
 					<div class="writing-box">
-						<input type="text" id="id" name="id" class="id-box"
-							placeholder="아이디">
+						<input type="text" id="id" name="memberId" class="id-box"
+							placeholder="아이디" required>
 						<button type="button" class="duplicate-btn">중복</button>
 					</div>
 					<div class="writing-box">
-						<input type="password" id="password" name="password"
-							class="input-box" placeholder="비밀번호">
+						<input type="password" id="password" name="memberPwd"
+							class="input-box" placeholder="비밀번호" required>
 					</div>
 					<div class="writing-box">
 						<input type="password" id="password-confirm"
-							name="passwordConfirm" class="input-box" placeholder="비밀번호 확인">
+							name="passwordConfirm" class="input-box" placeholder="비밀번호 확인"
+							required>
 					</div>
 					<div class="writing-box">
-						<input type="text" id="name" name="name" class="input-box"
-							placeholder="이름">
+						<input type="text" id="name" name="memberName" class="input-box"
+							placeholder="이름" required>
 					</div>
 					<div class="writing-box">
 						<input type="text" id="phone" name="phone" class="input-box"
-							placeholder="연락처">
+							placeholder="연락처" required>
 					</div>
 					<div class="writing-box">
-						<input type="text" id="ssn" name="ssn" class="input-box"
-							placeholder="주민번호">
+						<input type="text" id="ssn" name="memberSSN" class="input-box"
+							placeholder="주민번호" required>
 					</div>
-					
 					<div class="writing-box">
 						<input type="email" id="email" name="email" class="input-box"
-							placeholder="EMAIL">
+							placeholder="EMAIL" required>
 					</div>
 					<div class="writing-box">
 						<input type="text" id="address" name="address" class="input-box"
-							placeholder="주소">
+							placeholder="주소" required>
 					</div>
 					<button type="submit" class="submit-btn">회원가입</button>
 					<button type="button" class="kakao-btn">카카오로 시작하기</button>
@@ -153,30 +144,44 @@ body {
 			</div>
 		</div>
 	</div>
-	<!-- 컨테이너 끝 -->
-	<script>
-    document.querySelector('.duplicate-btn').addEventListener('click', function() {
-        const userId = document.getElementById('id').value;
-        fetch(`/checkDuplicate?userId=${userId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.isDuplicate) {
-                    alert('이미 사용 중인 아이디입니다.');
-                } else {
-                    alert('사용 가능한 아이디입니다.');
 
-                }
-            });
-    });
-    
-    document.getElementById('signup').addEventListener('submit', function(event) {
-        const password = document.getElementById('password').value;
-        const passwordConfirm = document.getElementById('password-confirm').value;
-        if (password !== passwordConfirm) {
-            alert('비밀번호가 일치하지 않습니다.');
-            event.preventDefault();
+	<script>
+	fetch('${pageContext.request.contextPath}/checkDuplicate?userId=' + userId)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('네트워크 응답에 문제가 있습니다.');
         }
+        return response.json();
+    })
+    .then(data => {
+        if (data.isDuplicate) {
+            alert('이미 사용 중인 아이디입니다.');
+        } else {
+            alert('사용 가능한 아이디입니다.');
+        }
+    })
+    .catch(error => {
+        console.error('오류 발생:', error);
+        alert('중복 확인 중 오류가 발생했습니다. 다시 시도해주세요.');
     });
+        
+        document.getElementById('signup').addEventListener('submit', function (event) {
+            const memberType = document.querySelector('input[name="memberType"]').value;
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('password-confirm').value;
+
+            // 비밀번호 확인
+            if (password !== passwordConfirm) {
+                alert('비밀번호가 일치하지 않습니다.');
+                event.preventDefault();
+                return;
+            }
+
+            // 멘토 회원가입인 경우 알림
+            if (memberType === 'A') {
+                alert('회원가입 후 이력서 입력 페이지로 이동합니다.');
+            }
+        });
     </script>
 </body>
 </html>

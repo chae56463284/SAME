@@ -92,7 +92,7 @@ private Properties prop = new Properties();
 		List<Board> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectBoardListC");
+		String sql = prop.getProperty("selectBoardList"+(boardType == 'a'?"A":boardType=='b'?"B":"C" ));
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -109,9 +109,9 @@ private Properties prop = new Properties();
 			int startRow = (pi.getCurrentPage() -1)* pi.getBoardLimit() +1 ;
 			int endRow = startRow + pi.getBoardLimit() -1 ;
 			
-			pstmt.setString(1, Character.toString(boardType));
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
+
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
 			
 			rset = pstmt.executeQuery();
 			
@@ -122,6 +122,7 @@ private Properties prop = new Properties();
 						 	   .boardTitle(rset.getString("BOARD_TITLE"))
 						 	   .createDate(rset.getDate("CREATE_DATE"))
 						 	   .count(rset.getInt("COUNT"))
+						 	   .rNum(rset.getInt("RNUM"))
 						 	   .build();
 				list.add(b);
 			}
@@ -267,17 +268,24 @@ private Properties prop = new Properties();
 		PreparedStatement pstmt =null;
 		String sql = prop.getProperty("insertBoard");
 		
+		String type = b.getBoardType()=='a'?"a":b.getBoardType()=='b'?"b":"c";
+		
 		try {
+			System.out.println("실행될 SQL: " + sql); // 디버깅용
+	        System.out.println("게시글 데이터: " + b.toString()); // 디버깅용
+			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, 1); // 일반 게시판
-			pstmt.setString(2, b.getCategory().getCategoryName());
+			pstmt.setString(1, b.getMemberNo()); // 회원번호
+			pstmt.setString(2, type); // 일반 게시판
 			pstmt.setString(3, b.getBoardTitle());
 			pstmt.setString(4, b.getBoardContent());
-			pstmt.setString(5, b.getMemberNo());
+			pstmt.setString(5, b.getCategory().getCategoryName()); //말머리 추가
 			
 			updateCount = pstmt.executeUpdate();
+			System.out.println("실행 결과: " + updateCount); // 디버깅용
 		} catch (SQLException e) {
 			e.printStackTrace();
+	        System.out.println("SQL 오류: " + e.getMessage()); // 디버깅용
 		} finally {
 			close(pstmt);
 		}

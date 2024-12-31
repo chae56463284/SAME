@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
-<%
-	String contextPath = request.getContextPath(); // /same
-%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -104,9 +102,8 @@
 	</div>
 
 	<script>
-
-        // LogoPlaceholder 색상 변경 함수
-        function changeColor(element) {
+  // LogoPlaceholder 색상 변경 함수
+  function changeColor(element) {
             // 모든 LogoPlaceholder에서 빨간색 클래스를 제거
             const placeholders = document.querySelectorAll('.LogoPlaceholder');
             placeholders.forEach(function(placeholder) {
@@ -116,6 +113,9 @@
             element.classList.add('red');
         }
 
+		 // 현재 선택된 메뉴 아이템을 저장하는 변수
+		 let selectedMenuItem = null;
+
         // MenuItem 클릭 시 색상 변경 및 이벤트 버블링 처리
         document.querySelectorAll('.MenuItem').forEach(item => {
             item.addEventListener('click', function (event) {
@@ -123,12 +123,33 @@
                 const logoPlaceholder = this.querySelector('.LogoPlaceholder');
                 if (logoPlaceholder) {
                     changeColor(logoPlaceholder);
+					selectedMenuItem = logoPlaceholder; // 선택된 메뉴 아이템 저장
                 }
+				// 페이지 전환을 약간 지연
+				const link = this.querySelector('.Label a').href; // 링크 주소
+            	setTimeout(() => {
+                window.location.href = link; // 페이지 전환
+           		}, 300); // 0.3초 후에 전환
+
 
                 // 클릭 이벤트가 전파되지 않도록 함
                 event.stopPropagation();
             });
         });
+			// 페이지 로드 시 선택된 메뉴 아이템의 색상 유지
+		window.addEventListener('load', function() {
+			// URL에 따라 선택된 메뉴 아이템을 찾기
+			const currentUrl = window.location.href;
+			document.querySelectorAll('.MenuItem').forEach(item => {
+				const link = item.querySelector('.Label a').href;
+				if (link === currentUrl) {
+					const logoPlaceholder = item.querySelector('.LogoPlaceholder');
+					if (logoPlaceholder) {
+						changeColor(logoPlaceholder);
+					}
+				}
+			});
+		});
     </script>
 
 </body>

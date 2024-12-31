@@ -54,50 +54,6 @@
         width: 500px;
         height: 50px;
     }
-    /* 멘티/멘토 버튼 컨테이너 */
-    .login-tabs {
-        display: flex;
-        justify-content: center;
-        gap: 13px;
-        margin-left: -35%;
-    }
-
-    .loginMe, .loginMt {
-        width: 120px;
-        height: 40px;
-        text-align: center;
-        line-height: 40px;
-        font-size: 16px;
-        font-weight: 500;
-        border-radius: 20px 20px 0 0;
-        cursor: pointer;
-        margin-bottom: -3%;
-        
-    }
-
-    .loginMe {
-        background: #FF5C3D;
-        color: white;
-        margin-left: -10%;
-    }
-
-    .loginMt {
-        background: white;
-        color: black;
-        border: 1px solid #E0E0E0;
-        margin-left: -2%;
-    }
-
-    .loginMe.active, .loginMt.active {
-        background: #FF5C3D;
-        color: white;
-    }
-
-    .loginMe.inactive, .loginMt.inactive {
-        background: white;
-        color: black;
-        border: 1px solid #E0E0E0;
-    }
 
     /* LOGIN 텍스트 */
     .Login {
@@ -176,12 +132,7 @@
     <div class="set">
       
       <div class="bigBox">
-		<form id="login" action="${pageContext.request.contextPath}/member/login" method="post">
-		    <!-- 멘티/멘토 버튼 -->
-		    <div class="login-tabs">
-		        <div class="loginMe active" id="mentee">멘티</div>
-		        <div class="loginMt inactive" id="mentor">멘토</div>
-		    </div>
+		<form id="login" action="<%= contextPath %>/member/login" method="post">
 		
 		    <div class="Login">LOGIN</div>
 		
@@ -200,7 +151,9 @@
      
              <!-- 카카오 추후 로그인 로고 추가-->
              <div class="kakaoGo">
-               <div class="Image2">카카오 로그인</div>
+            <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=5d34fc02d1d535fbd842d2990b1aafe3&redirect_uri=${REDIRECT_URI}">
+                <button type="submit" class="kakao"> <a href="/same/views/memver/kakao.jsp">카카오로 로그인</a></button>
+            </a>
              </div>
              
              <div class="link-button"><a href="/same/views/member/signup.jsp">회원가입</a></div>
@@ -209,27 +162,5 @@
     </div>
   </div>
 
-  <!-- 멘토, 멘티 클릭시 색을 바꾸는 script-->
-  <script>
-    var menteeButton = document.getElementById("mentee");
-    var mentorButton = document.getElementById("mentor");
-    var memberTypeInput = document.getElementById("memberType");
-
-    menteeButton.addEventListener("click", () => {
-        menteeButton.classList.add("active");
-        menteeButton.classList.remove("inactive");
-        mentorButton.classList.add("inactive");
-        mentorButton.classList.remove("active");
-        memberTypeInput.value = "멘티"; // 멘티로 설정
-    });
-
-    mentorButton.addEventListener("click", () => {
-        mentorButton.classList.add("active");
-        mentorButton.classList.remove("inactive");
-        menteeButton.classList.add("inactive");
-        menteeButton.classList.remove("active");
-        memberTypeInput.value = "멘토"; // 멘토로 설정
-    });
-    </script>
 </body>
 </html>

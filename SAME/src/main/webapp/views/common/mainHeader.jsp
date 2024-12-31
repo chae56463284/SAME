@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+    <%@ page import="com.kh.member.model.vo.Member" %>
+<%
+Member loginUser = (Member) session.getAttribute("loginUser");
+System.out.println(loginUser);
+
+String alertMsg = (String)session.getAttribute("alertMsg");
+String contextPath = request.getContextPath(); // /same
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +49,7 @@ body {
 </head>
 <body>
 	<div class="main">
-		<div class="SameSame">SAME SAME</div>
+		<div class="SameSame"><a href="<%=contextPath%>" style="color: #FF5C3D;">SAME SAME</a></div>
 	</div>
 </body>
 </html>

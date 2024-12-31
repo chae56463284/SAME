@@ -2,13 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, com.kh.board.model.vo.Board, com.kh.common.model.vo.PageInfo" %>
 <%
-	/* List<Board> list = (List<Board>) request.getAttribute("list");
+	List<Board> list = (List<Board>) request.getAttribute("list");
 	PageInfo pi = (PageInfo) request.getAttribute("pi");
 	
 	int currentPage = pi.getCurrentPage();
 	int startPage = pi.getStartPage();
 	int endPage= pi.getEndPage();
-	int maxPage = pi.getMaxPage(); */
+	int maxPage = pi.getMaxPage();
 %>    
 <!DOCTYPE html>
 <html>
@@ -34,15 +34,14 @@
 		/* 게시판스타일 시작 */
 		.table {
 			width: 910px;
-			flex-direction: column; /*태그 컬럼형식으로 표기*/
-			display: flex;
-			font-size: 14px;
-			/* border-collapse: collapse; 테이블 경계 합치기 */
-			/* font-family: 'Inter', sans-serif;  본문 글꼴 설정*/
-			background-color: #fff; /* 배경색 추가로 테이블 강조 */
-			border: 1px solid #ddd; /* 테두리 추가 */
-			border-radius: 5px; /* 테두리 둥글게 */
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px; /* 패딩 추가 */
 			margin-left: 27%;
 			margin-right: auto;
 			margin-top: 5%;
@@ -50,12 +49,32 @@
 		}
 		
 		.Title {
+			
 			width: 100%;
 			font-weight: 900;
 			font-size: 20px;
 			text-align: left; /*텍스트 정렬*/
-			padding-left: 20px; /*텍스트 시작 패딩 공간 설정*/
+			padding : 9px; /*텍스트 시작 패딩 공간 설정*/
+			display: flex; /* Flexbox 활성화 */
+			justify-content: space-between; /* 양 끝 정렬 */
+			align-items: center; /* 세로 중앙 정렬 */
+			
 		}
+		.btn-secondary {
+			padding: 10px 20px;         /* 버튼 내 여백 설정 */
+			background-color: #ff5c3d;  /* 배경색 설정 */
+			color: #fff;                /* 글자색 설정 */
+			border: none;               /* 테두리 제거 */
+			border-radius: 5px;        /* 테두리 둥글게 */
+			font-size: 16px;            /* 글자 크기 설정 */
+			text-align: center;         /* 텍스트 중앙 정렬 */
+			cursor: pointer;            /* 커서 모양 변경 */
+			display: flex;              /* Flexbox로 설정하여 내부 글씨 가로 정렬 */
+			align-items: center;        /* 세로 중앙 정렬 */
+			justify-content: center;    /* 가로 중앙 정렬 */
+		}
+		
+
 		
 		a {
 			text-decoration: none; /* 링크의 밑줄 제거 */
@@ -112,6 +131,25 @@
 			font-size: 14px;
 			cursor: pointer;
 		}
+		.write-button {
+            background-color: #FF5C3D; /* 버튼 배경색 */
+            color: white; /* 버튼 글자색 */
+            border: none; /* 테두리 제거 */
+            padding: 8px 12px; /* 패딩 줄이기 */
+            border-radius: 5px; /* 둥근 모서리 */
+            font-size: 14px; /* 글자 크기 줄이기 */
+            cursor: pointer; /* 커서 포인터 */
+            float: right; /* 오른쪽 정렬 */
+            margin-left: 20px; /* 제목과 버튼 사이 마진 추가 */
+            transition: background-color 0.3s; /* 배경색 전환 효과 */
+        }
+        .write-button:hover {
+            background-color: #e54c2e; /* 호버시 배경색 변경 */
+        }
+		input.type > {
+		display:none;
+		}
+
 	</style>
 </head>
 <body>
@@ -125,87 +163,40 @@
 				<div class="table">
 					<%@ include file="/views/common/sidebarBoard.jsp" %> <!-- 사이드바메뉴 -->
 				<div class="Title">
-					<div class="PlaylistSectionTitle">자유게시판_관리모드</div>
+					<div class="PlaylistSectionTitle">자유게시판</div>
+					<button class="write-button" onclick="location.href='<%= contextPath %>/board/insert'" value="a" name="boardType">글 작성</button> <!-- 글 작성 버튼 -->
 				</div>
 				<div class="table-header">
-					<div>Border_No</div>
+					<div>번호</div>
 					<div class="title">글제목</div>
 					<div>작성자ID</div>
 					<div>작성일</div>
 					<div>조회수</div>
 				</div>
 				<!-- 반복되는 행 -->
-				<%--  <% for(Board b : list) { %>
-				<div class="table-row">
-					<div><%= b.getboardNo() %></div>
-					<div class="title"><a href=""> <%= b.getboardTitle() %> </a></div>
-					<div> <%= b.getmemberNo() %> </div>
-					<div> <%= b.getCreateDate() %> </div>
-					<div> <%= b.getCount() %> </div> 
-				</div>
-				 <% } %>
-                <% } %> --%>
-				<!-- 추가 행들 -->
+             <div class="table-row">
+                         <%if(list.isEmpty()) { %>
+                    <div colspan="6">조회된 리스트가 없습니다.</div>
+			<% } else{ %>
+			
+			<% for (Board b : list) { %>
+					<div><%= b.getRNum() %></div>
+					
+					<div class="title"><a href=""><%= b.getBoardTitle() %></a></div>
+					<div><%= b.getMemberNo() %></div>
+					<div><%= b.getCreateDate() %></div>
+					<div><%= b.getCount() %></div>
 
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">최근 가장 인기 있는 멘토는?</a></div>
-					<div>mentor02</div>
-					<div>2024-12-01</div>
-					<div></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">가장 기억에 남는 포트폴리오 추천해주세요!</a></div>
-					<div>mentor01</div>
-					<div>2024-12-15</div>
-					<div><button>삭제</button></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">기억에 남는 수강 경험이 있나요?</a></div>
-					<div>mentor02</div>
-					<div>2024-12-01</div>
-					<div><button>삭제</button></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">궁금한점 무엇이든 물어보세요!</a></div>
-					<div>mentor01</div>
-					<div>2024-12-15</div>
-					<div><button>삭제</button></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">나의 공부법을 공개합니다!</a></div>
-					<div>mentor02</div>
-					<div>2024-12-01</div>
-					<div><button>삭제</button></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">어떤 음악을 듣고 계신가요?</a></div>
-					<div>mentor01</div>
-					<div>2024-12-15</div>
-					<div><button>삭제</button></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">내생각을 적어본다</a></div>
-					<div>mentor02</div>
-					<div>2024-12-01</div>
-					<div><button>삭제</button></div>
-				</div>
-				<div class="table-row">
-					<div>NO_100</div>
-					<div class="title"><a href="">관리자님 프로모션 계획은 없나요?~</a></div>
-					<div>mentor02</div>
-					<div>2024-12-01</div>
-					<div><button>삭제</button></div>
-				</div>
+				<% } %>
+			<% } %>
+				
 						
-				<!--강의시 사용한 페이징 바-->
-				<%-- <div align="center" class="paging-area">
+				
+
+
+		</div>
+		<!--강의시 사용한 페이징 바-->
+				<div align="center" class="paging-area">
 					<% if(currentPage != 1){ %>
 					<button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
 					<% }%>
@@ -219,16 +210,13 @@
 					<button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
 					<% } %>
 				</div>
-			</dis>
+			</div>
 			<script>
 				function movePage(cpage){
-					location.assign('<%= contextPath %>/board/list?cpage='+cpage);
+					location.assign('<%= contextPath %>/board/lista?cpage='+cpage);
 				}
-			</script> --%>
+			</script>
 			<!--강의시 사용한 페이징 바-->
-
-
-		</div>
 </div>
 		
 	

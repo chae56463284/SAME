@@ -1,10 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"import="com.kh.board.model.vo.*, com.kh.board.model.dto.BoardDTO" %>
+<%
+	BoardDTO b = (BoardDTO) request.getAttribute("b");
+	Board board = b.getB();
+	Category c = board.getCategory();
+	Attachment at = b.getAt();
+%>	
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시글 상세</title>
 <style>
 body {
 	display: flex;
@@ -222,20 +228,20 @@ to {
 			<div class="detail-container">
 				<!-- 글 제목과 정보 -->
 				<div class="detail-header">
-					<span class="category">기타</span>
-					<h1 class="detail-title">채비누너무기여워!!!!!!!!!!</h1>
+					<span class="category"><%= c.getCategoryName() %></span>
+					<h1 class="detail-title"><%= board.getBoardTitle() %></h1>
 					<div>
-						<span class="detail-user">익명</span> <span class="detail-date">2024.12.12.
+						<span class="detail-user"><%= board.getMemberNo() %></span> <span class="detail-date">2024.12.12.
 							16:53</span>
 					</div>
 				</div>
 				<hr>
 				<!-- 작성 내용 -->
-				<div class="detail-content">완죠니 귀엽자나!!!!!!!!!</div>
+				<div class="detail-content"><%= board.getBoardContent() %></div>
 
 				<!-- 이미지 -->
 				<div class="image-container">
-					<img src="https://via.placeholder.com/381x276" alt="Uploaded Image">
+					<img src="<%= at.getFilePath() %>" alt="Uploaded Image">
 				</div>
 				<div class="report">
 					<!-- 신고 버튼 -->
@@ -253,7 +259,7 @@ to {
 						</div>
 						<div class="popup-content">
 							<form id="reportForm">
-								<!-- 말머리 -->
+								말머리
 								<div class="form-group">
 									<label for="reason">말머리</label> <select id="reason"
 										name="reason">
@@ -261,7 +267,7 @@ to {
 										<option value="스팸">스팸</option>
 										<option value="부적절한 내용">부적절한 내용</option>
 									</select>
-								</div>
+								</div> 
 
 								<!-- 내용 -->
 								<div class="form-group">
@@ -274,7 +280,7 @@ to {
 						</div>
 					</div>
 				</div>
-				<%@ include file="/views/board/comment.jsp"%>
+				<%@ include file="/views/board/reply.jsp"%>
 			</div>
 		</div>
 	</div>

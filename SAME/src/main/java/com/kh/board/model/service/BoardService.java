@@ -8,19 +8,24 @@ import static com.kh.common.template.JDBCTemplate.rollback;
 import java.io.File;
 import java.sql.Connection;
 import java.util.List;
-import java.util.Locale.Category;
+//import java.util.Locale.Category; //변경필요
 
 import com.kh.board.model.dao.BoardDao;
+import com.kh.board.model.dao.ClassEvaluationDao;
 import com.kh.board.model.dto.BoardDTO;
+import com.kh.board.model.dto.ClassEvaluation;
 import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
+import com.kh.board.model.vo.Category;
 import com.kh.board.model.vo.Reply;
 import com.kh.common.model.vo.PageInfo;
 
 
 public class BoardService {
-private BoardDao dao= new BoardDao();
+
+	private BoardDao dao= new BoardDao();
 	
+	// 게시글 목록 조회
 	public List<Board> selectBoardList(PageInfo pi) {
 		
 		Connection conn = getConnection();
@@ -32,6 +37,7 @@ private BoardDao dao= new BoardDao();
 		return list;
 	}
 	
+	// 게시글 카테고리별(a,b,c) 목록 조회
 	public List<Board> selectBoardList(PageInfo pi, char boardType) {
 		
 		Connection conn = getConnection();
@@ -43,7 +49,7 @@ private BoardDao dao= new BoardDao();
 		return list;
 	}
 
-
+	// 게시글 수 조회
 	public int selectListCount() {
 		
 		Connection conn = getConnection();
@@ -65,7 +71,8 @@ private BoardDao dao= new BoardDao();
 			return listCount;
 		
 	}
-
+	
+	// 게시글 상세 조회	
 	public BoardDTO selectBoard(int bno) {
 	
 		Connection conn = getConnection();
@@ -77,7 +84,9 @@ private BoardDao dao= new BoardDao();
 		return b;
 	}
 
+	// 카테고리 목록 조회
 	public List<Category> selectCategoryList() {
+		
 		Connection conn = getConnection();
 		List<Category> list = dao.selectCategoryList(conn);
 		
@@ -85,7 +94,8 @@ private BoardDao dao= new BoardDao();
 		
 		return list;
 	}
-
+	
+	//게시글 등록
 	public int insertBoard(Board b, Attachment at) {
 		Connection conn = getConnection();
 		
@@ -108,7 +118,51 @@ private BoardDao dao= new BoardDao();
 		
 		return result;
 	}
-
+	
+	//별점 등록기능
+	public int insertBoardAndEvaluation(Board b, Attachment at, ClassEvaluation eval) {
+		Connection conn = getConnection();
+	    int result = 0;
+	    
+	    try {
+	        // 1. 게시글 등록
+	        int boardResult = new BoardDao().insertBoard(conn, b);
+	        
+	        if(boardResult > 0) {
+	            // 2. 방금 등록된 게시글 번호 조회 (또는 Board 객체에서 직접 가져오기)
+	            int boardNo = b.getBoardNo(); // Board 객체에 번호가 있다면
+	            // 없다면: int boardNo = new BoardDao().selectLastBoardNo(conn);
+	            
+	            // 3. 첨부파일이 있다면 등록
+	            int attachResult = 1;
+	            if(at != null) {
+	                at.setRefNo(boardNo);
+	                attachResult = new BoardDao().insertAttachment(conn, at);
+	            }
+	            
+	            // 4. 평가 정보 등록
+	            eval.setBoardNo(boardNo);
+	            int evalResult = new ClassEvaluationDao().insertEvaluation(conn, eval);
+	            
+	            if(attachResult > 0 && evalResult > 0) {
+	                commit(conn);
+	                result = 1;
+	            } else {
+	                rollback(conn);
+	            }
+	        } else {
+	            rollback(conn);
+	        }
+	    } catch(Exception ex) {
+	        rollback(conn);
+	        ex.printStackTrace();
+	    } finally {
+	        close(conn);
+	    }
+	    
+	    return result;
+	}
+	// 게시글 수정
 	public int updateBoard(Board b, Attachment at, int isDelete, String serverFolderPath) {
 		Connection conn = getConnection();
 		
@@ -159,6 +213,7 @@ private BoardDao dao= new BoardDao();
 		return result;
 	}
 
+	// 썸네일 목록 조회
 	public List<BoardDTO> selectThumbList() {
 		Connection conn = getConnection();
 		
@@ -169,6 +224,7 @@ private BoardDao dao= new BoardDao();
 		return list;
 	}
 
+	// 썸네일 게시글 등록
 	public int insertThumbBoard(Board b, List<Attachment> list) {
 
 		Connection conn = getConnection();
@@ -190,6 +246,7 @@ private BoardDao dao= new BoardDao();
 		return result;
 	}
 
+	// 첨부파일 목록 조회
 	public List<Attachment> selectAttachmentList(int bno) {
 		
 		Connection conn = getConnection();
@@ -201,6 +258,7 @@ private BoardDao dao= new BoardDao();
 		return list;
 	}
 
+	// 댓글 등록
 	public int insertReply(Reply r) {
 		Connection conn = getConnection();
 		
@@ -217,6 +275,7 @@ private BoardDao dao= new BoardDao();
 		return result;
 	}
 
+	// 댓글 목록 조회
 	public List<Reply> selectReplyList(int refBno) {
 		
 		Connection conn = getConnection();

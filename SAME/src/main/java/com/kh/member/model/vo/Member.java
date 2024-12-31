@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Member {
-	
 	private String memberNo;
 	private String memberId;
 	private String memberPwd;
@@ -20,5 +19,7 @@ public class Member {
 	private String email;
 	private String isQuit;
 	private String socialCode;
-	private String memberType;
+	private String address;
+	private String memberType; //멘티멘토 구분
+	
 }

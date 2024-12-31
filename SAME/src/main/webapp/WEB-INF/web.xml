@@ -28,4 +28,14 @@
     <filter-name>EncodingFilter</filter-name>
     <url-pattern>/EncodingFilter</url-pattern>
   </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>boardUpdateController</display-name>
+    <servlet-name>boardUpdateController</servlet-name>
+    <servlet-class>com.kh.board.controller.boardUpdateController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>boardUpdateController</servlet-name>
+    <url-pattern>/boardUpdateController</url-pattern>
+  </servlet-mapping>
 </web-app>
