@@ -2,7 +2,7 @@ package com.kh.common.filter;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
+import javax.imageio.spi.ServiceRegistry.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -47,6 +47,12 @@ public class EncodingFilter extends HttpFilter implements Filter {
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public boolean filter(Object provider) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

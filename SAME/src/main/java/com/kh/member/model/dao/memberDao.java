@@ -136,41 +136,6 @@ public class memberDao {
 		return m;
 	}
 
-	public Member forgotPass(Connection conn, String memberName, String email, String memberId) {
-		Member m = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("forgotPass");
-		
-		try {
-	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, memberId);
-	        pstmt.setString(2, memberName);
-	        pstmt.setString(3, email);
-
-	        rset = pstmt.executeQuery();
-	        if (rset.next()) {
-	            m = Member.builder()
-	                    .memberNo(rset.getString("MEMBER_NO"))
-	                    .memberId(rset.getString("MEMBER_ID"))
-	                    .memberName(rset.getString("MEMBER_NAME"))
-	                    .phone(rset.getInt("PHONE"))
-	                    .memberSSN(rset.getString("MEMBER_SSN"))
-	                    .email(rset.getString("EMAIL"))
-	                    .isQuit(rset.getString("IS_QUIT"))
-	                    .socialCode(rset.getString("SOCIAL_CODE"))
-	                    .memberType(rset.getString("MEMBER_TYPE"))
-	                    .build();
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    } finally {
-	        close(rset);
-	        close(pstmt);
-	    }
-	    return m;
-	}
-	
 	public Member forgotPass(Connection conn, String memberId, String memberName, String email) {
 	    Member m = null;
 	    PreparedStatement pstmt = null;
@@ -445,6 +410,35 @@ public class memberDao {
 	    return result;
 	}
 
+	public int insertMentor(Connection conn, Member m) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		try {
+			// RESUME 테이블 삽입
+			String insertResume = prop.getProperty("insertResume");
+			pstmt = conn.prepareStatement(insertResume);
+			pstmt.setString(1, m.getMemberId());
+			result = pstmt.executeUpdate();
+			
+			if (result > 0) {
+				// 각 세부 정보 삽입
+				result += insertDetailInfo(conn, "RESUME_REGION", "REGION_NAME", m.getRegionName());
+				result += insertDetailInfo(conn, "RESUME_CLASS", "CLASS_NAME", m.getClassName());
+				result += insertDetailInfo(conn, "RESUME_EDUCATION", "EDUCATION", m.getEducation());
+				result += insertDetailInfo(conn, "RESUME_CAREER", "CAREER", m.getCareer());
+				result += insertDetailInfo(conn, "RESUME_LICENSE", "LICENSE", m.getLicense());
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result > 5 ? 1 : 0; // 모든 삽입이 성공하면 1 반환
+	}
+
 	private int insertDetailInfo(Connection conn, String tableName, String columnName, String value) 
 			throws SQLException {
 		if (value == null || value.isEmpty()) {
@@ -466,5 +460,30 @@ public class memberDao {
 		}
 		
 		return result;
+	}
+
+	public int delete(Connection conn, String memberPwd, String memberNo) {
+		int update = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("delete");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, memberNo);
+			pstmt.setString(2, memberPwd);
+			
+			System.out.println("memberNo: " + memberNo);
+			System.out.println("memberPwd: " + memberPwd);
+			
+			update = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return update;
+	
 	}
 }
