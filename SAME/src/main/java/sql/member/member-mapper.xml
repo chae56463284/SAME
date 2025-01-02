@@ -77,5 +77,39 @@
     AND (? IS NULL OR m.MEMBER_NAME LIKE ?)
     ORDER BY td.TD_DATE DESC
 </entry>
+<!-- 카테고리 목록 조회 -->
+<entry key="CategoryList">
+    SELECT 
+        CATEGORY_NAME,
+        CATEGORY_TYPE
+    FROM CATEGORY
+    WHERE CATEGORY_TYPE = ?
+</entry>
 
+<!-- 강의 등록 -->
+<entry key="insertClass">
+    INSERT INTO CLASS (
+        CLASS_CODE,
+        MENTOR_NO,
+        CLASS_TITLE,
+        CATEGORY,
+        REGION,
+        START_DATE,
+        END_DATE,
+        CLASS_DETAIL,
+        AMOUNT,
+        STATUS
+    ) VALUES (
+        SEQ_CLASS_CODE.NEXTVAL,
+        ?,
+        ?,
+        ?,
+        ?,
+        TO_DATE(?, 'YYYY-MM-DD'),
+        TO_DATE(?, 'YYYY-MM-DD'),
+        ?,
+        ?,
+        ?
+    )
+</entry>
 </properties>

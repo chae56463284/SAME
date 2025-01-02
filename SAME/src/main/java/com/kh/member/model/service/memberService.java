@@ -3,7 +3,9 @@ package com.kh.member.model.service;
 import java.sql.Connection;
 import java.util.List;
 
+import com.kh.board.model.vo.Category;
 import com.kh.member.model.dao.memberDao;
+import com.kh.member.model.vo.ClassVo;
 import com.kh.member.model.vo.Member;
 import com.kh.member.model.vo.Transaction;
 
@@ -128,4 +130,26 @@ public class memberService {
 	    return list;
 	}
 
+	public List<Category> CategoryList(String categoryType) {  // 파라미터 이름 변경
+	    Connection conn = getConnection();
+	
+	    List<Category> list = dao.CategoryList(conn, categoryType);  // 파라미터로 받은 값 전달
+	
+	    close(conn);
+	
+	    return list;
+	}
+
+	public int insertClass(ClassVo classInfo) {
+		Connection conn = getConnection();
+    	int result = dao.insertClass(conn, classInfo);
+	
+    	if(result > 0) {
+    	    commit(conn);
+    	} else {
+    	    rollback(conn);
+    	}
+    	close(conn);
+    	return result;
+	}
 }

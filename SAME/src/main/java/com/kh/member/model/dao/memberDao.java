@@ -14,6 +14,8 @@ import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 import java.util.Properties;
 
+import com.kh.board.model.vo.Category;
+import com.kh.member.model.vo.ClassVo;
 import com.kh.member.model.vo.Member;
 import com.kh.member.model.vo.Transaction;
 import static com.kh.common.template.JDBCTemplate.*;
@@ -298,61 +300,120 @@ public class memberDao {
 	}
 
 // Transaction 메소드 제거하고 transactionDetail만 유지
-public List<Transaction> transactionDetail(Connection conn, String mentorNo, 
+	public List<Transaction> transactionDetail(Connection conn, String mentorNo, 
         String startDate, String endDate, String status, String menteeName) {
-    PreparedStatement pstmt = null;
-    ResultSet rset = null;
-    List<Transaction> list = new ArrayList<>();
-    String sql = prop.getProperty("Transaction");
+    	PreparedStatement pstmt = null;
+    	ResultSet rset = null;
+    	List<Transaction> list = new ArrayList<>();
+    	String sql = prop.getProperty("Transaction");
 
-    try {
-        pstmt = conn.prepareStatement(sql);
-        
-        // 멘토 번호 설정
-        pstmt.setString(1, mentorNo);
-        
-        // 날짜 관련 파라미터
-        pstmt.setString(2, startDate);  // IS NULL 체크용
-        pstmt.setString(3, startDate);  // BETWEEN 시작일
-        pstmt.setString(4, endDate);    // BETWEEN 종료일
-        
-        // 상태 관련 파라미터
-        pstmt.setString(5, status);     // 'all' 체크용
-        pstmt.setString(6, status);     // 실제 상태값
-        
-        // 멘티명 관련 파라미터
-        pstmt.setString(7, menteeName); // IS NULL 체크용
-        pstmt.setString(8, "%" + menteeName + "%"); // LIKE 검색용
-        
-        rset = pstmt.executeQuery();
-        
-        while(rset.next()) {
-            Transaction detail = Transaction.builder()
-                .tdNo(rset.getInt("TD_NO"))
-                .enrollNo(rset.getInt("ENROLL_NO"))
-                .classCode(rset.getString("CLASS_CODE"))
-                .mentorNo(rset.getString("MENTOR_NO"))
-                .menteeNo(rset.getString("MENTEE_NO"))
-                .categoryName(rset.getString("CATEGORY_NAME"))
-                .tdDate(rset.getString("TD_DATE"))
-                .method(rset.getString("METHOD"))
-                .amount(rset.getInt("AMOUNT"))
-                .status(rset.getString("STATUS"))
-                .className(rset.getString("CLASS_NAME"))
-                .menteeName(rset.getString("MEMBER_NAME"))
-                .startDate(rset.getString("START_DATE"))
-                .endDate(rset.getString("END_DATE"))
-                .build();
-            
-            list.add(detail);
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } finally {
-        close(rset);
-        close(pstmt);
-    }
-    return list;
-}
+    	try {
+    	    pstmt = conn.prepareStatement(sql);
+	
+    	    // 멘토 번호 설정
+    	    pstmt.setString(1, mentorNo);
+	
+    	    // 날짜 관련 파라미터
+    	    pstmt.setString(2, startDate);  // IS NULL 체크용
+    	    pstmt.setString(3, startDate);  // BETWEEN 시작일
+    	    pstmt.setString(4, endDate);    // BETWEEN 종료일
+	
+    	    // 상태 관련 파라미터
+    	    pstmt.setString(5, status);     // 'all' 체크용
+    	    pstmt.setString(6, status);     // 실제 상태값
+	
+    	    // 멘티명 관련 파라미터
+    	    pstmt.setString(7, menteeName); // IS NULL 체크용
+    	    pstmt.setString(8, "%" + menteeName + "%"); // LIKE 검색용
+	
+    	    rset = pstmt.executeQuery();
+	
+    	    while(rset.next()) {
+    	        Transaction detail = Transaction.builder()
+    	            .tdNo(rset.getInt("TD_NO"))
+    	            .enrollNo(rset.getInt("ENROLL_NO"))
+    	            .classCode(rset.getString("CLASS_CODE"))
+    	            .mentorNo(rset.getString("MENTOR_NO"))
+    	            .menteeNo(rset.getString("MENTEE_NO"))
+    	            .categoryName(rset.getString("CATEGORY_NAME"))
+    	            .tdDate(rset.getString("TD_DATE"))
+    	            .method(rset.getString("METHOD"))
+    	            .amount(rset.getInt("AMOUNT"))
+    	            .status(rset.getString("STATUS"))
+    	            .className(rset.getString("CLASS_NAME"))
+    	            .menteeName(rset.getString("MEMBER_NAME"))
+    	            .startDate(rset.getString("START_DATE"))
+    	            .endDate(rset.getString("END_DATE"))
+    	            .build();
+	
+    	        list.add(detail);
+    	    }
+    	} catch (SQLException e) {
+    	    e.printStackTrace();
+    	} finally {
+    	    close(rset);
+    	    close(pstmt);
+    	}
+    	return list;
+	}
+
+	public List<Category> CategoryList(Connection conn, String categoryType) {
+	    PreparedStatement pstmt = null;
+	    ResultSet rset = null;
+	    List<Category> list = new ArrayList<>();
+	
+	    String sql = prop.getProperty("CategoryList");
+	
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, categoryType);
+	
+	        rset = pstmt.executeQuery();
+	
+	        while(rset.next()) {
+	            Category category = Category.builder()
+	                .categoryName(rset.getString("CATEGORY_NAME"))
+	                .categoryType(rset.getString("CATEGORY_TYPE"))
+	                .build();
+	
+	            list.add(category);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(rset);
+	        close(pstmt);
+	    }
+	    return list;
+	}
+
+	public int insertClass(Connection conn, ClassVo classInfo) {
+	    PreparedStatement pstmt = null;
+	    int result = 0;
+	
+	    String sql = prop.getProperty("insertClass");
+	
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+	
+	        pstmt.setString(1, classInfo.getMentorNo());
+	        pstmt.setString(2, classInfo.getClassTitle());
+	        pstmt.setString(3, classInfo.getCategory());
+	        pstmt.setString(4, classInfo.getRegion());
+	        pstmt.setString(5, classInfo.getStartDate());
+	        pstmt.setString(6, classInfo.getEndDate());
+	        pstmt.setString(7, classInfo.getClassDetail());
+	        pstmt.setInt(8, classInfo.getAmount());
+	        pstmt.setString(9, classInfo.getStatus());
+	
+	        result = pstmt.executeUpdate();
+	
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt);
+	    }
+	    return result;
+	}
 }
 

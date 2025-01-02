@@ -187,7 +187,7 @@ body {
 		<br> <br>
 		<!-- 컨테이너 시작-->
 		<div class="container">
-			<%@ include file="/views/common/sidebarMentee.jsp"%>
+			<%@ include file="/views/common/sidebarMentor.jsp"%>
 			<div class="payment">
 				<form action="<%=contextPath%>/member/payment" method="post" name="payment">
 					<div class="filter-section">
