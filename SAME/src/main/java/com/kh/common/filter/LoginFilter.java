@@ -1,7 +1,5 @@
 package com.kh.common.filter;
 
-import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -10,17 +8,24 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import java.io.IOException;
+
+import com.kh.member.model.vo.Member;
 
 /**
- * Servlet Filter implementation class EncodingFilter
+ * Servlet Filter implementation class LoginFilter
  */
-@WebFilter("/*")
-public class EncodingFilter extends HttpFilter implements Filter {
+@WebFilter(urlPatterns = {"/board/update", "/board/insert", "/board/delete", "/reply/*" , "/member/modify"})
+public class LoginFilter extends HttpFilter implements Filter {
        
     /**
      * @see HttpFilter#HttpFilter()
      */
-    public EncodingFilter() {
+    public LoginFilter() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,9 +41,18 @@ public class EncodingFilter extends HttpFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// 인코딩처리
-		request.setCharacterEncoding("UTF-8");  // 이 설정 완료시 doPost 메서드 내부에 인코딩 설정을 할 필요 x
-		System.out.println("UTF-8");
+
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
+		
+		HttpSession session = req.getSession();
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		if(loginUser == null) {
+			session.setAttribute("alertMsg", "### 로그인 후 이용해주세요 !!! ###");
+			res.sendRedirect(req.getContextPath());
+			return;
+		}
+		
 		chain.doFilter(request, response);
 	}
 

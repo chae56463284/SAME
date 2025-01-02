@@ -159,7 +159,7 @@
     <div class="set">
         
         <div class="bigBox">
-        <form id="forgotPass" action="${pageContext.request.contextPath}/member/forgotPass" method="post">
+        <form id="forgotPass" action="/same/member/forgotPass" method="post">
             <div class="login-tabs">
                 <!-- 멘티/멘토 버튼 -->
                 <div class="loginMe active" id="mentee">멘티</div>
@@ -171,19 +171,19 @@
         
                 <!-- 이름 email 작성 -->
              <div class="writing-id">
-               <input type="text" class="text-input" placeholder="ID">
+               <input type="text" class="text-input" placeholder="ID" name="memberId">
              </div>
              <div class="writing-name">
-               <input type="text" class="text-input" placeholder="NAME">
+               <input type="text" class="text-input" placeholder="NAME" name="memberName">
              </div>
              <div class="writing-email">
-                <input type="text" class="text-input" placeholder="EMAIL">
+                <input type="text" class="text-input" placeholder="EMAIL" name="email">
              </div>
-            
-             <div class="btn-pass"><a href="/same/views/member/forgotIDPASSResult.jsp">비밀번호 찾기</a></div>
+            	
+             <div type="submit" class="btn-pass"><a href="javascript:document.querySelector('#forgotPass').submit();">비밀번호 찾기</a></div>
      
              <div class="forgot-id"><a href="/same/views/member/forgotID.jsp">아이디 찾기</a></div>
-
+		 </form>
          </div>
     </div>
   </div>

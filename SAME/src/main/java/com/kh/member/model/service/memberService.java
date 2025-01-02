@@ -1,14 +1,19 @@
 package com.kh.member.model.service;
 
 import java.sql.Connection;
+import java.util.List;
 
+import com.kh.board.model.vo.Category;
 import com.kh.member.model.dao.memberDao;
+import com.kh.member.model.vo.ClassVo;
 import com.kh.member.model.vo.Member;
+import com.kh.member.model.vo.Transaction;
+
 import static com.kh.common.template.JDBCTemplate.*;
 
 public class memberService {
 
-	memberDao dao = new memberDao();
+	static memberDao dao = new memberDao();
 
 	public int insert(Member m) {
 		Connection conn = getConnection();
@@ -47,14 +52,105 @@ public class memberService {
 	}
 
 	public Member forgotPass(String memberId, String memberName, String email) {
+	    Connection conn = getConnection();
+	    Member m = dao.forgotPass(conn, memberId, memberName, email);
+	    close(conn);
+	    return m;
+	}
+
+	public boolean updatePassword(String memberId, String newPassword) {
+	    Connection conn = getConnection();
+	    boolean result = dao.updatePassword(conn, memberId, newPassword);
+	    if (result) {
+	        commit(conn);
+	    } else {
+	        rollback(conn);
+	    }
+	    close(conn);
+	    return result;
+	}
+
+	public boolean quitMember(String memberId) {
+		Connection conn = getConnection();
+		boolean success = dao.quitMember(conn, memberId);
+		
+		if(success) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return success;
+	}
+
+    public boolean myPageModify(Member member) {
+        Connection conn = getConnection();
+        boolean update = dao.myPageModify(conn, member);
+        
+        if (update) {
+            commit(conn);
+        } else {
+            rollback(conn);
+        }
+        close(conn);
+        return update;
+    }
+
+	public List<Member> myPage() {
 		Connection conn = getConnection();
 		
-		Member m = dao.forgotPass(conn, memberId, memberName, email);
+		List<Member> list = dao.myPage(conn);
 		
 		close(conn);
 		
-		return m;
+		return list;
 	
+	}
+	public Member getMemberInfo(String memberId) {
+	    Connection conn = null;
+	    Member memberInfo = null;
+	
+	    try {
+	        conn = getConnection();
+	        memberInfo = dao.getMemberInfo(conn, memberId);
+	    } finally {
+	        close(conn);
+	    }
+	    return memberInfo;
+	}
+
+	public List<Transaction> transactionDetail(String mentorNo, String startDate, String endDate,
+	        String status, String menteeName) {
+	    Connection conn = getConnection();
+	
+	    List<Transaction> list = dao.transactionDetail(conn, mentorNo, startDate, endDate, status, menteeName);
+	
+	    close(conn);
+		
+	    return list;
+	}
+
+	public List<Category> CategoryList(String categoryType) {  // 파라미터 이름 변경
+	    Connection conn = getConnection();
+	
+	    List<Category> list = dao.CategoryList(conn, categoryType);  // 파라미터로 받은 값 전달
+	
+	    close(conn);
+	
+	    return list;
+	}
+
+	public int insertClass(ClassVo classInfo) {
+		Connection conn = getConnection();
+    	int result = dao.insertClass(conn, classInfo);
+	
+    	if(result > 0) {
+    	    commit(conn);
+    	} else {
+    	    rollback(conn);
+    	}
+    	close(conn);
+    	return result;
 	}
 
 	public int insertMentor(Member m) {

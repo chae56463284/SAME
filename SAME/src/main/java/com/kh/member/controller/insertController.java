@@ -2,15 +2,15 @@ package com.kh.member.controller;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.kh.member.model.service.memberService;
 import com.kh.member.model.vo.Member;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class menteeInsert
@@ -61,7 +61,6 @@ public class insertController extends HttpServlet {
 									.address(address)
 									.memberType(memberType)
 									.build();
-		
 		
 		int result = new memberService().insert(m);
 		

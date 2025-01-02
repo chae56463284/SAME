@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,13 +53,17 @@
 </head>
 <body>
 	<div class="head-bar">
-		<a href="" class="little-same">SAME SAME</a> <a href=""
-			class="head-item">쌤찾기</a> <a href="" class="head-item">커뮤니티</a>
+		<a href="" class="little-same">SAME SAME</a> <a href="<%=contextPath%>"
+			class="head-item">쌤찾기</a> <a href="<%=contextPath%>/board/list" class="head-item">커뮤니티</a>
 		<div class="search">
 			<input type="text" class="search-input" placeholder="어떤 서비스가 필요하세요?">
 			<button class="search-btn">검색</button>
 		</div>
-		<a href="" class="head-item">로그인</a> <a href="" class="head-item">마이페이지</a>
+		<% if(loginUser == null) {%>
+		<a href="" class="head-item">로그인</a> <a href="<%=contextPath%>" class="head-item">마이페이지</a>
+		 <%} else { %>
+		 <b> <%=loginUser.getMemberName() %>님 환영합니다.</b><a href="<%=contextPath%>" class="head-item">마이페이지</a>
+		   <%} %>
 	</div>
 </body>
 </html>

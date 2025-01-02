@@ -402,7 +402,6 @@
                             <div class="day-name">목</div>
                             <div class="day-name">금</div>
                             <div class="day-name">토</div>
-                            <!-- 날짜가 여기에 JavaScript로 추가됩니다 -->
                         </div>
                     </div>
                 

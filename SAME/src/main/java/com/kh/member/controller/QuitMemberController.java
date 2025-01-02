@@ -1,7 +1,6 @@
 package com.kh.member.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,19 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.member.model.service.memberService;
-import com.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class forgotPassController
+ * Servlet implementation class quitMember
  */
-@WebServlet("/member/forgotPass")
-public class forgotPassController extends HttpServlet {
+@WebServlet("/member/quitMember")
+public class QuitMemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public forgotPassController() {
+    public QuitMemberController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,22 +36,17 @@ public class forgotPassController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-
-        String memberId = request.getParameter("memberId");
-        String memberName = request.getParameter("memberName");
-        String email = request.getParameter("email");
-        
-        memberService service = new memberService();
-        Member m = service.forgotPass(memberId, memberName, email);
-
-        if (m != null) {
-            request.setAttribute("memberId", memberId);
-            request.getRequestDispatcher("/views/member/forgotPassModify.jsp").forward(request, response);
-        } else {
-            request.setAttribute("errorMsg", "입력한 정보와 일치하는 회원이 없습니다.");
-            request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
-        }
+		String memberId = request.getParameter("memberId");
+		
+		memberService service = new memberService();
+		boolean success = service.quitMember(memberId);
+		
+		if(success) {
+			request.getSession().invalidate(); // 세션 무효화하는 코드
+			response.sendRedirect("index.jsp");
+		} else {
+			response.getWriter().println("회원 탈퇴에 실패했습니다. 다시 시도해주세요");
+		}
 	}
 
 }

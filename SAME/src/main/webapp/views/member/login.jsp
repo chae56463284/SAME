@@ -132,7 +132,7 @@
     <div class="set">
       
       <div class="bigBox">
-		<form id="login" action="${pageContext.request.contextPath}/member/login" method="post">
+		<form id="login" action="<%= contextPath %>/member/login" method="post">
 		
 		    <div class="Login">LOGIN</div>
 		
@@ -151,7 +151,9 @@
      
              <!-- 카카오 추후 로그인 로고 추가-->
              <div class="kakaoGo">
-               <div class="Image2">카카오 로그인</div>
+            <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=5d34fc02d1d535fbd842d2990b1aafe3&redirect_uri=${REDIRECT_URI}">
+                <button type="submit" class="kakao"> <a href="/same/views/memver/kakao.jsp">카카오로 로그인</a></button>
+            </a>
              </div>
              
              <div class="link-button"><a href="/same/views/member/signup.jsp">회원가입</a></div>

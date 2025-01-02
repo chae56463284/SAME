@@ -6,6 +6,7 @@
 		FROM MEMBER
 		WHERE MEMBER_ID = ?
 		  AND MEMBER_PWD = ?
+		  AND IS_QUIT = 'N'
 	</entry>
 <entry key="forgotId">
 	SELECT *
@@ -13,6 +14,76 @@
 	WHERE MEMBER_NAME = ?
 	  AND EMAIL = ?
 	  AND MEMBER_NO LIKE ?
+</entry>
+<entry key="forgotPass">
+    SELECT MEMBER_ID, MEMBER_NAME, EMAIL
+    FROM MEMBER
+    WHERE MEMBER_ID = ? 
+      AND MEMBER_NAME = ? 
+      AND EMAIL = ?
+</entry>
+<entry key="updatePassword">
+    UPDATE MEMBER
+    SET MEMBER_PWD = ?
+    WHERE MEMBER_ID = ?
+</entry>
+<entry key="quitMember">
+	UPDATE MEMBER
+	   SET IS_QUIT = 'Y'
+	 WHERE MEMBER_ID = ?
+</entry>
+<entry key="myPageModify">
+    UPDATE MEMBER
+    SET 
+        MEMBER_PWD = ?,
+        PHONE = ?,
+        EMAIL = ?,
+        ADDRESS = ?
+    WHERE MEMBER_ID = ?
+    AND IS_QUIT = 'N'
+</entry>
+<entry key="myPage">
+	SELECT *
+    FROM MEMBER
+</entry>
+<entry key="getMemberInfo">
+    SELECT *
+    FROM MEMBER
+    WHERE MEMBER_ID = ?
+    AND IS_QUIT = 'N'
+</entry>
+<entry key="Transaction">
+    SELECT 
+        td.TD_NO,
+        td.ENROLL_NO,
+        td.CLASS_CODE,
+        td.MENTOR_NO,
+        td.MENTEE_NO,
+        td.CATEGORY_NAME,
+        td.TD_DATE,
+        td.METHOD,
+        td.AMOUNT,
+        td.STATUS,
+        cm.CLASS_NAME,
+        m.MEMBER_NAME,
+        cm.START_DATE,
+        cm.END_DATE
+    FROM TRANSACTION_DETAIL td
+    JOIN CLASS_MENTEE cm ON td.CLASS_CODE = cm.CLASS_CODE
+    JOIN MEMBER m ON td.MENTEE_NO = m.MEMBER_NO
+    WHERE td.MENTOR_NO = ?
+    AND (? IS NULL OR td.TD_DATE BETWEEN TO_DATE(?, 'YYYY-MM-DD') AND TO_DATE(?, 'YYYY-MM-DD'))
+    AND (? = 'all' OR td.STATUS = ?)
+    AND (? IS NULL OR m.MEMBER_NAME LIKE ?)
+    ORDER BY td.TD_DATE DESC
+</entry>
+<!-- 카테고리 목록 조회 -->
+<entry key="CategoryList">
+    SELECT 
+        CATEGORY_NAME,
+        CATEGORY_TYPE
+    FROM CATEGORY
+    WHERE CATEGORY_TYPE = ?
 </entry>
 
 <entry key="insert"> INSERT INTO MEMBER

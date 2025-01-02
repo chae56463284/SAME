@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+    String contextPath = request.getContextPath();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -126,10 +129,11 @@ select {
 			<div class="form-container">
 				<h2>강의 등록</h2>
 				<form id="lectureForm">
+					<form action="<%=contextPath%>/member/class" id="classForm" method="post">
 					<!-- 강사 -->
 					<div class="form-group">
 						<label for="teacher">강사</label> <input type="text" id="teacher"
-							name="teacher" value="홍길동" readonly>
+							name="teacher" value="<%=loginUser.getMemberName()%>" readonly>
 					</div>
 
 					<!-- 강의명 -->
@@ -195,6 +199,7 @@ select {
 
 					<!-- 등록 버튼 -->
 					<input type="submit" class="register-button" value="등록" />
+					</form>
 				</form>
 			</div>
 		</div>
