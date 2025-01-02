@@ -1,6 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.List,com.kh.common.model.vo.PageInfo,com.kh.member.model.vo.Member" %>
+<%@ page import="java.util.List,com.kh.common.model.vo.PageInfo,com.kh.member.model.vo.Member, com.kh.common.model.vo.PageInfo" %>
+<%!
+    // 전화번호 포맷팅 함수
+    public String formatPhoneNumber(int phone) {
+        String phoneStr = String.valueOf(phone);
+        if(phoneStr.length() == 11) {  // 11자리 전화번호
+            return phoneStr.substring(0, 3) + "-" 
+                 + phoneStr.substring(3, 7) + "-" 
+                 + phoneStr.substring(7);
+        } else if(phoneStr.length() == 10) {  // 10자리 전화번호
+            return phoneStr.substring(0, 2) + "-" 
+                 + phoneStr.substring(2, 6) + "-" 
+                 + phoneStr.substring(6);
+        }
+        return phoneStr;  // 그 외의 경우는 원본 반환
+    }
+%>
+
+<%
+    List<Member> list = (List<Member>)request.getAttribute("list");
+    PageInfo pi = (PageInfo)request.getAttribute("pi");
+    
+    // PageInfo 객체가 null일 경우 기본값 설정
+    int currentPage = 1;
+    int startPage = 1;
+    int endPage = 1;
+    int maxPage = 1;
+    
+   
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,6 +147,7 @@
                 <div class="Title">
                     <div class="PlaylistSectionTitle">멘티회원정보</div>
                 </div>
+
                 <div class="table-header">
                     <div>Member_No</div>
                     <div class="title">회원정보</div>
@@ -125,80 +155,58 @@
                     <div>일자</div>
                     <div>상태</div>
                 </div>
+                
                 <!-- 반복되는 행 -->
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">김민수 (24세) - 010-3487-2156 - 서울시 강남구 테헤란로 123</a></div>
-                    <div>mentor01</div>
-                    <div>2024-12-15</div>
-                    <div>활동</div>
-                </div>
-                <!-- 추가 행들 -->
-
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">이지은 (22세) - 010-5978-3214 - 서울시 송파구 올림픽로 456</a></div>
-                    <div>mentor02</div>
-                    <div>2024-12-01</div>
-                    <div>휴면</div>
-                </div>
+                <%if(list == null || list.isEmpty()) { %>
                     <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">김민수 (24세) - 010-3487-2156 - 서울시 강남구 테헤란로 123</a></div>
-                    <div>mentor01</div>
-                    <div>2024-12-15</div>
-                    <div>활동</div>
-                </div>
+                        <div colspan="5" style="text-align: center;">조회된 리스트가 없습니다.</div>
+                    </div>
+                    
+                    <% } else { 
+                        for(Member m : list) { %>
                     <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">이지은 (22세) - 010-5978-3214 - 서울시 송파구 올림픽로 456</a></div>
-                    <div>mentor02</div>
-                    <div>2024-12-01</div>
-                    <div>휴면</div>
-                </div>
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">김민수 (24세) - 010-3487-2156 - 서울시 강남구 테헤란로 123</a></div>
-                    <div>mentor01</div>
-                    <div>2024-12-15</div>
-                    <div>활동</div>
-                </div>
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">이지은 (22세) - 010-5978-3214 - 서울시 송파구 올림픽로 456</a></div>
-                    <div>mentor02</div>
-                    <div>2024-12-01</div>
-                    <div>휴면</div>
-                </div>
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">김민수 (24세) - 010-3487-2156 - 서울시 강남구 테헤란로 123</a></div>
-                    <div>mentor01</div>
-                    <div>2024-12-15</div>
-                    <div>활동</div>
-                </div>
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">이지은 (22세) - 010-5978-3214 - 서울시 송파구 올림픽로 456</a></div>
-                    <div>mentor02</div>
-                    <div>2024-12-01</div>
-                    <div>휴면</div>
-                </div>
-                <div class="table-row">
-                    <div>NO_100</div>
-                    <div class="title"><a href="">이지은 (22세) - 010-5978-3214 - 서울시 송파구 올림픽로 456</a></div>
-                    <div>mentor02</div>
-                    <div>2024-12-01</div>
-                    <div>휴면</div>
-                </div>
-            
+                        <div><%= m.getMemberNo() %></div>
+                        <div class="title">
+                           <a href="<%= request.getContextPath() %>/manager/memberDetail?mno=<%= m.getMemberNo() %>&type=mentee">
+							<%= m.getMemberName() %> (<%= m.getMemberSSN().substring(0,2) %>세)
+							/ 0<%= formatPhoneNumber(m.getPhone()) %>
+							/ <%= m.getAddress() %>
+							</a>
+                        </div>
+                        <div><%= m.getMemberId() %></div>
+                        <div><%= m.getEnrollDate() %></div>
+                        <div><%= m.getIsQuit().equals("N") ? "활동" : "휴면" %></div>
+                    </div>
+                        <% } %>
+                    <% } %>
+                
             </div>
-    
+            <!--강의시 사용한 페이징 바-->
+            <div align="center" class="paging-area">
+		    <% if(pi != null) { %>
+		        <% if(currentPage != 1) { %>
+		            <button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
+		        <% } %>
+		
+		        <% for(int p = startPage; p <= endPage; p++) { %>
+		            <button onclick="movePage(<%=p %>);" 
+		                    <%= (currentPage == p) ? "class='on'" : "" %>>
+		                <%= p %>
+		            </button>
+		        <% } %>
+		
+		        <% if(maxPage != currentPage) { %>
+		            <button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
+		        <% } %>
+		    <% } %>
+		</div>
+		
+		<script>
+		    function movePage(cpage){
+		        location.href = '<%= request.getContextPath() %>/manager/menteeList?cpage='+cpage;
+		    }
+		</script>
     </div>
 </div>
-
-
-
-
 </body>
 </html>

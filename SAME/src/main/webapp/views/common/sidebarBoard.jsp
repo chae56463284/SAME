@@ -66,6 +66,7 @@
 	line-height: 24px;
 }
 a {
+	text-decoration: none;
 	display: block;
 	
 }

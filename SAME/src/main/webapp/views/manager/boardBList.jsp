@@ -133,23 +133,24 @@
 					<div>작성일</div>
 					<div>상태</div>
 				</div>
-				<!-- 반복되는 행 -->
-             <div class="table-row">
-                         <%if(list.isEmpty()) { %>
-                    <div colspan="6">조회된 리스트가 없습니다.</div>
-			<% } else{ %>
-			
-			<% for (Board b : list) { %>
-					<div><%= b.getRNum() %></div>
-					
-					<div class="title"><a href=""><%= b.getBoardTitle() %></a></div>
-					<div><%= b.getMemberNo() %></div>
-					<div><%= b.getCreateDate() %></div>
-					<div><%= b.getCount() %></div>
-					
+                    <!-- 반복되는 행 -->
+                <div class="table-row">
+                            <%if(list.isEmpty()) { %>
+                        <div colspan="6">조회된 리스트가 없습니다.</div>
+                        <% } else{ %>
+                        
+                        <% for (Board b : list) { %>
+                        <div><%= b.getRNum() %></div>
+                        
+                        <div class="title"><a href="<%= contextPath %>/manager/detail?bno=<%= b.getBoardNo() %>"><%= b.getBoardTitle() %></a></div>
+                        <div><%= b.getMemberNo() %></div>
+                        <div><%= b.getCreateDate() %></div>
+                        <div><%= b.getCount() %></div>
+                                
 
-				<% } %>
-			<% } %>
+                            <% } %>
+                        <% } %>
+                </div>
             <!-- 페이징 바-->
             <div align="center" class="paging-area">
             <% if(currentPage != 1){ %>

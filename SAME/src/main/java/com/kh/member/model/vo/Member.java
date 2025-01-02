@@ -1,5 +1,7 @@
 package com.kh.member.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +23,6 @@ public class Member {
 	private String socialCode;
 	private String address;
 	private String memberType; //멘티멘토 구분
+	private Date enrollDate;      // DATE
 	
 }

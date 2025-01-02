@@ -1,7 +1,6 @@
 package com.kh.common.model.vo;
 
 import lombok.AllArgsConstructor;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

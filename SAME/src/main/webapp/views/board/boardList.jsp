@@ -159,7 +159,9 @@ a {
 					<% for (Board b : list) { %>
 					<div><%= b.getBoardNo() %></div>
 					<div class="title">
-						<a href=""><%= b.getBoardTitle() %></a>
+						<a href="<%= contextPath %>/board/detail?bno=<%= b.getBoardNo() %>">
+							<%= b.getBoardTitle() %>
+						</a>
 					</div>
 					<div><%= b.getMemberNo() %></div>
 					<div><%= b.getCount() %></div>
@@ -167,38 +169,25 @@ a {
 
 					<% } %>
 					<% } %>
+				</div>
+				<!-- 페이징 바-->
+				<div align="center" class="paging-area">
+					<% if(currentPage != 1){ %>
+					<button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
+					<% }%>
 
+					<% for(int p = startPage; p <= endPage; p++) { %>
+					<button onclick="movePage(<%=p %>);" <% if(currentPage == p) { %>
+						class="on" <% } %>><%= p %></button>
+					<% } %>
 
-
-
-
-					<!-- 페이징 바-->
-					<div align="center" class="paging-area">
-						<% if(currentPage != 1){ %>
-						<button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
-						<% }%>
-
-						<% for(int p = startPage; p <= endPage; p++) { %>
-						<button onclick="movePage(<%=p %>);" <% if(currentPage == p) { %>
-							class="on" <% } %>><%= p %></button>
-						<% } %>
-
-						<% if(maxPage != currentPage) { %>
-						<button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
-						<% } %>
-					</div>
-
-						<script>
-					    function movePage(cpage){
-					      location.assign('/board/list?cpage='+cpage);
-					    }
-					    </script>
-
-
-
-
-
-
-					</div>
-</body>
+					<% if(maxPage != currentPage) { %>
+					<button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
+					<% } %>
+				</div>
+			</div>
+		</div>
+				
+			
+			</body>
 </html>

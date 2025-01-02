@@ -71,11 +71,56 @@
 	font-weight: 500;
 	line-height: 24px;
 }
+a {
+	text-decoration: none; /* 링크의 밑줄 제거 */
+	color: black;
+}
+
+/* 로그아웃버튼 속성 */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    
+}
+
+.nav-button {
+    background-color: #FF5C3D; /* 요청하신 색상으로 변경 */
+    border: none;
+    border-radius: 5px;
+    color: white; /* 글자색 흰색 */
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700; /* 글자 약간 두껍게 */
+    font-size: 14px;
+}
+
+.nav-button:hover {
+    background-color: gainsboro;
+    transform: translateX(5px);
+}
+
+.nav-button i {
+    font-size: 16px;
+    width: 60px;
+}
+
 </style>
 </head>
 <body>
 	<div class="Sidebar">
-		<!-- 제목 추가 -->
+        <!-- 새로 추가하는 버튼 영역 -->
+     
+        
+        <!-- 제목 추가 -->
 		<div class="SidebarTitle">MANAGER</div>
 
 		<div class="MenuItems">
@@ -86,11 +131,11 @@
             <div class="SubMenu" id="subMenu">
                 <div class="MenuItem">
                     <div class="LogoPlaceholder gray"></div>
-                    <div class="Label"><a href="/same/views/manager/mentorInfoList.jsp">멘토 회원정보</a></div>
+                    <div class="Label"><a href="<%=contextPath %>/manager/mentorList">멘토 회원정보</a></div>
                 </div>
                 <div class="MenuItem">
                     <div class="LogoPlaceholder gray"></div>
-                    <div class="Label"><a href="/same/views/manager/menteeInfoList.jsp">멘티 회원정보</a></div>
+                    <div class="Label"><a href="<%=contextPath %>/manager/menteeList">멘티 회원정보</a></div>
                 </div>
             </div>
             
@@ -123,13 +168,21 @@
             </div>
             <div class="MenuItem">
                 <div class="LogoPlaceholder gray"></div>
-                <div class="Label"><a href="/same/views/manager/complaintList.jsp">신고관리</a></div>
+                <div class="Label"><a href="<%=contextPath%>/manager/complaint/list">신고관리</a></div>
             </div>
             <div class="MenuItem">
                 <div class="LogoPlaceholder gray"></div>
                 <div class="Label">통계</div>
             </div>
             
+        </div>
+        <div class="button-group">
+            <button class="nav-button" onclick="location.href='<%= contextPath %>/views/manager/managerIndex.jsp'">
+                <i class="fas fa-home"></i> 메인페이지
+            </button>
+            <button class="nav-button" onclick="location.href='<%= request.getContextPath() %>/logout'">
+                <i class="fas fa-sign-out-alt"></i> 로그아웃
+            </button>
         </div>
 	</div>
 

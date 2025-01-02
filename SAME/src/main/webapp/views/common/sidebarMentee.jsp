@@ -70,6 +70,10 @@
 	font-weight: 500;
 	line-height: 24px;
 }
+a {
+	text-decoration: none; /* 링크의 밑줄 제거 */
+	color: black;
+}
 </style>
 </head>
 <body>

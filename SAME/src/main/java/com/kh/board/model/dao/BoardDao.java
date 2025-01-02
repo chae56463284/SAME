@@ -199,10 +199,10 @@ private Properties prop = new Properties();
 
 	// 게시글 상세 조회 - 메서드명 변경 (이유_중복사용메서드명)
 	public BoardDTO selectBoard(Connection conn, int bno) {
-		 BoardDTO b = null;
-        PreparedStatement pstmt = null;
-        ResultSet rset = null;
-        String sql = prop.getProperty("selectBoard");
+			BoardDTO b = null;
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			String sql = prop.getProperty("selectBoard");
         
         try {
             pstmt = conn.prepareStatement(sql);
@@ -211,25 +211,27 @@ private Properties prop = new Properties();
             rset = pstmt.executeQuery();
             
             if(rset.next()) {
-                b = BoardDTO.builder()
-                    .b(Board.builder()
-                        .boardNo(bno)
-                        .boardTitle(rset.getString("BOARD_TITLE"))
-                        .boardContent(rset.getString("BOARD_CONTENT"))
-                        .memberNo(rset.getString("MEMBER_NO"))
-                        .createDate(rset.getDate("CREATE_DATE"))
-                        .category(Category.builder()
-                            .categoryName(rset.getString("CATEGORY_NAME"))
-                            .build())
-                        .build())
-                    .at(Attachment.builder()
-                        .fileNo(rset.getInt("FILE_NO"))
-                        .originName(rset.getString("ORIGIN_NAME"))
-                        .changedName(rset.getString("CHANGED_NAME"))
-                        .filePath(rset.getString("FILE_PATH"))
-                        .build())
-                    .build();
+                b = new BoardDTO();
+				b.setB(Board.builder()
+					.boardNo(rset.getInt("BOARD_NO"))
+					.boardTitle(rset.getString("BOARD_TITLE"))
+					.boardContent(rset.getString("BOARD_CONTENT"))
+					.memberNo(rset.getString("MEMBER_NO"))
+					.createDate(rset.getDate("CREATE_DATE"))
+					.count(rset.getInt("COUNT"))
+					.build());
+                
+                // 첨부파일이 있는 경우
+                if(rset.getString("ORIGIN_NAME") != null) {
+					b.setAt(Attachment.builder()
+						.fileNo(rset.getInt("FILE_NO"))
+						.originName(rset.getString("ORIGIN_NAME"))
+						.changedName(rset.getString("CHANGED_NAME"))
+						.filePath(rset.getString("FILE_PATH"))
+						.build());
+				}
             }
+			 System.out.println("조회된 게시글 정보(DAO): " + b); // 디버깅용
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -240,14 +242,14 @@ private Properties prop = new Properties();
     }
 
 	 // 조회수 증가 메서드 추가
-    public int increaseCount(Connection conn, int boardNo) {
+    public int increaseCount(Connection conn, int bno) {
         int result = 0;
         PreparedStatement pstmt = null;
         String sql = prop.getProperty("increaseCount");
         
         try {
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, boardNo);
+            pstmt.setInt(1, bno);
             
             result = pstmt.executeUpdate();
             

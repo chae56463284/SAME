@@ -2,21 +2,21 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, com.kh.board.model.vo.Board, com.kh.common.model.vo.PageInfo" %>
 <%
-	List<Board> list = (List<Board>) request.getAttribute("list");
-	PageInfo pi = (PageInfo) request.getAttribute("pi");
-	
-	int currentPage = pi.getCurrentPage();
-	int startPage = pi.getStartPage();
-	int endPage= pi.getEndPage();
-	int maxPage = pi.getMaxPage();
+    List<Board> list = (List<Board>) request.getAttribute("list");
+    PageInfo pi = (PageInfo) request.getAttribute("pi");
+    
+    int currentPage = pi.getCurrentPage();
+    int startPage = pi.getStartPage();
+    int endPage= pi.getEndPage();
+    int maxPage = pi.getMaxPage();
 %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>자유게시판</title>
-	<style>
-		/* 화면 중앙 배치 스타일 적용 */
+    <title>자유게시판</title>
+    <style>
+        /* 화면 중앙 배치 스타일 적용 */
 		body {
 			display: flex;
 			justify-content: center;
@@ -30,7 +30,6 @@
 			position: relative;
 		}
 		
-		/*상세설정기본박스설정값*/
 		/* 게시판스타일 시작 */
 		.table {
 			width: 910px;
@@ -45,36 +44,18 @@
 			margin-left: 27%;
 			margin-right: auto;
 			margin-top: 5%;
-
 		}
 		
 		.Title {
-			
 			width: 100%;
 			font-weight: 900;
 			font-size: 20px;
 			text-align: left; /*텍스트 정렬*/
-			padding : 9px; /*텍스트 시작 패딩 공간 설정*/
-			display: flex; /* Flexbox 활성화 */
-			justify-content: space-between; /* 양 끝 정렬 */
-			align-items: center; /* 세로 중앙 정렬 */
-			
+			padding-left: 20px; /*텍스트 시작 패딩 공간 설정*/
+			display: flex; /* Flexbox 사용 */
+            justify-content: space-between; /* 공간을 균등하게 배분 */
+            align-items: center; /* 세로 중앙 정렬 */
 		}
-		.btn-secondary {
-			padding: 10px 20px;         /* 버튼 내 여백 설정 */
-			background-color: #ff5c3d;  /* 배경색 설정 */
-			color: #fff;                /* 글자색 설정 */
-			border: none;               /* 테두리 제거 */
-			border-radius: 5px;        /* 테두리 둥글게 */
-			font-size: 16px;            /* 글자 크기 설정 */
-			text-align: center;         /* 텍스트 중앙 정렬 */
-			cursor: pointer;            /* 커서 모양 변경 */
-			display: flex;              /* Flexbox로 설정하여 내부 글씨 가로 정렬 */
-			align-items: center;        /* 세로 중앙 정렬 */
-			justify-content: center;    /* 가로 중앙 정렬 */
-		}
-		
-
 		
 		a {
 			text-decoration: none; /* 링크의 밑줄 제거 */
@@ -146,25 +127,24 @@
         .write-button:hover {
             background-color: #e54c2e; /* 호버시 배경색 변경 */
         }
-
-
-	</style>
+    </style>
 </head>
 <body>
-	<div class="main">
+    <div class="main">
 		<%@ include file="/views/common/mainHeader.jsp" %> <!-- 샘샘해더글 -->
 		<%@ include file="/views/common/searchbar.jsp" %> <!-- 검색바 -->
 	
-	
 		<div class="container">
-			
-				<div class="table">
-					<%@ include file="/views/common/sidebarBoard.jsp" %> <!-- 사이드바메뉴 -->
+	
+        	<div class="table">
+				<%@ include file="/views/common/sidebarBoard.jsp" %> <!-- 사이드바메뉴 -->
+                
 				<div class="Title">
 					<div class="PlaylistSectionTitle">자유게시판</div>
 					<button class="write-button" onclick="location.href='<%= contextPath %>/board/insert'">글 작성</button> <!-- 글 작성 버튼 -->
 				</div>
-				<div class="table-header">
+                
+                <div class="table-header">
 					<div>번호</div>
 					<div class="title">글제목</div>
 					<div>작성자ID</div>
@@ -172,51 +152,48 @@
 					<div>조회수</div>
 				</div>
 				<!-- 반복되는 행 -->
-             <div class="table-row">
+				 <div class="table-row">
                          <%if(list.isEmpty()) { %>
                     <div colspan="6">조회된 리스트가 없습니다.</div>
-			<% } else{ %>
-			
-			<% for (Board b : list) { %>
-					<div><%= b.getRNum() %></div>
+					<% } else{ %>
 					
-					<div class="title"><a href=""><%= b.getBoardTitle() %></a></div>
-					<div><%= b.getMemberNo() %></div>
-					<div><%= b.getCreateDate() %></div>
-					<div><%= b.getCount() %></div>
+					<% for (Board b : list) { %>
+							<div><%= b.getRNum() %></div>
+							<div class="title">
+								<a href="<%= contextPath %>/board/detail?bno=<%= b.getBoardNo() %>">
+									<%= b.getBoardTitle() %>
+								</a>
+							</div>
+							<div><%= b.getMemberNo() %></div>
+							<div><%= b.getCreateDate() %></div>
+							<div><%= b.getCount() %></div>
 
+						<% } %>
+					<% } %>
+        		</div>
+			</div>
+			<!--강의시 사용한 페이징 바-->
+			<div align="center" class="paging-area">
+				<% if(currentPage != 1){ %>
+				<button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
+				<% }%>
+
+				<% for(int p = startPage; p <= endPage; p++) { %>
+				<button onclick="movePage(<%=p %>);" <% if(currentPage == p) { %>
+					class="on" <% } %>><%= p %></button>
 				<% } %>
-			<% } %>
-				
-						
-				<!--강의시 사용한 페이징 바-->
-				<div align="center" class="paging-area">
-					<% if(currentPage != 1){ %>
-					<button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
-					<% }%>
 
-					<% for(int p = startPage; p <= endPage; p++) { %>
-					<button onclick="movePage(<%=p %>);" <% if(currentPage == p) { %>
-						class="on" <% } %>><%= p %></button>
-					<% } %>
+				<% if(maxPage != currentPage) { %>
+				<button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
+				<% } %>
+			</div>
 
-					<% if(maxPage != currentPage) { %>
-					<button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
-					<% } %>
-				</div>
-			</dis>
 			<script>
 				function movePage(cpage){
-					location.assign('<%= contextPath %>/board/lista?cpage='+cpage);
+					location.assign('<%= contextPath %>/board/listb?cpage='+cpage);
 				}
-			</script>
-			<!--강의시 사용한 페이징 바-->
-
-
+			</script> 
 		</div>
-</div>
-		
-	
-
+	</div>
 </body>
 </html>

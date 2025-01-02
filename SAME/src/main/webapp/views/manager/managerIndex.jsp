@@ -202,8 +202,8 @@
            <div class="Group">
                <a href="" class="box 회원정보" style="font-size: 25px;" onclick="toggleUserDropdown(event)"">회원정보</a>
                <div class="dropdown" id="userDropdown">
-                <a href="/same/views/manager/menteeInfoList.jsp">멘티 회원정보</a>
-                <a href="/same/views/manager/mentorInfoList.jsp">멘토 회원정보</a>
+                <a href="<%=contextPath %>/manager/menteeList">멘티 회원정보</a>
+                <a href="<%=contextPath %>/manager/mentorList">멘토 회원정보</a>
             </div>
            </div>
    

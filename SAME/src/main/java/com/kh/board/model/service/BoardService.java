@@ -27,11 +27,8 @@ public class BoardService {
 	
 	// 게시글 목록 조회
 	public List<Board> selectBoardList(PageInfo pi) {
-		
 		Connection conn = getConnection();
-		
 		List<Board> list = dao.selectBoardList(conn, pi);
-		
 		close(conn);
 		
 		return list;
@@ -77,11 +74,8 @@ public class BoardService {
 	public BoardDTO selectBoard(int bno) {
 	
 		Connection conn = getConnection();
-		
 		BoardDTO  b  = dao.selectBoard(conn, bno);
-		
 		close(conn);
-		
 		return b;
 	}
 	// 조회수 증가

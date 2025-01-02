@@ -153,20 +153,26 @@
 				 <div class="table-row">
                          <%if(list.isEmpty()) { %>
                     <div colspan="6">조회된 리스트가 없습니다.</div>
-			<% } else{ %>
+					<% } else{ %>
+					
+					<% for (Board b : list) { %>
+							<div><%= b.getRNum() %></div>
+							<div class="title">
+								<a href="<%= contextPath %>/board/detail?bno=<%= b.getBoardNo() %>">
+									<%= b.getBoardTitle() %>
+								</a>
+							</div>
+							<div><%= b.getMemberNo() %></div>
+							<div><%= b.getCreateDate() %></div>
+							<div><%= b.getCount() %></div>
+
+						<% } %>
+					<% } %>
+
+            
+            
 			
-			<% for (Board b : list) { %>
-					<div><%= b.getRNum() %></div>
-					<div class="title"><a href=""><%= b.getBoardTitle() %></a></div>
-					<div><%= b.getMemberNo() %></div>
-					<div><%= b.getCreateDate() %></div>
-					<div><%= b.getCount() %></div>
-
-				<% } %>
-			<% } %>
-
-            
-            
+        </div>
              <!--강의시 사용한 페이징 바-->
 				<div align="center" class="paging-area">
 				<% if(currentPage != 1){ %>
@@ -188,8 +194,6 @@
 					location.assign('<%= contextPath %>/board/listb?cpage='+cpage);
 				}
 			</script> 
-			<!--강의시 사용한 페이징 바-->
-        </div>
 	</div>
 	</div>
 

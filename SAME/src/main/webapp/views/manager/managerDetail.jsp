@@ -3,7 +3,8 @@
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     import="com.kh.board.model.vo.*, 
-            com.kh.board.model.dto.BoardDTO" 
+            com.kh.board.model.dto.BoardDTO,
+            com.kh.manager.model.vo.*" 
 %>
 <%
     try {
@@ -247,10 +248,10 @@ to {
 <body>
 	<div class="main">
         <%@ include file="/views/common/mainHeader.jsp"%>
-        <%@ include file="/views/common/searchbar.jsp"%>
-        <br><br>
+       
         <div class="container">
-            <%@ include file="/views/common/sidebarBoard.jsp"%>
+            <%@ include file="/views/common/sidebarManager.jsp"%>
+            
             <div class="detail-container">
                 <div class="detail-header">
                     <!-- null 체크 추가 -->
@@ -282,9 +283,29 @@ to {
                     </div>
                 <% } %>
 
-				 <!-- 목록으로 돌아가기 버튼 추가 -->
+				 <!-- 목록으로 돌아가기 버튼 수정 -->
 				 <div class="button-container">
-					<button onclick="location.href='<%= request.getContextPath() %>/board/list?cPage=<%= cPage %>'">
+					<%
+						// 게시판 유형 확인
+						char boardType = board.getBoardType();
+						String listUrl = "";
+						
+						// 게시판 유형에 따른 URL 설정
+						switch(boardType) {
+							case 'A':
+								listUrl = "/manager/lista";
+								break;
+							case 'B':
+								listUrl = "/manager/listb";
+								break;
+							case 'C':
+								listUrl = "/manager/listc";
+								break;
+							default:
+								listUrl = "/manager/lista"; // 기본값
+						}
+					%>
+					<button onclick="location.href='<%= request.getContextPath() %><%= listUrl %>?cpage=<%= cPage %>'">
 						목록으로
 					</button>
 				</div>
