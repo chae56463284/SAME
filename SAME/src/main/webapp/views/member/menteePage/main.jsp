@@ -1,10 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+String contextPath = request.getContextPath();
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
 /* 컨테이너 */
 body {
@@ -181,8 +192,7 @@ body {
 	<div class="main">
 		<%@ include file="/views/common/mainHeader.jsp"%>
 		<%@ include file="/views/common/searchbar.jsp"%>
-		<br>
-		<br>
+		<br> <br>
 		<!-- 컨테이너 시작-->
 		<div class="container">
 			<%@ include file="/views/common/sidebarMentee.jsp"%>
@@ -193,13 +203,12 @@ body {
 				<div class="info-box">
 					<img class="profile-image"
 						src="https://via.placeholder.com/256x256" alt="Profile Image" />
-					<a href="회원정보수정.html" class="text-red"
+					<a href="<%=contextPath%>/member/modify" class="text-red"
 						style="text-decoration: none;">회원정보 수정</a>
 				</div>
-				<input type="text" class="input-box" style="top: 21px;"
-					placeholder="아이디" /> <input type="text" class="input-box"
-					style="top: 99px;" placeholder="이름" /> <input type="text"
-					class="input-box" style="top: 185px;" placeholder="이메일" />
+				<div class="input-box" style="top: 21px;"><%=loginUser.getMemberId()%></div>
+				<div class="input-box" style="top: 99px;"><%=loginUser.getMemberName()%></div>
+				<div class="input-box" style="top: 185px;"><%=loginUser.getEmail()%></div>
 
 
 				<!-- 구매내역 타이틀 -->
@@ -231,9 +240,39 @@ body {
 				</div>
 
 				<!-- 회원탈퇴 버튼 -->
-				<input type="submit" class="red-button" value="회원탈퇴" />
+				<button type="button" class="red-button" data-toggle="modal"
+					data-target="#deleteForm">회원탈퇴</button>
 			</div>
 		</div>
 	</div>
+
+	<div class="modal" id="deleteForm">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">회원탈퇴</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body" align="center">
+					<b>탈퇴 후 복구가 불가능합니다. <br>정말로 탈퇴하시겠습니까?
+					</b><br> <br>
+					<form action="<%=contextPath%>/member/delete" method="post">
+						<table>
+							<tr>
+								<td>비밀번호</td>
+								<td><input type="password" name="memberPwd" required></td>
+							</tr>
+						</table>
+						<br>
+						<button type="submit" class="btn btn-danger btn-sm">탈퇴하기</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 </body>
 </html>

@@ -167,4 +167,19 @@ public class memberService {
 		close(conn);
 		return result;
 	}
+
+	public int delete(String memberPwd, String memberNo) {
+		Connection conn = getConnection();
+		
+		int result = dao.delete(conn,memberPwd,memberNo);
+	
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
 }
