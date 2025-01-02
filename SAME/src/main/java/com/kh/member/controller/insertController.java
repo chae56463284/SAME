@@ -32,7 +32,7 @@ public class insertController extends HttpServlet {
 		// 기본값으로 멘티 설정
 				String memberType = request.getParameter("memberType");
 				if (memberType == null || memberType.isEmpty()) {
-					response.sendRedirect(request.getContextPath() + "/views/member/signup.jsp?memberType=B");
+					response.sendRedirect(request.getContextPath() + "/views/member/signup.jsp?memberType=A");
 					return;
 				}
 				request.getRequestDispatcher("/views/member/signup.jsp").forward(request, response);
@@ -67,11 +67,14 @@ public class insertController extends HttpServlet {
 		if (result > 0) {
 			HttpSession session = request.getSession();
 			session.setAttribute("alertMsg", "회원가입 되었습니다");
+			session.setAttribute("memberType", memberType);
+			session.setAttribute("memberId", memberId);
+			session.setAttribute("memberName", memberName);
 
 			// 멘토/멘티에 따라 리다이렉트
-			if ("A".equals(memberType)) {
+			if ("B".equals(memberType)) {
 				// 멘토: 이력서 입력 페이지로 이동
-				response.sendRedirect(request.getContextPath() + "/views/member/signupResume.jsp");
+				response.sendRedirect(request.getContextPath() + "/member/insertMentor");
 			} else {
 				// 멘티: 메인 페이지로 이동
 				response.sendRedirect(request.getContextPath());

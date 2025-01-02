@@ -86,30 +86,28 @@
     WHERE CATEGORY_TYPE = ?
 </entry>
 
-<!-- 강의 등록 -->
-<entry key="insertClass">
-    INSERT INTO CLASS (
-        CLASS_CODE,
-        MENTOR_NO,
-        CLASS_TITLE,
-        CATEGORY,
-        REGION,
-        START_DATE,
-        END_DATE,
-        CLASS_DETAIL,
-        AMOUNT,
-        STATUS
-    ) VALUES (
-        SEQ_CLASS_CODE.NEXTVAL,
-        ?,
-        ?,
-        ?,
-        ?,
-        TO_DATE(?, 'YYYY-MM-DD'),
-        TO_DATE(?, 'YYYY-MM-DD'),
-        ?,
-        ?,
-        ?
+<entry key="insert"> INSERT INTO MEMBER
+    VALUES (
+        CASE
+            WHEN ? = 'B' THEN CONCAT('B', LPAD(SEQ_MENTOR_NO.NEXTVAL, 5, '0'))
+            ELSE CONCAT('A', LPAD(SEQ_MENTEE_NO.NEXTVAL, 5, '0'))
+        END,
+        ?, -- member_id
+        ?, -- MEMBER_PWD
+        ?, -- MEMBER_NAME
+        ?, -- MEMBER_PHONE
+        ?, -- MEMBER_SSN
+        ?, -- MEMBER_EMAIL
+        DEFAULT, -- MEMBER_DATE
+        DEFAULT, -- MEMBER_STATUS
+        ?, -- MEMBER_ADDRESS
+        ? -- MEMBER_TYPE
     )
+    </entry>
+<entry key="insertResume">
+    INSERT INTO RESUME (RESUME_NO, MEMBER_NO) 
+    SELECT SEQ_RESUME_NO.NEXTVAL, MEMBER_NO 
+    FROM MEMBER 
+    WHERE MEMBER_ID = ?
 </entry>
 </properties>

@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="true"%>
+<%
+	if (!"B".equals((String) session.getAttribute("memberType"))) {
+		response.sendRedirect(request.getContextPath() + "/views/common/error.jsp");
+		return;
+	}
+%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -264,24 +271,84 @@ body {
 			<%@ include file="/views/common/sidebarMembership.jsp"%>
 			<!-- 컨테이너 시작-->
 			<form id="signupMentor"
-				action="${pageContext.request.contextPath}/member/insertMentor"
+				action="<%= request.getContextPath() %>/member/insertMentor"
 				method="post">
 
 				<div class="sign-up-form">
 					<!-- 사이드바 -->
 					<div class="mentor-profile">
 						<div class="avatar-container">
-							<div class="avatar"></div>
-							<div class="upload-btn">업로드</div>
+							<div class="avatar">
+								<img id="avatarPreview" src="/default-avatar.png" alt="프로필 사진"
+									style="width: 180px; height: 200px;">
+							</div>
+							<input type="file" id="avatarUpload" name="avatar"
+								accept="image/*" style="display: none;">
+							<div class="upload-btn" onclick="triggerUpload()">업로드</div>
 						</div>
 						<div class="mentor-details">
-							<div class="mentor-name">Mentor 김철수</div>
+							<%
+							String memberName = (String) session.getAttribute("memberName");
+							%>
+							<div class="mentor-name">
+								Mentor
+								<%=memberName%></div>
 							<div class="introduction">
-								<textarea placeholder="강사의 한마디 입력하세요"></textarea>
+								<textarea name="introduction" placeholder="멘토의 한마디 입력하세요"></textarea>
 							</div>
 						</div>
 						<div class="delete-btn">×</div>
 					</div>
+					<script>
+				  // 업로드 버튼 동작
+				  document.querySelector('.upload-btn').addEventListener('click', () => {
+				    alert('프로필사진을 업로드하시겠습니까?');
+				  });
+
+				  // 삭제 버튼 동작
+				  document.querySelector('.delete-btn').addEventListener('click', () => {
+				    if (confirm('프로필 사진을 삭제하시겠습니까?')) {
+					  document.querySelector('.avatar').style.backgroundColor = '#D9D9D9'; // 기본 이미지로 복원
+				    }
+				  });
+			
+					// 업로드 버튼 클릭 시 파일 선택창 열기
+					function triggerUpload() {
+					    document.getElementById('avatarUpload').click();
+					}
+
+					// 파일 선택 시 미리보기 이미지 표시
+					document.getElementById('avatarUpload').addEventListener('change', function (event) {
+					    const file = event.target.files[0];
+					    if (file) {
+					        const reader = new FileReader();
+					        reader.onload = function (e) {
+					            document.getElementById('avatarPreview').src = e.target.result;
+					        };
+					        reader.readAsDataURL(file);
+					    }
+					});
+
+					// 파일 업로드 처리
+					document.getElementById('uploadForm').addEventListener('submit', function (event) {
+					    event.preventDefault(); // 기본 폼 제출 동작 방지
+					    const formData = new FormData(this);
+					    fetch(this.action, {
+					        method: this.method,
+					        body: formData,
+					    })
+					        .then(response => response.json())
+					        .then(data => {
+					            alert('업로드 완료!');
+					            console.log(data);
+					        })
+					        .catch(error => {
+					            alert('업로드 실패');
+					            console.error(error);
+					        });
+					});
+					</script>
+
 					<div class="category">
 						<div class="category-title">지역</div>
 						<div class="dropdown">
@@ -323,54 +390,56 @@ body {
 					<script>
       // 지역 선택
       document.querySelector('.location-select').addEventListener('change', function (event) {
-          var selectedValue = event.target.value;
-  
-          if (selectedValue) {
-              var selectedItemsContainer = document.querySelector('.selected-locations');
-  
-              // 중복 방지
-              var existingItem = selectedItemsContainer.querySelector(`[data-value="${selectedValue}"]`);
-              if (!existingItem) {
-                  var item = document.createElement('span');
-                  item.className = 'selected';
-                  item.dataset.value = selectedValue;
-                  item.innerHTML = `${selectedValue} <span class="remove">×</span>`;
-                  selectedItemsContainer.appendChild(item);
-  
-                  // 삭제 이벤트
-                  item.querySelector('.remove').addEventListener('click', function () {
-                      item.remove();
-                  });
-              }
-  
-              event.target.value = '';
-          }
-      });
-  
-      // 강의 과목 선택
-      document.querySelector('.subject-select').addEventListener('change', function (event) {
-          var selectedValue = event.target.value;
-  
-          if (selectedValue) {
-              var selectedItemsContainer = document.querySelector('.selected-subjects');
-  
-              // 중복 방지
-              var existingItem = selectedItemsContainer.querySelector(`[data-value="${selectedValue}"]`);
-              if (!existingItem) {
-                  var item = document.createElement('span');
-                  item.className = 'selected';
-                  item.dataset.value = selectedValue;
-                  item.innerHTML = `${selectedValue} <span class="remove">×</span>`;
-                  selectedItemsContainer.appendChild(item);
-  
-                  // 삭제 이벤트
-                  item.querySelector('.remove').addEventListener('click', function () {
-                      item.remove();
-                  });
-              }
-              event.target.value = '';
-          }
-      });
+    const selectedValue = event.target.value;
+
+    if (selectedValue) {
+        const selectedItemsContainer = document.querySelector('.selected-locations');
+
+        // 중복 방지
+        const existingItem = selectedItemsContainer.querySelector(`[data-value="${selectedValue}"]`);
+        if (!existingItem) {
+            const item = document.createElement('span');
+            item.className = 'selected';
+            item.dataset.value = selectedValue;
+            item.innerHTML = `${selectedValue} <span class="remove">×</span>`;
+            selectedItemsContainer.appendChild(item);
+
+            // 삭제 이벤트
+            item.querySelector('.remove').addEventListener('click', function () {
+                item.remove();
+            });
+        }
+
+        // 선택 값 초기화
+        event.target.value = '';
+    }
+});
+//과목
+document.querySelector('.subject-select').addEventListener('change', function (event) {
+    const selectedValue = event.target.value;
+
+    if (selectedValue) {
+        const selectedItemsContainer = document.querySelector('.selected-subjects');
+
+        // 중복 방지
+        const existingItem = selectedItemsContainer.querySelector(`[data-value="${selectedValue}"]`);
+        if (!existingItem) {
+            const item = document.createElement('span');
+            item.className = 'selected';
+            item.dataset.value = selectedValue;
+            item.innerHTML = `${selectedValue} <span class="remove">×</span>`;
+            selectedItemsContainer.appendChild(item);
+
+            // 삭제 이벤트
+            item.querySelector('.remove').addEventListener('click', function () {
+                item.remove();
+            });
+        }
+
+        // 선택 값 초기화
+        event.target.value = '';
+    }
+});
   </script>
 
 					<!-- 학력 섹션 -->
@@ -421,28 +490,79 @@ body {
 					</div>
 
 
-					<script>
-				  // 업로드 버튼 동작
-				  document.querySelector('.upload-btn').addEventListener('click', () => {
-				    alert('이미지 업로드 기능 구현 필요!');
-				  });
 
-				  // 삭제 버튼 동작
-				  document.querySelector('.delete-btn').addEventListener('click', () => {
-				    if (confirm('프로필 사진을 삭제하시겠습니까?')) {
-				      document.querySelector('.avatar').style.backgroundColor = '#D9D9D9'; // 기본 이미지로 복원
-				    }
-				  });
-			
+					<script>
+					function addItem(section) {
+					    const inputElement = document.getElementById(`${section}-input`);
+					    const listContainer = document.getElementById(`${section}-list`);
+					    const value = inputElement.value.trim();
+
+					    if (!value) {
+					        alert('값을 입력해주세요.');
+					        return;
+					    }
+
+					    // 새로운 항목 생성
+					    const listItem = document.createElement('div');
+					    listItem.className = 'list-item';
+
+					    const textSpan = document.createElement('span');
+					    textSpan.textContent = value;
+
+					    const deleteButton = document.createElement('button');
+					    deleteButton.textContent = '삭제';
+					    deleteButton.onclick = (event) => {
+					        event.preventDefault(); // 기본 동작 방지
+					        listItem.remove();
+					    };
+
+					    listItem.appendChild(textSpan);
+					    listItem.appendChild(deleteButton);
+					    listContainer.appendChild(listItem);
+
+					    // 입력 필드 초기화
+					    inputElement.value = '';
+					}
+
+					// 등록 버튼 클릭 이벤트에서 기본 동작 막기
+					document.querySelectorAll('.input-group button').forEach(button => {
+					    button.addEventListener('click', (event) => {
+					        event.preventDefault(); // 기본 동작 방지
+					    });
+					});
+					
+					// 폼 제출 시 JSON 응답 처리 및 리다이렉트 구현
+					  document.getElementById('signupMentor').addEventListener('submit', function (event) {
+					      event.preventDefault(); // 기본 폼 제출 방지
+
+					      const formData = new FormData(this);
+
+					      fetch(this.action, {
+					          method: this.method,
+					          body: formData,
+					      })
+					          .then(response => response.json()) // JSON 형태로 응답 파싱
+					          .then(data => {
+					              if (data.success) {
+					                  // 성공 시 지정된 URL로 이동
+					                  window.location.href = data.redirectUrl;
+					              } else {
+					                  alert('오류가 발생했습니다. 다시 시도해주세요.');
+					              }
+					          })
+					          .catch(error => {
+					              console.error('에러 발생:', error);
+					              alert('서버 오류가 발생했습니다.');
+					          });
+					  });
 </script>
 
 
-
 					<button class="submit-button">완료</button>
-					<!-- Form Section End-->
+
 
 				</div>
-	</form>
+			</form>
 		</div>
 		<br> <br>
 	</div>

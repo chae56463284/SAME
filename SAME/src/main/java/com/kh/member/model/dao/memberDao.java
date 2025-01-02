@@ -70,10 +70,10 @@ public class memberDao {
 	}
 
 	public Member login(Connection conn, String memberId, String memberPwd) {
-	    Member m = null;
-	    PreparedStatement pstmt = null;
-	    ResultSet rset = null;
-	    String sql = prop.getProperty("login");
+		Member m = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("login");
 
 	    try {
 	        pstmt = conn.prepareStatement(sql);
@@ -113,13 +113,42 @@ public class memberDao {
 	    String sql = prop.getProperty("forgotId");
 	    
 	    try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberName);
+			pstmt.setString(2, email);
+			pstmt.setString(3, memberType);
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				m = Member.builder().memberNo(rset.getString("MEMBER_NO")).memberId(rset.getString("MEMBER_ID"))
+						.memberName(rset.getString("MEMBER_NAME")).phone(rset.getInt("PHONE"))
+						.memberSSN(rset.getString("MEMBER_SSN")).email(rset.getString("EMAIL"))
+						.isQuit(rset.getString("IS_QUIT")).socialCode(rset.getString("SOCIAL_CODE"))
+						.memberType(rset.getString("MEMBERTYPE")).build();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return m;
+	}
+
+	public Member forgotPass(Connection conn, String memberName, String email, String memberId) {
+		Member m = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("forgotPass");
+		
+		try {
 	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, memberName);
-	        pstmt.setString(2, email);
-	        pstmt.setString(3, memberType);
-	        
+	        pstmt.setString(1, memberId);
+	        pstmt.setString(2, memberName);
+	        pstmt.setString(3, email);
+
 	        rset = pstmt.executeQuery();
-	        
 	        if (rset.next()) {
 	            m = Member.builder()
 	                    .memberNo(rset.getString("MEMBER_NO"))
@@ -415,5 +444,27 @@ public class memberDao {
 	    }
 	    return result;
 	}
-}
 
+	private int insertDetailInfo(Connection conn, String tableName, String columnName, String value) 
+			throws SQLException {
+		if (value == null || value.isEmpty()) {
+			return 1; // 값이 없는 경우도 성공으로 처리
+		}
+		
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		try {
+			String sql = String.format("INSERT INTO %s (RESUME_NO, %s) VALUES (?, ?)", 
+									 tableName, columnName);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "SEQ_RESUME_NO.CURRVAL");
+			pstmt.setString(2, value);
+			result = pstmt.executeUpdate();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+}
