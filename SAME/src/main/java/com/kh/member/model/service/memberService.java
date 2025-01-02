@@ -1,21 +1,12 @@
 package com.kh.member.model.service;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
-
-import org.apache.tomcat.util.json.JSONParser;
+import java.util.List;
 
 import com.kh.member.model.dao.memberDao;
 import com.kh.member.model.vo.Member;
+import com.kh.member.model.vo.Transaction;
+
 import static com.kh.common.template.JDBCTemplate.*;
 
 public class memberService {
@@ -78,7 +69,7 @@ public class memberService {
 	}
 
 	public boolean quitMember(String memberId) {
-		Connection conn = null;
+		Connection conn = getConnection();
 		boolean success = dao.quitMember(conn, memberId);
 		
 		if(success) {
@@ -102,4 +93,39 @@ public class memberService {
         close(conn);
         return update;
     }
+
+	public List<Member> myPage() {
+		Connection conn = getConnection();
+		
+		List<Member> list = dao.myPage(conn);
+		
+		close(conn);
+		
+		return list;
+	
+	}
+	public Member getMemberInfo(String memberId) {
+	    Connection conn = null;
+	    Member memberInfo = null;
+	
+	    try {
+	        conn = getConnection();
+	        memberInfo = dao.getMemberInfo(conn, memberId);
+	    } finally {
+	        close(conn);
+	    }
+	    return memberInfo;
+	}
+
+	public List<Transaction> transactionDetail(String mentorNo, String startDate, String endDate,
+	        String status, String menteeName) {
+	    Connection conn = getConnection();
+	
+	    List<Transaction> list = dao.transactionDetail(conn, mentorNo, startDate, endDate, status, menteeName);
+	
+	    close(conn);
+		
+	    return list;
+	}
+
 }

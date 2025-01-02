@@ -26,11 +26,9 @@ public class LoginController extends HttpServlet {
         super();
     }
     
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-    	
-    	
-    	// 로그인 페이지로 이동
+        // 로그인 페이지로 이동
         request.getRequestDispatcher("/views/member/login.jsp").forward(request, response);
     }
     

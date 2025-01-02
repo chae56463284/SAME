@@ -1,6 +1,8 @@
 package com.kh.member.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,10 +32,8 @@ public class MyPageModifyController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	 		
-    			request.setCharacterEncoding("UTF-8");
-    			
-    			
+    			List<Member>list = new memberService().myPage();
+    			request.setAttribute("list", list);
     			request.getRequestDispatcher("/views/member/myPageModify.jsp").forward(request, response);
     }
 
@@ -43,28 +43,64 @@ public class MyPageModifyController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
+        HttpSession session = request.getSession();
+        Member loginUser = (Member) session.getAttribute("loginUser");
+
+        if (loginUser == null) {
+            request.setAttribute("errorMsg", "로그인 후 이용 가능한 서비스입니다.");
+            request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
+            return;
+        }
+
+        // 파라미터 받기
         String memberId = request.getParameter("memberId");
-        String memberPwd = request.getParameter("password");
+        String memberPwd = request.getParameter("memberPwd");
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String address = request.getParameter("address");
 
-        // Member 객체 생성 및 데이터 설정
-        Member updateMember = new Member();
-        updateMember.setMemberId(memberId);
-        updateMember.setMemberPwd(memberPwd);
-        updateMember.setPhone(Integer.parseInt(phone));
-        updateMember.setEmail(email);
-        updateMember.setAddress(address);
+        // 값이 비어있으면 기존 값 사용
+        if (memberId == null || memberId.trim().isEmpty()) {
+            memberId = loginUser.getMemberId();
+        }
+        if (memberPwd == null || memberPwd.trim().isEmpty()) {
+            memberPwd = loginUser.getMemberPwd();
+        }
+        if (phone == null || phone.trim().isEmpty()) {
+            phone = String.valueOf(loginUser.getPhone());
+        }
+        if (email == null || email.trim().isEmpty()) {
+            email = loginUser.getEmail();
+        }
+        if (address == null || address.trim().isEmpty()) {
+            address = loginUser.getAddress();
+        }
 
-        // Service 호출
+        System.out.println("MemberId: " + memberId);
+        System.out.println("MemberPwd: " + memberPwd);
+        System.out.println("Phone: " + phone);
+        System.out.println("Email: " + email);
+        System.out.println("Address: " + address);
+
+        Member updateMember = Member.builder()
+                .memberNo(loginUser.getMemberNo())
+                .memberId(memberId)
+                .memberPwd(memberPwd)
+                .memberName(loginUser.getMemberName())
+                .phone(Integer.parseInt(phone))
+                .memberSSN(loginUser.getMemberSSN())
+                .email(email)
+                .address(address)
+                .memberType(loginUser.getMemberType())
+                .build();
+
         memberService service = new memberService();
         boolean update = service.myPageModify(updateMember);
 
         if (update) {
-            // 세션에 업데이트된 사용자 정보 저장
-            request.getSession().setAttribute("loginUser", updateMember);
-            response.sendRedirect(request.getContextPath() + "/views/member/mentorPage/main.jsp");
+            // 세션 업데이트
+            session.setAttribute("loginUser", updateMember);
+            response.sendRedirect(request.getContextPath() + "/");  // 메인 페이지로 이동
         } else {
             request.setAttribute("errorMsg", "회원정보 수정 실패");
             request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);

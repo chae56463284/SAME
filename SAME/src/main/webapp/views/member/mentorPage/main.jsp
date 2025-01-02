@@ -198,6 +198,7 @@ body {
 		<div class="container">
 			<%@ include file="/views/common/sidebarMentor.jsp"%>
 			<div class="mentor-info">
+				<form action="<%= contextPath %>/member/mentorMain" method="post" name="mentorMain">
 				<!-- 회원 정보 박스 -->
 				<div class="info-box">
 					<img class="profile-image"
@@ -205,9 +206,15 @@ body {
 				</div>
 					<a href="<%=contextPath%>/member/modify" class="text-red" style="text-decoration: none;">회원정보 수정</a>
 
-				<div class="input-box" style="top: 21px">아이디</div>
-				<div class="input-box" style="top: 99px;">이름</div>
-				<div class="input-box" style="top: 185px;">이메일</div>
+					<div class="input-box" style="top: 21px">
+						<span class="info-text">${m.memberId}</span>
+					</div>
+					<div class="input-box" style="top: 99px;">
+						<span class="info-text">${m.memberName}</span>
+					</div>
+					<div class="input-box" style="top: 185px;">
+						<span class="info-text">${m.email}</span>
+					</div>
 
 				<div class="container">
 					<div class="section">
@@ -268,6 +275,7 @@ body {
 						}
 					</script>
 			</div>
+			</form>
 		</div>
 	</div>
 </body>

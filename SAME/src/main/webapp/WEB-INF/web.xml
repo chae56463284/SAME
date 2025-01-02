@@ -19,4 +19,12 @@
     <filter-name>EncodingFilter</filter-name>
     <url-pattern>/EncodingFilter</url-pattern>
   </filter-mapping>
+<servlet>
+    <servlet-name>MentorMainController</servlet-name>
+    <servlet-class>com.kh.member.controller.MentorMainController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>MentorMainController</servlet-name>
+    <url-pattern>/member/mentorMain</url-pattern>
+</servlet-mapping>
 </web-app>

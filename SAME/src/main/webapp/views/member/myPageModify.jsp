@@ -2,6 +2,7 @@
 <%
     String contextPath = request.getContextPath();
 %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -141,7 +142,6 @@ body {
       <div class="container">
         <%@ include file="/views/common/sidebarMentee.jsp"%>
        <div class="full">
-        <form action="<%= contextPath %>/member/modify" method="post">
         <div class="mentor-info">
             <!-- 회원 정보 박스 -->
             <div class="info-box">
@@ -195,21 +195,33 @@ body {
     </script>
 
 		<div class="under-box">
-			<div class="writing-box">
-			    <input type="password" name="password" value="<%= loginUser.getMemberPwd() %>">
-			</div>
-			<div class="writing-box">
-			    <input type="text" name="phone" value="<%= loginUser.getPhone() %>">
-			</div>
-			<div class="writing-box">
-			    <input type="email" name="email" value="<%= loginUser.getEmail() %>">
-			</div>
-			<div class="writing-box">
-			    <input type="text" name="address" value="<%= loginUser.getAddress() %>">
-			</div>
-			<button type="submit" class="submit-btn">회원정보수정</button>
+			<form action="<%= contextPath %>/member/modify" method="post">
+				<!-- memberId를 hidden으로 추가 -->
+				<input type="hidden" name="memberId" value="<%= loginUser.getMemberId() %>">
+				
+				<div class="writing-box">
+					<input type="password" name="memberPwd" 
+						   placeholder="비밀번호를 입력하세요"
+						   value="<%= loginUser.getMemberPwd() %>">
+				</div>
+				<div class="writing-box">
+					<input type="text" name="phone" 
+						   placeholder="전화번호를 입력하세요"
+						   value="<%= loginUser.getPhone() %>">
+				</div>
+				<div class="writing-box">
+					<input type="email" name="email" 
+						   placeholder="이메일을 입력하세요"
+						   value="<%= loginUser.getEmail() %>">
+				</div>
+				<div class="writing-box">
+					<input type="text" name="address" 
+						   placeholder="주소를 입력하세요"
+						   value="<%= loginUser.getAddress() %>">
+				</div>
+				<button type="submit" class="submit-btn">회원정보수정</button>
+			</form>
 		</div>
-        </form>
        </div>
       </div>
     </div>

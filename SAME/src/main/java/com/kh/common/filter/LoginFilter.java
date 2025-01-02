@@ -19,7 +19,7 @@ import com.kh.member.model.vo.Member;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(urlPatterns = {"/board/update", "/board/insert", "/board/delete", "/reply/*"})
+@WebFilter(urlPatterns = {"/board/update", "/board/insert", "/board/delete", "/reply/*" , "/member/modify"})
 public class LoginFilter extends HttpFilter implements Filter {
        
     /**

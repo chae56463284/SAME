@@ -178,7 +178,7 @@
 <div class="login-membership">
         <% if (loginUser == null) { %>
             <!-- 로그인 전 -->
-            <a href="<%= contextPath %>/views/member/login.jsp">LOGIN</a> /
+            <a href="<%= contextPath %>/member/login">LOGIN</a> /
             <a href="<%= contextPath %>/views/member/signup.jsp">MEMBERSHIP</a> /
             <a href="<%= contextPath %>/views/manager/managerIndex.jsp">관리자</a>
         <% } else { %>
@@ -188,7 +188,7 @@
                 char firstChar = memberNo.charAt(0); // MEMBER_NO 첫 글자 확인
             %>
             <% if (firstChar == 'B') { %>
-                <a href="<%= contextPath %>/views/member/mentorPage/main.jsp">MYPAGE</a> /
+                <a href="<%= contextPath %>/member/mentorMain">MYPAGE</a> /
             <% } else if (firstChar == 'A') { %>
                 <a href="<%= contextPath %>/views/member/menteePage/main.jsp">MYPAGE</a> /
             <% } %>

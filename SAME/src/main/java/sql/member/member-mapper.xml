@@ -34,13 +34,48 @@
 </entry>
 <entry key="myPageModify">
     UPDATE MEMBER
-    SET MEMBER_PWD = ?,
+    SET 
+        MEMBER_PWD = ?,
         PHONE = ?,
         EMAIL = ?,
         ADDRESS = ?
     WHERE MEMBER_ID = ?
+    AND IS_QUIT = 'N'
 </entry>
-
-
+<entry key="myPage">
+	SELECT *
+    FROM MEMBER
+</entry>
+<entry key="getMemberInfo">
+    SELECT *
+    FROM MEMBER
+    WHERE MEMBER_ID = ?
+    AND IS_QUIT = 'N'
+</entry>
+<entry key="Transaction">
+    SELECT 
+        td.TD_NO,
+        td.ENROLL_NO,
+        td.CLASS_CODE,
+        td.MENTOR_NO,
+        td.MENTEE_NO,
+        td.CATEGORY_NAME,
+        td.TD_DATE,
+        td.METHOD,
+        td.AMOUNT,
+        td.STATUS,
+        cm.CLASS_NAME,
+        m.MEMBER_NAME,
+        cm.START_DATE,
+        cm.END_DATE
+    FROM TRANSACTION_DETAIL td
+    JOIN CLASS_MENTEE cm ON td.CLASS_CODE = cm.CLASS_CODE
+    JOIN MEMBER m ON td.MENTEE_NO = m.MEMBER_NO
+    WHERE td.MENTOR_NO = ?
+    AND (? IS NULL OR td.TD_DATE BETWEEN TO_DATE(?, 'YYYY-MM-DD') AND TO_DATE(?, 'YYYY-MM-DD'))
+    AND (? = 'all' OR td.STATUS = ?)
+    AND (? IS NULL OR m.MEMBER_NAME LIKE ?)
+    ORDER BY td.TD_DATE DESC
+</entry>
 
 </properties>
