@@ -103,7 +103,7 @@ body {
 					action="${pageContext.request.contextPath}/member/insert"
 					method="post">
 					<!-- 히든 필드로 memberType 값 전달 -->
-					<input type="hidden" name="memberType" value="<%=memberType != null ? memberType : "B"%>">
+					<input type="hidden" name="memberType" value="<%=memberType != null ? memberType : "A"%>">
 					<div class="writing-box">
 						<input type="text" id="id" name="memberId" class="id-box"
 							placeholder="아이디" required>
@@ -178,7 +178,7 @@ body {
             }
 
             // 멘토 회원가입인 경우 알림
-            if (memberType === 'A') {
+            if (memberType === 'B') {
                 alert('회원가입 후 이력서 입력 페이지로 이동합니다.');
             }
         });

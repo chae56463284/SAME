@@ -6,7 +6,7 @@ String memberType = request.getParameter("memberType"); // URL 파라미터에�
 
 // 기본값 설정
 if (memberType == null || memberType.isEmpty()) {
-	response.sendRedirect(request.getRequestURL() + "?memberType=B");
+	response.sendRedirect(request.getRequestURL() + "?memberType=A");
 	return; // 리다이렉트 후 더 이상 코드를 실행하지 않음
 }
 
@@ -15,7 +15,7 @@ System.out.println("DEBUG: Full URL = " + request.getRequestURL() + "?" + reques
 System.out.println("DEBUG: memberType = " + memberType);
 System.out.println("DEBUG: Trimmed memberType = [" + memberType.trim() + "]");
 
-if ("A".equals(memberType.trim())) {
+if ("B".equals(memberType.trim())) {
 	System.out.println("DEBUG: 멘토 회원가입 조건 만족");
 } else {
 	System.out.println("DEBUG: 멘티 회원가입 조건 만족");
@@ -126,14 +126,14 @@ a {
 				<div class="MenuItem">
 					<div class="LogoPlaceholder"></div>
 					<div class="Label">
-						<a href="<%=contextPath%>/views/member/signup.jsp?memberType=B">멘티
+						<a href="<%=contextPath%>/views/member/signup.jsp?memberType=A">멘티
 							회원가입</a>
 					</div>
 				</div>
 				<div class="MenuItem">
 					<div class="LogoPlaceholder"></div>
 					<div class="Label">
-						<a href="<%=contextPath%>/views/member/signup.jsp?memberType=A">멘토
+						<a href="<%=contextPath%>/views/member/signup.jsp?memberType=B">멘토
 							회원가입</a>
 					</div>
 				</div>
