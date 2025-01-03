@@ -355,7 +355,7 @@ body {
 							<div class="selected-items selected-locations">
 								<!-- 선택된 지역들이 표시될 영역 -->
 							</div>
-							<select class="menu-dropdown location-select">
+							<select class="menu-dropdown location-select" name="regionName">
 								<option value="">지역</option>
 								<option value="서울">서울</option>
 								<option value="경기">경기</option>
@@ -374,7 +374,7 @@ body {
 							<div class="selected-items selected-subjects">
 								<!-- 선택된 과목들이 표시될 영역 -->
 							</div>
-							<select class="menu-dropdown subject-select">
+							<select class="menu-dropdown subject-select" name="className">
 								<option value="">강의과목</option>
 								<option value="국/영/수">국/영/수</option>
 								<option value="외국어">외국어</option>
@@ -450,7 +450,7 @@ document.querySelector('.subject-select').addEventListener('change', function (e
 						</div>
 						<div class="input-group">
 							<input type="text" id="education-input"
-								placeholder="학력 입력 (예: XX대학교 졸업 / 2016-03~2022-02)">
+								placeholder="학력 입력 (예: XX대학교 졸업 / 2016-03~2022-02)" name="education">
 							<button onclick="addItem('education')">등록</button>
 						</div>
 					</div>
@@ -463,7 +463,7 @@ document.querySelector('.subject-select').addEventListener('change', function (e
 						</div>
 						<div class="input-group">
 							<input type="text" id="experience-input"
-								placeholder="경력 입력 (예: XX회사 근무 / 2022-04~2024-09)">
+								placeholder="경력 입력 (예: XX회사 근무 / 2022-04~2024-09)" name="career">
 							<button onclick="addItem('experience')">등록</button>
 						</div>
 					</div>
@@ -476,7 +476,7 @@ document.querySelector('.subject-select').addEventListener('change', function (e
 						</div>
 						<div class="input-group">
 							<input type="text" id="language-input"
-								placeholder="자격증/외국어 입력 (예: TOEIC 850점)">
+								placeholder="자격증/외국어 입력 (예: TOEIC 850점)" name="license">
 							<button onclick="addItem('language')">등록</button>
 						</div>
 					</div>

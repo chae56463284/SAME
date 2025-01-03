@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,6 +71,10 @@
 	font-weight: 500;
 	line-height: 24px;
 }
+a {
+	color: black;
+	text-decoration: none;
+}
 </style>
 </head>
 <body>
@@ -85,7 +90,7 @@
 			<div class="SubMenu" id="boardSubMenu">
 				<div class="MenuItem">
 					<div class="LogoPlaceholder gray"></div>
-					<div class="Label">장바구니</div>
+					<div class="Label"><a href="${pageContext.request.contextPath}/views/member/menteePage/cart.jsp">장바구니</a></div>
 				</div>
 				<div class="MenuItem">
 					<div class="LogoPlaceholder gray"></div>

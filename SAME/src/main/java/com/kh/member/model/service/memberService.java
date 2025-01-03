@@ -182,4 +182,11 @@ public class memberService {
 		
 		return result;
 	}
+
+	public boolean checkDuplicateId(String memberId) {
+	    Connection conn = getConnection();
+	    boolean isDuplicate = dao.checkDuplicateId(conn, memberId);
+	    close(conn);
+	    return isDuplicate;
+	}
 }
