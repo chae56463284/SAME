@@ -146,36 +146,45 @@ body {
 	</div>
 
 	<script>
-	fetch('${pageContext.request.contextPath}/checkDuplicate?userId=' + userId)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('네트워크 응답에 문제가 있습니다.');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.isDuplicate) {
-            alert('이미 사용 중인 아이디입니다.');
-        } else {
-            alert('사용 가능한 아이디입니다.');
-        }
-    })
-    .catch(error => {
-        console.error('오류 발생:', error);
-        alert('중복 확인 중 오류가 발생했습니다. 다시 시도해주세요.');
-    });
+	document.querySelector('.duplicate-btn').addEventListener('click', function () {
+	    const userId = document.getElementById('id').value;
+
+	    if (!userId) {
+	        alert('아이디를 입력하세요.');
+	        return;
+	    }
+
+	    fetch(`${pageContext.request.contextPath}/member/checkDuplicate?memberId=` + userId)
+	        .then(response => {
+	            if (!response.ok) {
+	                throw new Error('네트워크 응답에 문제가 있습니다.');
+	            }
+	            return response.json();
+	        })
+	        .then(data => {
+	            if (data.isDuplicate) {
+	                alert('이미 사용 중인 아이디입니다.');
+	            } else {
+	                alert('사용 가능한 아이디입니다.');
+	            }
+	        })
+	        .catch(error => {
+	            console.error('오류 발생:', error);
+	            alert('중복 확인 중 오류가 발생했습니다. 다시 시도해주세요.');
+	        });
+	});
         
         document.getElementById('signup').addEventListener('submit', function (event) {
             const memberType = document.querySelector('input[name="memberType"]').value;
             const password = document.getElementById('password').value;
             const passwordConfirm = document.getElementById('password-confirm').value;
 
-            // 비밀번호 확인
-            if (password !== passwordConfirm) {
-                alert('비밀번호가 일치하지 않습니다.');
-                event.preventDefault();
-                return;
-            }
+	    // 비밀번호 확인
+	    if (password !== passwordConfirm) {
+	        alert('비밀번호가 일치하지 않습니다.');
+	        event.preventDefault();
+	        return;
+	    }
 
             // 멘토 회원가입인 경우 알림
             if (memberType === 'B') {

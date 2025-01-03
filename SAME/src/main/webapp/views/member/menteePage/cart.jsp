@@ -67,6 +67,12 @@ body {
 	text-align: center;
 	flex: 5;
 }
+.product-total{
+margin-left: 2%;
+}
+.header-price{
+margin-left: 90px;
+}
 
 .product-total, .product-price, .product-quantity, .product-total,
 	.product-actions {
@@ -185,10 +191,10 @@ body {
 					<!-- 헤더 -->
 					<div class="cart-header">
 						<div class="product-select">
-							<input type="checkbox">
+							<input type="checkbox" id="selectAll">
 						</div>
 						<div class="header-item">상품 정보</div>
-						<div class="header-price">판매가</div>
+						<div class="header-price"> 판매가</div>
 						<div class="header-quantity">수량</div>
 						<div class="product-total">결제 예정가</div>
 						<div class="header-check">선택</div>
@@ -197,7 +203,7 @@ body {
 					<!-- 상품 1 -->
 					<div class="cart-product">
 						<div class="product-select">
-							<input type="checkbox" />
+							<input type="checkbox" class="product-checkbox" />
 						</div>
 						<div class="product-info">
 							<img src="https://via.placeholder.com/80" alt="안광주 이미지" />
@@ -210,9 +216,9 @@ body {
 						</div>
 						<div class="product-price">7,000</div>
 						<div class="product-quantity">
-							<input type="number" value="5" min="1" />
+							<input type="number" value="5" min="1" class="quantity-input" />
 						</div>
-						<div class="product-total">7,000</div>
+						<div class="product-total">35,000</div>
 						<div class="product-actions">
 							<button class="btn pay-btn">결제</button>
 							<button class="btn delete-btn">삭제</button>
@@ -222,7 +228,7 @@ body {
 					<!-- 상품 2 -->
 					<div class="cart-product">
 						<div class="product-select">
-							<input type="checkbox" checked />
+							<input type="checkbox" class="product-checkbox" />
 						</div>
 						<div class="product-info">
 							<img src="https://via.placeholder.com/80" alt="채소연 이미지" />
@@ -235,7 +241,7 @@ body {
 						</div>
 						<div class="product-price">3,000</div>
 						<div class="product-quantity">
-							<input type="number" value="1" min="1" />
+							<input type="number" value="1" min="1" class="quantity-input" />
 						</div>
 						<div class="product-total">3,000</div>
 						<div class="product-actions">
@@ -248,12 +254,73 @@ body {
 				<!-- 하단 합계 -->
 				<div class="cart-footer">
 					<div class="final-price">
-						최종 금액: <span>3,000</span>원
+						최종 금액: <span id="finalAmount">38,000</span>원
 					</div>
 					<button class="btn checkout-btn">결제하기</button>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<!-- JavaScript -->
+	<script>
+		// 삭제 버튼 클릭 시 상품 삭제
+		document.querySelectorAll('.delete-btn').forEach((deleteBtn) => {
+			deleteBtn.addEventListener('click', function () {
+				const cartProduct = this.closest('.cart-product');
+				if (cartProduct) {
+					cartProduct.remove(); // 해당 상품 제거
+					updateFinalAmount(); // 최종 금액 업데이트
+				}
+			});
+		});
+
+		// 전체선택/해제 기능
+		const selectAllCheckbox = document.getElementById('selectAll');
+		const productCheckboxes = document.querySelectorAll('.product-checkbox');
+
+		selectAllCheckbox.addEventListener('change', function () {
+			const isChecked = this.checked;
+			productCheckboxes.forEach((checkbox) => {
+				checkbox.checked = isChecked; // 전체 선택 또는 해제
+			});
+		});
+
+		// 수량 변경 시 결제 예정가와 최종 금액 업데이트
+		const quantityInputs = document.querySelectorAll('.quantity-input');
+		quantityInputs.forEach((input) => {
+		    input.addEventListener('input', function () {
+		        const cartProduct = this.closest('.cart-product');
+		        if (cartProduct) {
+		            const productPrice = parseInt(cartProduct.querySelector('.product-price').textContent.replace(/,/g, ''), 10);
+		            const quantity = parseInt(this.value, 10);
+		            const productTotal = cartProduct.querySelector('.product-total');
+
+		            // 결제 예정가 계산 및 업데이트
+		            if (!isNaN(productPrice) && !isNaN(quantity)) {
+		                const total = productPrice * quantity;
+		                productTotal.textContent = total.toLocaleString(); // 숫자 포맷팅
+		            }
+
+		            // 최종 금액 업데이트
+		            updateFinalAmount();
+		        }
+		    });
+		});
+
+		// 최종 금액 업데이트 함수
+		function updateFinalAmount() {
+		    let finalAmount = 0;
+		    document.querySelectorAll('.product-total').forEach((total) => {
+		        // 결제 예정가 값을 가져와 숫자로 변환
+		        const amount = parseInt(total.textContent.replace(/,/g, ''), 10);
+		        if (!isNaN(amount)) {
+		            finalAmount += amount; // 숫자가 유효한 경우에만 더하기
+		        }
+		    });
+		    // 최종 금액 업데이트
+		    document.getElementById('finalAmount').textContent = finalAmount.toLocaleString(); // 숫자 포맷팅
+		}
+	</script>
 </body>
 </html>
