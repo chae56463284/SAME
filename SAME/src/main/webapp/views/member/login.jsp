@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ page import="com.kh.member.model.vo.Member" %>
-    <%
-    	String contextPath = request.getContextPath();
-    
-    	Member loginUser = (Member)session.getAttribute("loginUser");
-    	
-    	System.out.println(loginUser);
-    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,21 +19,9 @@
 
     .main {
         width: 1440px;
-        height: 960px;
         position: relative;
         background: rgb(255, 255, 255); 
     }
-
-    /* SAME SAME 로고 */
-    .SameSame {
-        color: #FF5C3D;
-        font-size: 128px;
-        font-family: Prompt, sans-serif;
-        font-weight: 700;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
     /* set 컨테이너 */
     .set {
         display: flex;
@@ -128,7 +109,7 @@
 </head>
 <body>
   <div class="main">
-    <div class="SameSame">SAME SAME</div>
+    <%@ include file="/views/common/mainHeader.jsp"%>
     <div class="set">
       
       <div class="bigBox">
@@ -149,13 +130,6 @@
      
              <div class="info-text"><a href="/same/views/member/forgotID.jsp">아이디 찾기</a> / <a href="/same/views/member/forgotPass.jsp">비밀번호 찾기</a></div>
      
-             <!-- 카카오 추후 로그인 로고 추가-->
-             <div class="kakaoGo">
-            <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=5d34fc02d1d535fbd842d2990b1aafe3&redirect_uri=${REDIRECT_URI}">
-                <button type="submit" class="kakao"> <a href="/same/views/memver/kakao.jsp">카카오로 로그인</a></button>
-            </a>
-             </div>
-             
              <div class="link-button"><a href="/same/views/member/signup.jsp">회원가입</a></div>
          </form>
          </div>

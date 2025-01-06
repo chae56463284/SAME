@@ -136,7 +136,7 @@ a {
 					<div class="title">글제목</div>
 					<div>작성자ID</div>
 					<div>작성일</div>
-					<div>상태</div>
+					<div>조회수</div>
 				</div>
 
 				<!-- 반복되는 행 -->
@@ -148,11 +148,12 @@ a {
 					<% for (Board b : list) { %>
 					<div><%= b.getBoardNo() %></div>
 					<div class="title">
-						<a href=""><%= b.getBoardTitle() %></a>
+					<a href="<%= contextPath %>/board/detail?bno=<%= b.getBoardNo() %>">
+					[<%= b.getCategory().getCategoryName() %>]	<%= b.getBoardTitle() %></a>	
 					</div>
 					<div><%= b.getMemberNo() %></div>
-					<div><%= b.getCount() %></div>
 					<div><%= b.getCreateDate() %></div>
+					<div><%= b.getCount() %></div>
 
 					<% } %>
 					<% } %>
@@ -166,10 +167,12 @@ a {
 				    
 				    <% session.removeAttribute("alertMsg"); %>
 				</script>
+				
 
-
-
-					</div>
+				</div>
+				
+					
+					
 					<!-- 페이징 바-->
 					<div align="center" class="paging-area">
 						<% if(currentPage != 1){ %>
@@ -188,9 +191,12 @@ a {
 
 						<script>
 					    function movePage(cpage){
-					      location.assign('/board/list?cpage='+cpage);
+					      location.assign('<%= contextPath %>/board/list?cpage='+cpage);
 					    }
 					    </script>
 					<!-- 페이징 바-->
+				</div>
+			</div>
+		</div>
 </body>
 </html>

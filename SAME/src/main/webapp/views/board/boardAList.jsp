@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, com.kh.board.model.vo.Board, com.kh.common.model.vo.PageInfo" %>
+<%@ page import="java.util.List, com.kh.board.model.vo.*, com.kh.common.model.vo.PageInfo,com.kh.board.model.dto.BoardDTO" %>
 <%
 	List<Board> list = (List<Board>) request.getAttribute("list");
 	PageInfo pi = (PageInfo) request.getAttribute("pi");
@@ -182,7 +182,9 @@
 			<% for (Board b : list) { %>
 					<div><%= b.getRNum() %></div>
 					
-					<div class="title"><a href=""><%= b.getBoardTitle() %></a></div>
+					<div class="title"><a href="<%= contextPath %>/board/detail?bno=<%= b.getBoardNo() %>">
+					[<%= b.getCategory().getCategoryName() %>] <%= b.getBoardTitle() %></a>
+					</div>
 					<div><%= b.getMemberNo() %></div>
 					<div><%= b.getCreateDate() %></div>
 					<div><%= b.getCount() %></div>
@@ -217,7 +219,9 @@
 				}
 			</script>
 			<!--강의시 사용한 페이징 바-->
+	</div>
 </div>
+
 		
 	
 

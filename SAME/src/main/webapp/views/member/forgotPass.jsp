@@ -17,7 +17,6 @@
 
     .main {
         width: 1440px;
-        height: 960px;
         position: relative;
         background: rgb(255, 255, 255);
     }
@@ -47,7 +46,7 @@
         display: flex;
         justify-content: center;
         gap: 10px;
-        margin-left: -35%;
+        margin-left: -38%;
         
     }
 
@@ -74,7 +73,7 @@
         background: white;
         color: black;
         border: 1px solid #E0E0E0;
-        margin-left: -2%;
+        margin-left: -10px;
     }
 
     .loginMe.active, .loginMt.active {
@@ -102,16 +101,17 @@
     }
     .writing-id, .writing-name, .writing-email {
         width: 100%;
-        height: 100%;
+        height: 50px;
         background: white;
         border-radius: 5px;
         border: 1px solid #828282;
         margin-bottom: 5%;
-        
+        display: flex;
+        align-items: center;
     }
 
     .text-input {
-        width: 90%;
+        width: 100%;
         height: 100%;
         border: none;
         font-size: 16px;
@@ -121,20 +121,28 @@
 
     .btn-pass {
         width: 100%;
-        height: 100%;
+        height: 50px;
         border-radius: 5px;
         font-size: 16px;
         font-weight: 500;
         text-align: center;
-        line-height: 50px;
-        cursor: pointer;
-        margin-bottom: 5%;
+        background: #FF5C3D;
+        border: none;
+        margin-top: 15%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
     }
 
-    .btn-pass {
-        background: #FF5C3D;
+    .btn-pass button {
+        width: 100%;
+        height: 100%;
+        background: none;
+        border: none;
         color: white;
-        margin-top: 15%;
+        font-size: 16px;
+        cursor: pointer;
     }
 
     /* 하단 텍스트 */
@@ -155,7 +163,7 @@
 </head>
 <body>
   <div class="main">
-    <div class="SameSame">SAME SAME</div>
+    <%@ include file="/views/common/mainHeader.jsp"%>
     <div class="set">
         
         <div class="bigBox">
@@ -180,7 +188,7 @@
                 <input type="text" class="text-input" placeholder="EMAIL" name="email">
              </div>
             	
-             <div type="submit" class="btn-pass"><a href="javascript:document.querySelector('#forgotPass').submit();">비밀번호 찾기</a></div>
+             <div type="submit" class="btn-pass"><a href="javascript:document.querySelector('#forgotPass').submit();" style="color: white;">비밀번호 찾기</a></div>
      
              <div class="forgot-id"><a href="/same/views/member/forgotID.jsp">아이디 찾기</a></div>
 		 </form>

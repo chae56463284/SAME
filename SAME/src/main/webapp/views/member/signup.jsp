@@ -103,7 +103,7 @@ body {
 					action="${pageContext.request.contextPath}/member/insert"
 					method="post">
 					<!-- 히든 필드로 memberType 값 전달 -->
-					<input type="hidden" name="memberType" value="<%=memberType != null ? memberType : "B"%>">
+					<input type="hidden" name="memberType" value="<%=memberType != null ? memberType : "A"%>">
 					<div class="writing-box">
 						<input type="text" id="id" name="memberId" class="id-box"
 							placeholder="아이디" required>
@@ -139,49 +139,57 @@ body {
 							placeholder="주소" required>
 					</div>
 					<button type="submit" class="submit-btn">회원가입</button>
-					<button type="button" class="kakao-btn">카카오로 시작하기</button>
 				</form>
 			</div>
 		</div>
 	</div>
 
 	<script>
-	fetch('${pageContext.request.contextPath}/checkDuplicate?userId=' + userId)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('네트워크 응답에 문제가 있습니다.');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.isDuplicate) {
-            alert('이미 사용 중인 아이디입니다.');
-        } else {
-            alert('사용 가능한 아이디입니다.');
-        }
-    })
-    .catch(error => {
-        console.error('오류 발생:', error);
-        alert('중복 확인 중 오류가 발생했습니다. 다시 시도해주세요.');
-    });
+	document.querySelector('.duplicate-btn').addEventListener('click', function () {
+	    const userId = document.getElementById('id').value;
+
+	    if (!userId) {
+	        alert('아이디를 입력하세요.');
+	        return;
+	    }
+
+	    fetch(`${pageContext.request.contextPath}/member/checkDuplicate?memberId=` + userId)
+	        .then(response => {
+	            if (!response.ok) {
+	                throw new Error('네트워크 응답에 문제가 있습니다.');
+	            }
+	            return response.json();
+	        })
+	        .then(data => {
+	            if (data.isDuplicate) {
+	                alert('이미 사용 중인 아이디입니다.');
+	            } else {
+	                alert('사용 가능한 아이디입니다.');
+	            }
+	        })
+	        .catch(error => {
+	            console.error('오류 발생:', error);
+	            alert('중복 확인 중 오류가 발생했습니다. 다시 시도해주세요.');
+	        });
+	});
         
-        document.getElementById('signup').addEventListener('submit', function (event) {
-            const memberType = document.querySelector('input[name="memberType"]').value;
-            const password = document.getElementById('password').value;
-            const passwordConfirm = document.getElementById('password-confirm').value;
+	document.getElementById('signup').addEventListener('submit', function (event) {
+    const memberType = document.querySelector('input[name="memberType"]').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password-confirm').value;
 
-            // 비밀번호 확인
-            if (password !== passwordConfirm) {
-                alert('비밀번호가 일치하지 않습니다.');
-                event.preventDefault();
-                return;
-            }
+    // 비밀번호 확인
+    if (password !== passwordConfirm) {
+        alert('비밀번호가 일치하지 않습니다.');
+        event.preventDefault();
+        return;
+    }
 
-            // 멘토 회원가입인 경우 알림
-            if (memberType === 'A') {
-                alert('회원가입 후 이력서 입력 페이지로 이동합니다.');
-            }
-        });
+    // 멘토 회원가입인 경우 알림
+    if (memberType === 'B') {
+        alert('회원가입 후 이력서 입력 페이지로 이동합니다.');
+    }
+});
     </script>
 </body>
 </html>

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.kh.member.model.vo.*"%>
+    
+<%
+Member loginUser = (Member) session.getAttribute("loginUser");
+%>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -7,10 +11,11 @@
     <title>결제성공</title>
   </head>
   <body>
-    <h2>결제 성공</h2>
-    <p id="paymentKey"></p>
-    <p id="orderId"></p>
-    <p id="amount"></p>
+  
+  	<div>
+  		<%@include file="/views/purchase/결제완료.jsp" %>
+  	</div>
+
 
     <script>
       // 쿼리 파라미터 값이 결제 요청할 때 보낸 데이터와 동일한지 반드시 확인하세요.
@@ -52,8 +57,8 @@
       const orderIdElement = document.getElementById("orderId");
       const amountElement = document.getElementById("amount");
 
-      orderIdElement.textContent = "주문번호: " + orderId;
-      amountElement.textContent = "결제 금액: " + amount;
+      orderIdElement.textContent = "주문회원: " + orderId;
+      amountElement.textContent = "결제금액: " + amount;
       paymentKeyElement.textContent = "paymentKey: " + paymentKey;
     </script>
   </body>

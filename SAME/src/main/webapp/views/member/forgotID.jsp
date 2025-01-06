@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-
-	String contextPath = request.getContextPath(); // /same
-
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +17,6 @@
 
     .main {
         width: 1440px;
-        height: 960px;
         position: relative;
         background: rgb(255, 255, 255);
     }
@@ -56,7 +50,7 @@
         display: flex;
         justify-content: center;
         gap: 10px;
-        margin-left: -35%;
+        margin-left: -38%;
         
     }
 
@@ -83,7 +77,7 @@
         background: white;
         color: black;
         border: 1px solid #E0E0E0;
-        margin-left: -2%;
+        margin-left: -10px;
     }
 
     .loginMe.active, .loginMt.active {
@@ -108,17 +102,18 @@
     
     .writing-name, .writing-email {
         width: 100%;
-        height: 100%;
+        height: 50px; /* login.jsp와 동일한 높이 */
         background: white;
         border-radius: 5px;
         border: 1px solid #828282;
         margin-bottom: 5%;
-        
+        display: flex; /* 추가 */
+        align-items: center; /* 추가 */
     }
 
     .text-input {
-        width: 90%;
-        height: 100%;
+        width: 100%; /* 수정 */
+        height: 100%; /* 수정 */
         border: none;
         font-size: 16px;
         padding: 0 15px;
@@ -163,7 +158,7 @@
 </head>
 <body>
   <div class="main">
-    <div class="SameSame">SAME SAME</div>
+    <%@ include file="/views/common/mainHeader.jsp"%>
     <div class="set">
         
         <div class="bigBox">

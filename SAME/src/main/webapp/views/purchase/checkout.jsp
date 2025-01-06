@@ -1,11 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    <%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import="com.kh.member.model.vo.Member"%>
+    <%
+    Member loginUser = (Member) session.getAttribute("loginUser");
+    String contextPath = request.getContextPath(); // /same
+    int amount = (Integer)(session.getAttribute("amount")) ;
+    %>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <title>외부 api</title>
     <script src="https://js.tosspayments.com/v2/standard"></script>
+
   </head>
   <body>
     <!-- 할인 쿠폰 -->
@@ -21,6 +27,7 @@
     <button class="button" id="payment-button" style="margin-top: 30px">결제하기</button>
 
     <script>
+   
       main();
 
       async function main() {
@@ -40,7 +47,7 @@
         // ------ 주문의 결제 금액 설정 ------
         await widgets.setAmount({
           currency: "KRW",
-          value: 50000,
+          value: 100,
         });
 
         await Promise.all([
@@ -58,7 +65,7 @@
           if (coupon.checked) {
             await widgets.setAmount({
               currency: "KRW",
-              value: 50000 - 5000,
+              value: 100 - 5000,
             });
 
             return;
@@ -66,20 +73,20 @@
 
           await widgets.setAmount({
             currency: "KRW",
-            value: 50000,
+            value: 100,
           });
         });
 
         // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
         button.addEventListener("click", async function () {
           await widgets.requestPayment({
-            orderId: "NAKb4BldLCWOblbGJWeB9",
-            orderName: "토스 티셔츠 외 2건",
-            successUrl: window.location.origin + "/success.html",
-            failUrl: window.location.origin + "/fail.html",
-            customerEmail: "customer123@gmail.com",
-            customerName: "김토스",
-            customerMobilePhone: "01012341234",
+            orderId: "<%=loginUser.getMemberNo() %>",
+            orderName: "백엔드의 모든 것 외 2건",
+            successUrl: window.location.origin + "<%=contextPath%>/views/purchase/success.jsp",
+            failUrl: window.location.origin + "<%=contextPath%>/views/purchase/fail.jsp",
+            customerEmail: "<%=loginUser.getEmail() %>",
+            customerName: "<%=loginUser.getMemberName() %>",
+            customerMobilePhone: "<%=loginUser.getPhone() %>",
           });
         });
       }

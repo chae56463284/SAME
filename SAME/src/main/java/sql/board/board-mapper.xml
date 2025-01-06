@@ -6,7 +6,7 @@
 	<entry key="selectBoardList">
 	SELECT *
 	FROM   (SELECT ROWNUM RNUM, A.*
-			FROM (SELECT BOARD_NO, MEMBER_NAME, BOARD_TITLE, CREATE_DATE, COUNT
+			FROM (SELECT BOARD_NO, MEMBER_NAME, BOARD_TITLE, CREATE_DATE, COUNT, CATEGORY
 					FROM BOARD B
 					JOIN MEMBER M USING (MEMBER_NO)
 					WHERE IS_DELETE = 'N'
@@ -35,26 +35,31 @@
 		<!-- 특정 게시판 조회  -->
 	<entry key="selectBoardListA">
 	SELECT *
-	FROM   (SELECT ROWNUM RNUM, A.*
-			FROM (SELECT BOARD_NO, MEMBER_NAME, BOARD_TITLE, CREATE_DATE, COUNT
-					FROM BOARD B
-					JOIN MEMBER M USING (MEMBER_NO)
-					WHERE IS_DELETE = 'N'
-					AND BOARD_TYPE = 'a'
-					ORDER BY BOARD_NO DESC) A
-			)
+	FROM (
+	    SELECT ROWNUM RNUM, A.*
+	    FROM (
+	        SELECT BOARD_NO, MEMBER_NAME, BOARD_TITLE, CREATE_DATE, COUNT, CATEGORY
+	        FROM BOARD B
+	        JOIN MEMBER M USING (MEMBER_NO)
+	        WHERE IS_DELETE = 'N'
+	        AND BOARD_TYPE = 'a'
+	        ORDER BY BOARD_NO
+	    ) A
+	)
 	WHERE RNUM BETWEEN ? AND ?
 	ORDER BY RNUM DESC
 	</entry>
 		<entry key="selectBoardListB">
 	SELECT *
-	FROM   (SELECT ROWNUM RNUM, A.*
-			FROM (SELECT BOARD_NO, MEMBER_NAME, BOARD_TITLE, CREATE_DATE, COUNT
-					FROM BOARD B
-					JOIN MEMBER M USING (MEMBER_NO)
-					WHERE IS_DELETE = 'N'
-					AND BOARD_TYPE = 'b'
-					ORDER BY BOARD_NO DESC) A
+	FROM   (
+			SELECT ROWNUM RNUM, A.*
+			FROM (
+				SELECT BOARD_NO, MEMBER_NAME, BOARD_TITLE, CREATE_DATE, COUNT, CATEGORY
+				FROM BOARD B
+				JOIN MEMBER M USING (MEMBER_NO)
+				WHERE IS_DELETE = 'N'
+				AND BOARD_TYPE = 'b'
+				ORDER BY BOARD_NO) A
 			)
 	WHERE RNUM BETWEEN ? AND ?
 	ORDER BY RNUM DESC
@@ -62,12 +67,12 @@
 		<entry key="selectBoardListC">
 	SELECT *
 	FROM   (SELECT ROWNUM RNUM, A.*
-			FROM (SELECT BOARD_NO, MEMBER_NAME, BOARD_TITLE, CREATE_DATE, COUNT
+			FROM (SELECT BOARD_NO, MEMBER_NAME, BOARD_TITLE, CREATE_DATE, COUNT, CATEGORY
 					FROM BOARD B
 					JOIN MEMBER M USING (MEMBER_NO)
 					WHERE IS_DELETE = 'N'
 					AND BOARD_TYPE = 'c'
-					ORDER BY BOARD_NO DESC) A
+					ORDER BY BOARD_NO) A
 			)
 	WHERE RNUM BETWEEN ? AND ?
 	ORDER BY RNUM DESC
@@ -76,15 +81,25 @@
 
 
 	<entry key="selectBoard">
-		SELECT 
-			BOARD_NO, CATEGORY_NAME, BOARD_TITLE, BOARD_CONTENT,
-			USER_ID, CREATE_DATE, FILE_NO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH
-		FROM BOARD B
-		LEFT JOIN CATEGORY C USING(CATEGORY_NO)
-		JOIN MEMBER M ON B.BOARD_WRITER = USER_NO
-		LEFT JOIN ATTACHMENT A ON (BOARD_NO = REF_BNO) AND A.IS_DELETE = 'N'
-		WHERE BOARD_NO = ?
-		    AND B.IS_DELETE = 'N'
+	SELECT 
+        BOARD_NO,
+        BOARD_TITLE,
+        BOARD_CONTENT,
+        MEMBER_NAME,
+        CREATE_DATE,
+        COUNT,
+        CATEGORY,
+        BOARD_TYPE,
+        B.IS_DELETE,
+        FILE_NO,
+        ORIGIN_NAME,
+        CHANGED_NAME,
+        FILE_PATH
+    FROM BOARD B
+    LEFT JOIN MEMBER M USING (MEMBER_NO)
+    LEFT JOIN ATTACHMENT A ON (BOARD_NO = REF_NO)
+    WHERE BOARD_NO = ?
+    AND B.IS_DELETE = 'N'
 	</entry>
 	
 	<!-- 말머리 선택  -->
@@ -98,8 +113,8 @@
 	
 	<!-- 게시글 작성  -->
 	<entry key="insertBoard">
-	INSERT INTO BOARD
-		(BOARD_NO,
+    INSERT INTO BOARD (
+        BOARD_NO,
         MEMBER_NO,
         BOARD_TYPE,
         BOARD_TITLE,
@@ -109,9 +124,21 @@
         IS_DELETE,
         IS_HIDDEN,
         COUNT,
-        CATEGORY)
-	VALUES(SEQ_BNO.NEXTVAL, ?,?,?,?,SYSDATE,NULL,'N',NULL,0,?);
-	</entry>
+        CATEGORY
+    ) VALUES (
+        SEQ_BNO.NEXTVAL,
+        ?,      
+        ?,      
+        ?,     
+        ?,      
+        SYSDATE,
+        NULL,   
+        'N',    
+        'N',    
+        0,
+        ?    
+    )
+</entry>
 	
 	
 	<entry key="insertAttachment">
@@ -124,11 +151,11 @@
 	<!-- 게시글 수정  -->
 	<entry key="updateBoard">
 		UPDATE BOARD
-			SET CATEGORY_NAME= ?,
+			SET CATEGORY= ?,
 				BOARD_TITLE =?,
 				BOARD_CONTENT=?
-		WHERE IS_DELETE ='N'
-		AND BOARD_NO =?
+		WHERE BOARD_NO =?
+		AND IS_DELETE ='N'
 	</entry>
 	
 	<!-- 첨부파일 수정하기  -->
@@ -138,7 +165,7 @@
 	<entry key="updateAttachment">
 		UPDATE ATTACHMENT
 			SET ORIGIN_NAME = ?,
-				CHANGE_NAME = ?
+				CHANGED_NAME = ?
 		WHERE FILE_NO = ?
 	</entry>
 	
@@ -157,7 +184,7 @@
 	
 	<entry key="deleteAttachment">
 		UPDATE ATTACHMENT
-			SET IS_DELETE ='N'
+			SET IS_DELETE ='Y'
 		WHERE FILE_NO = ?
 	</entry>
 	
@@ -166,18 +193,18 @@
 	<!-- 게시글 삭제  -->
 	<entry key="deleteBoard">
 		UPDATE BOARD
-			SET IS_DELETE='N'
-		WHERE IS_DELETE ='Y'
-		AND BOARD_NO =?
+			SET IS_DELETE='Y'
+		WHERE BOARD_NO =?
+		AND IS_DELETE ='N'
 	</entry>
 	
 	
 	<!-- 조회수 증가  -->
 	<entry key="increaseCount">
-	UPDATE BOARD
-	SET COUNT = COUNT + 1
-	WHERE IS_DELETE ='N'
-	AND NOTICE_NO = ?
+	UPDATE BOARD 
+      	SET COUNT = NVL(COUNT, 0) + 1 
+		WHERE BOARD_NO = ? 
+		AND IS_DELETE = 'N'
 	</entry>
 	
 	
@@ -205,7 +232,7 @@
 			FILE_LEVEL
 		FROM ATTACHMENT
 		WHERE REF_BNO = ?
-		  AND STATUS = 'Y'
+		  AND IS_DELETE = 'N'
 	</entry>
 	
 	
@@ -226,7 +253,7 @@
 		FROM REPLY R
 		JOIN MEMBER M ON USER_NO = REPLY_WRITER
 		WHERE REF_BNO = ?
-		AND R.STATUS ='Y'
+		AND R.IS_DELETE ='N'
 		ORDER BY CREATE_DATE DESC
 	</entry>
 

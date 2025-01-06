@@ -21,7 +21,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100vh;
+	height: auto;
 	margin: 0; /* 기본 margin 제거 */
 }
 
@@ -44,6 +44,12 @@ body {
 	font-weight: 700;
 	text-align: center;
 	margin-top: 20px; /* 상단 여백 */
+}
+
+/* 링크 스타일 */
+a {
+	text-decoration : none;
+	color: black;
 }
 </style>
 </head>

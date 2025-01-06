@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, com.kh.board.model.vo.Category" %>	
+<%@ page import="java.util.List, com.kh.board.model.vo.Category"%>
 
 <% 
+	
 	List<Category> list = (List<Category>)  request.getAttribute("list");
 	String[] boardType = (String[]) request.getAttribute("boardType");	
-%>	
+%>
 
 <!DOCTYPE html>
 <html>
@@ -109,219 +110,262 @@ body {
 
 /* 리뷰폼시작 */
 #reviewForm {
-    display: none;  /* 초기에는 숨김 */
-    width: 100%;
+	display: none; /* 초기에는 숨김 */
+	width: 100%;
 }
 
 .star-rating {
     display: flex;
-    margin-bottom: 10px;
+    gap: 5px;
+    margin-left: 10px;
+    align-items: center;
 }
 
 .star {
     font-size: 24px;
-    color: #ccc;
+    color: #ddd;
     cursor: pointer;
+    transition: color 0.2s;
+    user-select: none;
 }
 
 .star.selected {
-    color: #ffcc00;
+    color: #ffd700;
 }
 
-
+/* 호버 효과 */
+.star:hover {
+    color: #ffd700;
+}
 </style>
 </head>
 <body>
 	<div class="main">
 		<%@ include file="/views/common/mainHeader.jsp"%>
 		<%@ include file="/views/common/searchbar.jsp"%>
-		<br> <br>
-		<!-- 컨테이너 시작-->
+		<br>
+		<br>
+
 		<div class="container">
 			<%@ include file="/views/common/sidebarBoard.jsp"%>
 			<div class="form-container">
-				<!-- 익명 체크 -->
-				<div class="anonymous">
-					<input type="checkbox" id="anonymous" name="anonymous"> <label
-						for="anonymous">익명</label>
-				</div>
-				<form action="<%= contextPath%>/board/insert" method="post" enctype="multipart/form-data">
-					
-					
-					
-					<!-- 게시판 타입 선택 부분 수정 -->
+				<form action="<%= contextPath%>/board/insert" method="post"
+					enctype="multipart/form-data" onsubmit="return validateForm()">
+					<!-- 게시판 타입 선택 -->
 					<div class="form-group">
-					    <label for="boardType">작성게시판</label>
-					    <select id="boardType" name="boardType" onchange="toggleForms()">  
-					    <!-- id="category"를 "boardType"으로 수정 -->
-					        <% for(String str : boardType) { %>
-					            <option value="<%= str %>"><%=str %></option>
-					        <% } %>
-					    </select>
+						<label for="boardType">작성게시판</label> <select id="boardType"
+							name="boardType" onchange="toggleForms()">
+							<% for(String str : boardType) { %>
+							<option value="<%= str %>"><%=str %></option>
+							<% } %>
+						</select>
 					</div>
-					
-					 <!-- 일반 게시글 폼 -->
-                    <div id="normalForm">
-                        <div class="form-group">
-                            <label for="category">말머리</label>
-                            <select id="category" name="category">
-                                <% for(Category c : list) { %>
-                                    <option value="<%= c.getCategoryType() %>"><%=c.getCategoryName() %></option>
-                                <% } %>
-                            </select>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="title">제목</label>
-                            <input type="text" id="title" name="title" placeholder="제목을 입력하세요." required>
-                        </div>
+					<!-- 일반 게시글 폼 -->
+					<div id="normalForm">
+						<div class="form-group">
+							<label for="category">말머리</label> <select id="category"
+								name="category">
+								<% for(Category c : list) { %>
+								<option value="<%= c.getCategoryName() %>"><%=c.getCategoryName() %></option>
+								<% } %>
+							</select>
+						</div>
 
-                        <div class="form-group">
-                            <label for="content">내용</label>
-                            <textarea id="content" name="content" placeholder="내용을 입력하세요." required></textarea>
-                        </div>
-                    </div>
+						<div class="form-group">
+							<label for="title">제목</label> <input type="text" id="title"
+								name="title" placeholder="제목을 입력하세요." required>
+						</div>
 
-                    <!-- 리뷰 게시글 폼 -->
-                    <div id="reviewForm">
-                        <div class="form-group">
-							<label for="category">말머리</label>
-                            <select id="category" name="category">
-                                <% for(Category c : list) { %>
-                                    <option value="<%= c.getCategoryType() %>"><%=c.getCategoryName() %></option>
-                                <% } %>
-                            </select>
-                        </div>
+						<div class="form-group">
+							<label for="content">내용</label>
+							<textarea id="content" name="content" placeholder="내용을 입력하세요."
+								required></textarea>
+						</div>
+					</div>
 
-                        <div class="form-group">
-                            <label for="reviewTitle">제목</label>
-                            <input type="text" id="reviewTitle" name="title" required>
-                        </div>
+					<!-- 리뷰 게시글 폼 -->
+					<div id="reviewForm" style="display:none;">
+						    <div class="form-group">
+						        <label for="reviewCategory">말머리</label>
+						        <select id="reviewCategory" name="category">
+						            <% for(Category c : list) { %>
+						                <option value="<%= c.getCategoryName() %>"><%=c.getCategoryName() %></option>
+						            <% } %>
+						        </select>
+						    </div>
+						
+						    <div class="form-group">
+						        <label for="reviewTitle">제목</label>
+						        <input type="text" id="reviewTitle" name="title" placeholder="제목을 입력하세요." required>
+						    </div>
+						
+							<div class="form-group">
+								<label>평점</label>
+								<div class="star-rating" id="starRating">
+									<span class="star" data-value="1">★</span>
+									<span class="star" data-value="2">★</span>
+									<span class="star" data-value="3">★</span>
+									<span class="star" data-value="4">★</span>
+									<span class="star" data-value="5">★</span>
+								</div>
+								<input type="hidden" name="rating" id="ratingValue" value="">
+							</div>
+						
+						    <div class="form-group">
+						        <label for="reviewContent">내용</label>
+						        <textarea id="reviewContent" name="content" placeholder="내용을 입력하세요." required></textarea>
+						    </div>
+						</div>
 
-                        <div class="form-group">
-                            <label>평점</label>
-                            <div class="star-rating" id="starRating">
-                                <span class="star" data-value="1">★</span>
-                                <span class="star" data-value="2">★</span>
-                                <span class="star" data-value="3">★</span>
-                                <span class="star" data-value="4">★</span>
-                                <span class="star" data-value="5">★</span>
-                            </div>
-                            <input type="hidden" name="rating" id="ratingValue">
-                        </div>
+					<!-- 첨부파일 -->
+					<div class="form-group">
+						<label for="upfile">첨부파일</label>
+						<div class="file-upload">
+							<input type="file" id="upfile" name="upfile" accept="image/*">
+						</div>
+					</div>
 
-                        <div class="form-group">
-                            <label for="reviewContent">내용</label>
-                            <textarea id="reviewContent" name="content" rows="5" required></textarea>
-                        </div>
-                    </div>
-
-                    <!-- 첨부파일 -->
-                    <div class="form-group">
-                        <label for="upfile">첨부파일</label>
-                        <div class="file-upload">
-                            <input type="file" id="upfile" name="upfile" accept="image/*">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="submit-button">등록</button>
-                </form>
-            </div>
-        </div>
-    </div>
+					<button type="submit" class="submit-button">등록</button>
+				</form>
+			</div>
+		</div>
+	</div>
 
 	<script>
-		// 페이지 로드 시 초기 폼 상태 설정
-		document.addEventListener('DOMContentLoaded', function() {
-			toggleForms(); // 페이지 로드 시 초기 상태 설정
-		});
+	// 별점 기능
+	function initStarRating() {
+		const stars = document.querySelectorAll('.star');
+		const ratingValue = document.getElementById('ratingValue');
 		
-		// 폼 전환 함수
-		function toggleForms() {
-			const boardType = document.getElementById('boardType').value;
-			const normalForm = document.getElementById('normalForm');
-			const reviewForm = document.getElementById('reviewForm');
+		stars.forEach(star => {
+			star.addEventListener('click', function() {
+				const value = this.dataset.value;
+				console.log('별점 클릭:', value); // 디버깅용
+				
+				// hidden input에 값 설정
+				ratingValue.value = value;
+				
+				// 별점 시각적 표시
+				stars.forEach(s => {
+					if(parseInt(s.dataset.value) <= parseInt(value)) {
+						s.classList.add('selected');
+					} else {
+						s.classList.remove('selected');
+					}
+				});
+			});
+
+			// 호버 효과
+			star.addEventListener('mouseover', function() {
+				const value = this.dataset.value;
+				stars.forEach(s => {
+					if(parseInt(s.dataset.value) <= parseInt(value)) {
+						s.style.color = '#ffd700';
+					}
+				});
+			});
+
+			star.addEventListener('mouseout', function() {
+				stars.forEach(s => {
+					if(!s.classList.contains('selected')) {
+						s.style.color = '#ddd';
+					}
+				});
+			});
+		});
+	}
+	
+	
+	function validateForm() {
+		const boardType = document.getElementById('boardType').value;
+		let title, content;
+		
+		console.log('폼 검증 시작');
+		console.log('게시판 타입:', boardType);
+		
+		if(boardType === '리뷰') {
+			title = document.getElementById('reviewTitle').value.trim();
+			content = document.getElementById('reviewContent').value.trim();
+			const rating = document.getElementById('ratingValue').value;
 			
-			console.log('Selected board type:', boardType); // 디버깅용
+			console.log('리뷰 데이터:', { title, content, rating });
 			
-			if(boardType === '리뷰') {
-				normalForm.style.display = 'none';
-				reviewForm.style.display = 'block';
-				// 리뷰 폼의 필드들을 required로 설정
-				document.getElementById('reviewTitle').required = true;
-				document.getElementById('reviewContent').required = true;
-				// 일반 폼의 필드들은 required 해제
-				document.getElementById('title').required = false;
-				document.getElementById('content').required = false;
-			} else {
-				normalForm.style.display = 'block';
-				reviewForm.style.display = 'none';
-				// 일반 폼의 필드들을 required로 설정
-				document.getElementById('title').required = true;
-				document.getElementById('content').required = true;
-				// 리뷰 폼의 필드들은 required 해제
-				document.getElementById('reviewTitle').required = false;
-				document.getElementById('reviewContent').required = false;
+			if(!rating) {
+				alert('평점을 선택해주세요.');
+				return false;
+			}
+			
+			if(!title || !content) {
+				alert('제목과 내용을 모두 입력해주세요.');
+				return false;
+			}
+		} else {
+			title = document.getElementById('title').value.trim();
+			content = document.getElementById('content').value.trim();
+			
+			console.log('일반 게시글 데이터:', { title, content });
+			
+			if(!title || !content) {
+				alert('제목과 내용을 모두 입력해주세요.');
+				return false;
 			}
 		}
 		
-		// 별점 기능
-		const stars = document.querySelectorAll('.star');
-		let selectedRating = 0;
+		console.log('폼 검증 통과');
+		return true;
+	}
+
+	// 폼 전환 함수 수정
+	function toggleForms() {
+	    const boardType = document.getElementById('boardType').value;
+		const normalForm = document.getElementById('normalForm');
+		const reviewForm = document.getElementById('reviewForm');
 		
-		stars.forEach(star => {
-			star.addEventListener('click', () => {
-				selectedRating = parseInt(star.getAttribute('data-value'));
-				document.getElementById('ratingValue').value = selectedRating;
-				stars.forEach(s => s.classList.remove('selected'));
-				for (let i = 0; i < selectedRating; i++) {
-					stars[i].classList.add('selected');
-				}
+		console.log('게시판 전환:', boardType);
+		
+		if(boardType === '리뷰') {
+			normalForm.style.display = 'none';
+			reviewForm.style.display = 'block';
+			
+			// 일반 폼 필드 비활성화
+			document.getElementById('title').value = '';
+			document.getElementById('content').value = '';
+			document.getElementById('title').disabled = true;
+			document.getElementById('content').disabled = true;
+			
+			// 리뷰 폼 필드 활성화
+			document.getElementById('reviewTitle').disabled = false;
+			document.getElementById('reviewContent').disabled = false;
+			
+			// 별점 초기화
+			document.getElementById('ratingValue').value = '';
+			document.querySelectorAll('.star').forEach(s => {
+				s.classList.remove('selected');
 			});
-		});
-		
-		// 폼 제출 전 유효성 검사
-		document.querySelector('form').addEventListener('submit', function(e) {
-			e.preventDefault(); // 일단 제출을 막음
 			
-			const boardType = document.getElementById('boardType').value;
+		} else {
+			normalForm.style.display = 'block';
+			reviewForm.style.display = 'none';
 			
-			if(boardType === '리뷰') {
-				if(!selectedRating) {
-					alert('평점을 선택해주세요.');
-					return;
-				}
-				
-				const reviewTitle = document.getElementById('reviewTitle').value.trim();
-				const reviewContent = document.getElementById('reviewContent').value.trim();
-				
-				if(!reviewTitle) {
-					alert('제목을 입력해주세요.');
-					return;
-				}
-				
-				if(!reviewContent) {
-					alert('내용을 입력해주세요.');
-					return;
-				}
-			} else {
-				const title = document.getElementById('title').value.trim();
-				const content = document.getElementById('content').value.trim();
-				
-				if(!title) {
-					alert('제목을 입력해주세요.');
-					return;
-				}
-				
-				if(!content) {
-					alert('내용을 입력해주세요.');
-					return;
-				}
-			}
+			// 리뷰 폼 필드 비활성화
+			document.getElementById('reviewTitle').value = '';
+			document.getElementById('reviewContent').value = '';
+			document.getElementById('reviewTitle').disabled = true;
+			document.getElementById('reviewContent').disabled = true;
 			
-			// 모든 검증을 통과하면 폼 제출
-			this.submit();
-		});
-	</script>
+			// 일반 폼 필드 활성화
+			document.getElementById('title').disabled = false;
+			document.getElementById('content').disabled = false;
+		}
+	}
+
+	// 페이지 로드 시 초기화
+	document.addEventListener('DOMContentLoaded', function() {
+		console.log('페이지 로드됨');
+	    toggleForms();
+		initStarRating(); // 별점 기능 초기화 추가
+	});
+    </script>
 </body>
 </html>

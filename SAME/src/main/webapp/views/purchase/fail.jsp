@@ -8,9 +8,11 @@
   </head>
 
   <body>
-    <h2> 결제 실패 </h2>
-    <p id="code"></p>
-    <p id="message"></p>
+  
+  	<div>
+  		<%@include file="/views/purchase/결제실패.jsp" %>
+  	</div>
+
   </body>
 </html>
 

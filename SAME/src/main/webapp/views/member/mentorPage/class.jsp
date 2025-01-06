@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.List , com.kh.board.model.vo.Category , com.kh.member.model.vo.Member" %>
+<%
+    List<String> subjects = (List<String>)request.getAttribute("subjects");
+	List<String> regions = (List<String>)request.getAttribute("regions");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -122,52 +127,57 @@ select {
 		<br> <br>
 		<!-- 컨테이너 시작-->
 		<div class="container">
-			<%@ include file="/views/common/sidebarMentee.jsp"%>
+			<%@ include file="/views/common/sidebarMentor.jsp"%>
 			<div class="form-container">
 				<h2>강의 등록</h2>
-				<form id="lectureForm">
+				<form action="<%=contextPath%>/member/class" id="classForm" method="post">
 					<!-- 강사 -->
 					<div class="form-group">
-						<label for="teacher">강사</label> <input type="text" id="teacher"
-							name="teacher" value="홍길동" readonly>
+						<label for="teacher">강사</label> 
+						<input type="text" id="teacher"name="teacher" value="<%=loginUser.getMemberName()%>" readonly>
 					</div>
 
 					<!-- 강의명 -->
 					<div class="form-group">
-						<label for="lecture-name">강의명</label> <input type="text"
-							id="lecture-name" name="lecture-name" placeholder="강의명을 입력하세요"
-							required>
+						<label for="lecture-name">강의명</label> 
+						<input type="text"id="lecture-name" name="lecture-name" placeholder="강의명을 입력하세요"required>
 					</div>
 
-					<!-- 분야 -->
+					<!-- 분야 선택 -->
 					<div class="form-group">
-						<label for="category">분야</label> <select id="category"
-							name="category">
-							<option value="영어">영어</option>
-							<option value="수학">수학</option>
-							<option value="과학">과학</option>
-						</select>
-						<div id="category-tags" class="tags"></div>
+					    <label for="category">분야</label>
+					    <select id="category" name="category" required>
+					        <option value="">분야를 선택하세요</option>
+					        <% if(subjects != null && !subjects.isEmpty()) {
+					            for(String subject : subjects) { %>
+					                <option value="<%= subject %>"><%= subject %></option>
+					        <% }
+					        } %>
+					    </select>
 					</div>
 
-					<!-- 지역 -->
+					<!-- 지역 선택 -->
 					<div class="form-group">
-						<label for="region">지역</label> <select id="region" name="region">
-							<option value="서울">서울</option>
-							<option value="중구">중구</option>
-							<option value="용산구">용산구</option>
-						</select>
-						<div id="region-tags" class="tags"></div>
+					    <label for="region">지역</label>
+					    <select id="region" name="region" required>
+					        <option value="">지역을 선택하세요</option>
+					        <% if(regions != null && !regions.isEmpty()) {
+					            for(String region : regions) { %>
+					                <option value="<%= region %>"><%= region %></option>
+					        <% }
+					        } %>
+					    </select>
 					</div>
 
 					<!-- 강의 시간 -->
 					<div class="form-group">
-						<label for="start-date">강의 시작 날짜</label> <input type="date"
-							id="start-date" name="start-date" value="2024-12-11" required>
-						<br>
-						<br> <label for="end-date" class="inline-label">강의 종료
-							날짜</label> <input type="date" id="end-date" name="end-date"
-							value="2024-12-17" required>
+						<label for="start-date">강의 시작 날짜</label> 
+						<input type="date"id="start-date" name="start-date" value="2024-12-11" required>
+
+						<br><br> 
+
+						<label for="end-date" class="inline-label">강의 종료 날짜</label> 
+						<input type="date" id="end-date" name="end-date" value="2024-12-17" required>
 					</div>
 
 					<!-- 내용 -->
@@ -181,20 +191,13 @@ select {
 준비물: 노트</textarea>
 					</div>
 
-					<!-- 사진 -->
-					<div class="form-group">
-						<label for="file">사진</label> <input type="file" id="file"
-							name="file" accept="image/*">
-					</div>
-
 					<!-- 가격 -->
 					<div class="form-group">
-						<label for="price">가격</label> <input type="text" id="price"
-							name="price" value="20,000원">
+						<label for="price">가격</label> <input type="text" id="price" name="price" value="20,000원">
 					</div>
 
 					<!-- 등록 버튼 -->
-					<input type="submit" class="register-button" value="등록" />
+					<button type="submit" class="register-button">등록</button>
 				</form>
 			</div>
 		</div>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +26,7 @@
             labels: ['멘티', '멘토'],
             datasets: [{
                 label: '비율',
-                data: [70, 30],
+                data: [<%=menteeNum %>, <%=mentorNum %>],
                 backgroundColor: ['#36A2EB', '#FF6384'], //칸 색상
                 hoverBackgroundColor: ['#2A9DF4', '#FF4C6E'], // hover시 변경색상
                 borderWidth: 1
@@ -49,10 +50,12 @@
                         datalabels: {
                             anchor: 'center',
                             align: 'center',
-                            formatter: (value, context) => {
+                          /*   formatter: (value, context) => {
                                 const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
                                 const percentage = Math.floor((value / total) * 100 + 0.5);
-                                return `${percentage}%`;
+                                return `${percentage}%`; */
+                                formatter: (value, ctx) => {
+                                    return value; 
                             },
                             color: '#fff', // 텍스트 색상
                             font: {

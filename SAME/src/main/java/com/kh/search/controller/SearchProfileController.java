@@ -1,26 +1,28 @@
-package com.kh.member.controller;
+package com.kh.search.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.member.model.service.memberService;
-import com.kh.member.model.vo.Member;
+import com.kh.member.model.vo.Profile;
+import com.kh.search.model.service.ProfileService;
 
 /**
- * Servlet implementation class KakaoController
+ * Servlet implementation class SearchProfileController
  */
-@WebServlet("/KakaoLogin")
-public class KakaoController extends HttpServlet {
+@WebServlet("/search/profile")
+public class SearchProfileController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public KakaoController() {
+    public SearchProfileController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,26 +31,22 @@ public class KakaoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String code = request.getParameter("code");
-		if(code == null) {
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
-            return;
+		
+		String keyword = request.getParameter("keyword");
+		List<Profile>list=null;
+		
+		if(keyword==null) {
+			list = new ProfileService().profileList();
+			request.setAttribute("list", list);
+			request.getRequestDispatcher("/views/search/검색창.jsp").forward(request, response);
+		}else {
+			
+			list = new ProfileService().selectProfileList(keyword);
+			request.setAttribute("list", list);
+			request.getRequestDispatcher("/views/search/검색창.jsp?keyword="+keyword).forward(request, response);
 		}
 		
-		memberService service = new memberService();
-        String accessToken = service.getKakaoAccessToken(code);
 		
-		if (accessToken != null) {
-            Member member = service.getKakaoUserInfo(accessToken);
-            if (member != null) {
-                request.getSession().setAttribute("loginUser", member);
-                response.sendRedirect(request.getContextPath() + "/");
-            } else {
-                
-            }
-        } else {
-            
-        }
 	}
 
 	/**

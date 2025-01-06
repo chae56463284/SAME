@@ -17,7 +17,6 @@
 
     .main {
         width: 1440px;
-        height: 960px;
         position: relative;
         background: rgb(255, 255, 255);
     }
@@ -79,7 +78,7 @@
 </head>
 <body>
   <div class="main">
-    <div class="SameSame">SAME SAME</div>
+    <%@ include file="/views/common/mainHeader.jsp"%>
     <div class="set">
         
         <div class="bigBox">

@@ -2,7 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, com.kh.board.model.vo.Board, com.kh.common.model.vo.PageInfo" %>
 <%
-%>    
+	Integer mentorNumObj = (Integer) request.getAttribute("mentorNum");
+	Integer menteeNumObj = (Integer) request.getAttribute("menteeNum");
+	
+	int mentorNum = (mentorNumObj != null) ? mentorNumObj : 30;
+	int menteeNum = (menteeNumObj != null) ? menteeNumObj : 70;
+%>  
 <!DOCTYPE html>
 <html>
 <head>

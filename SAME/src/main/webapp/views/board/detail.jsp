@@ -1,16 +1,43 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"import="com.kh.board.model.vo.*, com.kh.board.model.dto.BoardDTO" %>
+<%@ page 
+    language="java" 
+    contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    import="com.kh.board.model.vo.*, 
+            com.kh.board.model.dto.BoardDTO" 
+%>
 <%
-	BoardDTO b = (BoardDTO) request.getAttribute("b");
-	Board board = b.getB();
-	Category c = board.getCategory();
-	Attachment at = b.getAt();
-%>	
+    try {
+        // null 체크 및 예외 처리 개선
+        BoardDTO b = (BoardDTO) request.getAttribute("b");
+        int cPage = 1; // 기본값 설정
+        
+        // 현재 페이지 정보 가져오기 - null 체크 추가
+        Integer currentPage = (Integer)request.getAttribute("cPage");
+        if(currentPage != null) {
+            cPage = currentPage;
+        }
+        
+        if(b == null) {
+            request.setAttribute("errorMsg", "게시글 정보를 찾을 수 없습니다.");
+            request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
+            return;
+        }
+        
+        Board board = b.getB();
+        if(board == null) {
+            request.setAttribute("errorMsg", "게시글 상세 정보를 찾을 수 없습니다.");
+            request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
+            return;
+        }
+        
+        Category c = board.getCategory();
+        Attachment at = b.getAt();
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글 상세</title>
+<title>Insert title here</title>
 <style>
 body {
 	display: flex;
@@ -205,7 +232,7 @@ body {
 	background-color: #e54c2e;
 }
 
-@
+
 keyframes fadeIn {from { opacity:0;
 	transform: scale(0.9);
 }
@@ -215,39 +242,84 @@ to {
 	transform: scale(1);
 }
 }
+
+.button-area {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin: 20px 0;
+}
+
+.button-area button {
+	padding: 6px 12px;
+	background-color: #ff5c3d;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.button-area button:hover {
+	background-color: #e54c2e;
+}
 </style>
 </head>
 <body>
 	<div class="main">
-		<%@ include file="/views/common/mainHeader.jsp"%>
-		<%@ include file="/views/common/searchbar.jsp"%>
-		<br> <br>
-		<!-- 컨테이너 시작-->
-		<div class="container">
-			<%@ include file="/views/common/sidebarBoard.jsp"%>
-			<div class="detail-container">
-				<!-- 글 제목과 정보 -->
-				<div class="detail-header">
-					<span class="category"><%= c.getCategoryName() %></span>
-					<h1 class="detail-title"><%= board.getBoardTitle() %></h1>
-					<div>
-						<span class="detail-user"><%= board.getMemberNo() %></span> <span class="detail-date">2024.12.12.
-							16:53</span>
-					</div>
-				</div>
-				<hr>
-				<!-- 작성 내용 -->
-				<div class="detail-content"><%= board.getBoardContent() %></div>
-
+        <%@ include file="/views/common/mainHeader.jsp"%>
+        <%@ include file="/views/common/searchbar.jsp"%>
+        <br><br>
+        <div class="container">
+            <%@ include file="/views/common/sidebarBoard.jsp"%>
+            <div class="detail-container">
+                <div class="detail-header">
+                    <!-- null 체크 추가 -->
+                    <span class="category">
+                        <%= c.getCategoryName() != null ? c.getCategoryName() : "카테고리 없음" %>
+                    </span>
+                    <h2 class="detail-title">
+                        <%= board.getBoardTitle() != null ? board.getBoardTitle() : "제목 없음" %>
+                    </h2>
+                    <span class="detail-user">
+                        <%= board.getMemberNo() != null ? board.getMemberNo() : "작성자 정보 없음" %>
+                    </span>
+                    <span class="detail-date">
+                        <%= board.getCreateDate() != null ? board.getCreateDate() : "작성일 정보 없음" %>
+                    </span>
+                    <span class="detail-count">조회수: <%= board.getCount() %></span>
+                </div>
+                <hr>
+                <div class="detail-content">
+                    <%= board.getBoardContent() != null ? board.getBoardContent() : "내용 없음" %>
+                </div>
+                
 				<!-- 이미지 -->
-				<div class="image-container">
-					<img src="<%= at.getFilePath() %>" alt="Uploaded Image">
+				 <% if(at != null && at.getFilePath() != null && at.getChangedName() != null) { %>
+                    <div class="image-container">
+                        <img src="<%= request.getContextPath() %><%= at.getFilePath() + at.getChangedName() %>" 
+                             alt="첨부이미지"
+                             onerror="this.onerror=null; this.src='<%= request.getContextPath() %>/resources/images/noimage.png';">
+                    </div>
+                <% } %>
+
+				 <!-- 목록으로 돌아가기 버튼 추가 -->
+				 <div class="button-area">
+					<button onclick="location.href='<%= request.getContextPath() %>/board/list?cPage=<%= cPage %>'">목록으로</button>
+					
+					<% if(loginUser != null && loginUser.getMemberNo().equals(board.getMemberNo())) { %>
+						<button onclick="location.href='<%= request.getContextPath() %>/board/update?bno=<%= board.getBoardNo() %>'">수정하기</button>
+						<button onclick="deleteBoard()">삭제하기</button>
+					<% } %>
 				</div>
+
+				<!-- 신고 버튼 -->
 				<div class="report">
-					<!-- 신고 버튼 -->
-					<button class="report-button" id="reportBtn">
-						<div class="report-icon"></div>
+					<button type="button" class="report-button" onclick="showReportPopup()">
+						<span class="report-icon"></span>
 					</button>
+					
 				</div>
 
 				<!-- 신고 팝업 -->
@@ -280,39 +352,73 @@ to {
 						</div>
 					</div>
 				</div>
-				<%@ include file="/views/board/reply.jsp"%>
+
+				<!-- 댓글 영역 추가 - 명확한 구분을 위한 div 추가 -->
+				<div class="reply-section">
+					<% 
+						// reply.jsp에 필요한 데이터 명시적 설정
+						request.setAttribute("boardDTO", b);
+					%>
+					<%@ include file="/views/board/reply.jsp"%>
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<script>
-            // 팝업 열기
-            const reportBtn = document.getElementById('reportBtn');
-            const popupOverlay = document.getElementById('popupOverlay');
-            const popupCloseBtn = document.getElementById('popupCloseBtn');
-    
-            reportBtn.addEventListener('click', () => {
-                popupOverlay.style.display = 'flex';
-            });
-    
-            // 팝업 닫기
-            popupCloseBtn.addEventListener('click', () => {
-                popupOverlay.style.display = 'none';
-            });
-    
-            // 신고 폼 제출 이벤트
-            const reportForm = document.getElementById('reportForm');
-            reportForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const reason = document.getElementById('reason').value;
-                const details = document.getElementById('details').value;
-    
-                alert(`신고가 접수되었습니다.\n말머리: ${reason}\n내용: ${details}`);
-                popupOverlay.style.display = 'none';
-    
-                // 여기에 신고를 처리하는 서버 요청 코드를 추가할 수 있습니다.
-            });
+		<script>
+			 // JavaScript 에러 처리 추가
+		    document.addEventListener('DOMContentLoaded', function() {
+		        const reportBtn = document.getElementById('reportBtn');
+		        const popupOverlay = document.getElementById('popupOverlay');
+		        const popupCloseBtn = document.getElementById('popupCloseBtn');
+		        
+		        if(reportBtn && popupOverlay && popupCloseBtn) {
+		            reportBtn.addEventListener('click', () => {
+		                popupOverlay.style.display = 'flex';
+		            });
+		            
+		            popupCloseBtn.addEventListener('click', () => {
+		                popupOverlay.style.display = 'none';
+		            });
+		        }
+		        
+		        const reportForm = document.getElementById('reportForm');
+		        if(reportForm) {
+		            reportForm.addEventListener('submit', (e) => {
+		                e.preventDefault();
+		                const reason = document.getElementById('reason').value;
+		                const details = document.getElementById('details').value;
+		                
+		                if(!reason || !details) {
+		                    alert('신고 사유와 내용을 모두 입력해주세요.');
+		                    return;
+		                }
+		                
+		                alert(`신고가 접수되었습니다.\n말머리: ${reason}\n내용: ${details}`);
+		                popupOverlay.style.display = 'none';
+		            });
+		        }
+		    });
+
+		    // 게시글 삭제 함수 추가
+		    function deleteBoard() {
+		        if(confirm('정말 삭제하시겠습니까?')) {
+		            location.href = '<%=request.getContextPath()%>/board/delete?bno=<%=board.getBoardNo()%>';
+		        }
+		    }
+
+		    document.addEventListener('DOMContentLoaded', function() {
+		        // 기존 신고 관련 코드...
+		    });
         </script>
 
 </body>
 </html>
+
+<%
+    } catch(Exception e) {
+        e.printStackTrace();
+        request.setAttribute("errorMsg", "게시글 조회 중 오류가 발생했습니다.");
+        request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
+    }
+%>

@@ -65,6 +65,11 @@
 	font-weight: 500;
 	line-height: 24px;
 }
+
+a {
+	text-decoration: none;
+	color:black;
+}
 </style>
 </head>
 <body>

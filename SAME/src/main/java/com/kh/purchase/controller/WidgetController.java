@@ -1,16 +1,18 @@
 package com.kh.purchase.controller;
 
-
-
 import javax.servlet.http.HttpServletRequest;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.kh.member.model.vo.Member;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,49 +23,48 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-
-
-
 @WebServlet("/tossPay")
 public class WidgetController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 요청 본문을 읽기
-        StringBuilder sb = new StringBuilder();
-        String line;
-        try (BufferedReader reader = request.getReader()) {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-        }
-
         
+    	
+    	// 세션에서 로그인 유저 정보 확인
+        HttpSession session = request.getSession();
+        Member loginUser = (Member) session.getAttribute("loginUser");
         
-        // JSON 파싱
-        JSONParser parser = new JSONParser();
-        JSONObject jsonObject;
-        try {
-            jsonObject = (JSONObject) parser.parse(sb.toString());
-        } catch (ParseException e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        // 로그인 체크
+        if (loginUser == null) {
+            request.setAttribute("errorMsg", "로그인 후 이용 가능한 서비스입니다.");
+            request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
             return;
         }
+        
 
-        // TossPay 관련 로직 처리
-        // 예: 결제 요청 처리
-        String paymentId = (String) jsonObject.get("paymentId");
-        // 여기에 TossPay API 호출 및 처리 로직 추가
+        try {
+            // form에서 전달된 finalAmount 파라미터 처리
+            String finalAmountStr = request.getParameter("finalAmount");
+            int amount = 0;
+            
+            if (finalAmountStr != null && !finalAmountStr.trim().isEmpty()) {
+                // 쉼표 제거 후 정수로 변환
+                amount = Integer.parseInt(finalAmountStr.replaceAll(",", ""));
+            }
+            
+            // 결제 정보를 checkout.jsp로 전달하기 위해 request에 저장
+            request.setAttribute("loginUser", loginUser);
+            request.setAttribute("amount", amount);
+            
 
-        // 응답 생성
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        JSONObject responseJson = new JSONObject();
-        responseJson.put("status", "success");
-        responseJson.put("paymentId", paymentId);
-        out.print(responseJson.toJSONString());
-        out.flush();
+            // checkout.jsp로 포워딩
+            request.getRequestDispatcher("/views/purchase/checkout.jsp").forward(request, response);
+            
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMsg", "잘못된 금액 형식입니다.");
+            request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
+        }
     }
 }
 
@@ -122,3 +123,4 @@ public class WidgetController extends HttpServlet {
 //
 //        return ResponseEntity.status(code).body(jsonObject);
 //    }
+//}

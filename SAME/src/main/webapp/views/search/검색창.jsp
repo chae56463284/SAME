@@ -1,20 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List, com.kh.member.model.vo.Profile, com.kh.member.model.vo.Member" %>
+<%
+	 List<Profile> list = (List<Profile>)request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="/resources/css/search.css">
+<link href="/same/resources/css/search.css" rel="stylesheet">
 <title>프로필 검색</title>
 
 </head>
 <body>
     <div class="container">
         <h1>프로필 검색하기</h1>
+        <form action="">
         <div class="search-bar">
-            <input type="text" id="search-input" placeholder="이런 게 있을까요?">
+            <input type="text" id="search-input" placeholder="이런 게 있을까요?" name="keyword">
             <button id="search-btn">검색</button>
         </div>
+        </form>
         <div class="filters">
             <select id="region-select">
                 <option value="">지역</option>
@@ -47,13 +53,13 @@
         </div>
 
 
-        <div class="profiles" id="profiles-container">
-            <div class="profile-card">
+  <div class="profiles" id="profiles-container">
+           <!--  <div class="profile-card">
                 <a href="https://example.com/profile1" class="profile-link">
                     <div class="profile-img-container">
-                        <img src="/resources/images/한글 무료이미지.jpg" alt="프로필 사진" class="profile-img">
+                        <img src="/same/resources/images/한글 무료이미지.jpg" alt="프로필 사진" class="profile-img">
                         <div class="profile-title">나랏말싸미 듕귁에 달아...</div>
-                        <div class="profile-category">한국어 교실</div> <!-- 과목 카테고리 추가 -->
+                        <div class="profile-category">한국어 교실</div> 과목 카테고리 추가
                     </div>
                 </a>
                 <div class="profile-id">이 도</div>
@@ -62,9 +68,9 @@
             <div class="profile-card">
                 <a href="https://example.com/profile2">
                     <div class="profile-img-container">
-                        <img src="../이미지파일/수학과외.webp" alt="프로필 사진" class="profile-img">
-                        <div class="profile-title">야, 너도 노래 할수 있어</div>
-                        <div class="profile-category">영어 회화</div> <!-- 과목 카테고리 추가 -->
+                        <img src="/same/resources/images/영어 무료이미지.jpg" alt="프로필 사진" class="profile-img">
+                        <div class="profile-title">원어민 선생님의 화상강의</div>
+                        <div class="profile-category">영어 회화</div> 과목 카테고리 추가
 
                     </div>
                 </a>
@@ -74,9 +80,9 @@
             <div class="profile-card">
                 <a href="https://example.com/profile3">
                     <div class="profile-img-container">
-                        <img src="../이미지파일/수학과외.webp" alt="프로필 사진" class="profile-img">
+                        <img src="/same/resources/images/일본어 무료 이미지.jpg" alt="프로필 사진" class="profile-img">
                         <div class="profile-title">번연기 없이 일본여행가자!</div>
-                        <div class="profile-category">일본어 회화</div> <!-- 과목 카테고리 추가 -->
+                        <div class="profile-category">일본어 회화</div> 과목 카테고리 추가
 
                     </div>
                 </a>
@@ -86,9 +92,9 @@
             <div class="profile-card">
                 <a href="https://example.com/profile1">
                     <div class="profile-img-container">
-                        <img src="../이미지파일/수학과외.webp" alt="프로필 사진" class="profile-img">
+                        <img src="/same/resources/images/중국 무료이미지.jpg" alt="프로필 사진" class="profile-img">
                         <div class="profile-title">30일만에 신전 중국어 회화까지</div>
-                        <div class="profile-category">중국어 회화 수업</div> <!-- 과목 카테고리 추가 -->
+                        <div class="profile-category">중국어 회화 수업</div> 과목 카테고리 추가
 
                     </div>
                 </a>
@@ -98,9 +104,9 @@
             <div class="profile-card">
                 <a href="https://example.com/profile2">
                     <div class="profile-img-container">
-                        <img src="../이미지파일/수학과외.webp" alt="프로필 사진" class="profile-img">
+                        <img src="/same/resources/images/수학과외.webp" alt="프로필 사진" class="profile-img">
                         <div class="profile-title">야, 너도 노래 할수 있어</div>
-                        <div class="profile-category">노래 교실</div> <!-- 과목 카테고리 추가 -->
+                        <div class="profile-category">노래 교실</div> 과목 카테고리 추가
 
                     </div>
                 </a>
@@ -110,15 +116,33 @@
             <div class="profile-card">
                 <a href="https://example.com/profile3">
                     <div class="profile-img-container">
-                        <img src="../이미지파일/수학과외.webp" alt="프로필 사진" class="profile-img">
+                        <img src="/same/resources/images/수학과외.webp" alt="프로필 사진" class="profile-img">
                         <div class="profile-title">수능만점가자</div>
-                        <div class="profile-category">국영수</div> <!-- 과목 카테고리 추가 -->
+                        <div class="profile-category">국영수</div> 과목 카테고리 추가
 
                     </div>
                 </a>
                 <div class="profile-id">이용희</div>
                 <div class="profile-info"></div>
+            </div> -->
+            
+			<% if(!list.isEmpty()) { %>
+            <% for (Profile p : list) { %>
+            <div class="profile-card">
+                <a href="/same/views/member/mentorPage/main.jsp">
+                    <div class="profile-img-container">
+                        <img src="/same/resources/images/영어 무료이미지.jpg" alt="프로필 사진" class="profile-img">
+                        <div class="profile-title"><%=p.getIntroduction() %></div>
+                        <div class="profile-category"> <%=p.getProfileTitle() %> </div> <!-- 과목 카테고리 추가 -->
+
+                    </div>
+                </a>
+                <div class="profile-id"><%= p.getMemberNo() %> </div>
+                <div class="profile-info">미국</div>
             </div>
+            <% } %>
+          <% } %>
+
         </div>
         
     </div>
