@@ -12,7 +12,7 @@ public class JDBCTemplate {
 	static {
 	// 커넥션풀을 통해 생성하고자 하는 커넥션 옵션을 기술
 	dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver"); // 드라이버 선택
-	dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:xe"); // url 선택
+	dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:xe"); // url 선택 , 매 인스턴스 생성시마다 ip주소 변경됨에 주의
 	dataSource.setUsername("C##SSAM"); // 계정명
 	dataSource.setPassword("SSAM"); // 비밀번호
 	dataSource.setInitialSize(10); // 초기 커넥션풀 사이즈 설정

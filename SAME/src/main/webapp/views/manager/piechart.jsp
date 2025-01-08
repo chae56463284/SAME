@@ -26,7 +26,9 @@
             labels: ['멘티', '멘토'],
             datasets: [{
                 label: '비율',
-                data: [<%=menteeNum %>, <%=mentorNum %>],
+                data: [
+                <%= menteeNum %>, 
+                <%= mentorNum %>],
                 backgroundColor: ['#36A2EB', '#FF6384'], //칸 색상
                 hoverBackgroundColor: ['#2A9DF4', '#FF4C6E'], // hover시 변경색상
                 borderWidth: 1

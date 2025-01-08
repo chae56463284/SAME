@@ -283,7 +283,7 @@ to {
                         <%= board.getBoardTitle() != null ? board.getBoardTitle() : "제목 없음" %>
                     </h2>
                     <span class="detail-user">
-                        <%= board.getMemberNo() != null ? board.getMemberNo() : "작성자 정보 없음" %>
+                        <%= board.getMemberName() != null ? board.getMemberName() : "작성자 정보 없음" %>
                     </span>
                     <span class="detail-date">
                         <%= board.getCreateDate() != null ? board.getCreateDate() : "작성일 정보 없음" %>

@@ -184,7 +184,7 @@ a {
 							class="on" <% } %>><%= p %></button>
 						<% } %>
 
-						<% if(maxPage != currentPage) { %>
+						<% if(maxPage != currentPage || currentPage==1) { %>
 						<button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
 						<% } %>
 					</div>

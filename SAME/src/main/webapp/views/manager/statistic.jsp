@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, com.kh.board.model.vo.Board, com.kh.common.model.vo.PageInfo" %>
+<%@ page import="java.util.List, com.kh.board.model.vo.Board, com.kh.common.model.vo.PageInfo, com.kh.member.model.vo.Member" %>
 <%
 	Integer mentorNumObj = (Integer) request.getAttribute("mentorNum");
 	Integer menteeNumObj = (Integer) request.getAttribute("menteeNum");
+	
+/* 	int mentorNum = Integer.parseInt( (String) request.getAttribute("mentorNum") );
+	int menteeNum = Integer.parseInt( (String) request.getAttribute("menteeNum") ); */
 	
 	int mentorNum = (mentorNumObj != null) ? mentorNumObj : 30;
 	int menteeNum = (menteeNumObj != null) ? menteeNumObj : 70;

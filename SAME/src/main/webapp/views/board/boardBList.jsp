@@ -177,14 +177,17 @@
 				<button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
 				<% }%>
 
-				<% for(int p = startPage; p <= endPage; p++) { %>
-				<button onclick="movePage(<%=p %>);" <% if(currentPage == p) { %>
-					class="on" <% } %>><%= p %></button>
-				<% } %>
-
-				<% if(maxPage != currentPage) { %>
-				<button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
-				<% } %>
+				<% int p = startPage;
+   					 do { %>
+					  <button onclick="movePage(<%=p %>);" <% if(currentPage == p) { %>
+					 class="on" <% } %>><%= p %></button>
+					<% p++;
+					} while (p <= endPage);
+					%>
+					
+					<% if(maxPage != currentPage && currentPage!=1) { %>
+					<button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
+					<% } %>
 			</div>
 
 			<script>

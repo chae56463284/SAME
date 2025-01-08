@@ -222,49 +222,5 @@ public class ManagerDao {
         return member;
     }
 
-	public int countMentor(Connection conn) {
-	        PreparedStatement pstmt = null;
-	        String sql = prop.getProperty("selectMentorListCount");
-	        ResultSet rset = null;
-	        int mentorNum =0;
-	        try {
-				pstmt = conn.prepareStatement(sql);
-				rset = pstmt.executeQuery();
-				 if(rset.next()) {
-					 mentorNum = rset.getInt("COUNT");  
-		            }
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}finally {
-	            close(rset);
-	            close(pstmt);
-	        }
-		return mentorNum;
-	}
-
-	public int countMentee(Connection conn) {
-	        PreparedStatement pstmt = null;
-	        String sql = prop.getProperty("selectMenteeListCount");
-	        ResultSet rset = null;
-	        int menteeNum =0;
-	        try {
-				pstmt = conn.prepareStatement(sql);
-				rset = pstmt.executeQuery();
-				 if(rset.next()) {
-					 menteeNum = rset.getInt("COUNT");  
-		            }
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}finally {
-	            close(rset);
-	            close(pstmt);
-	        }
-	        
-		return menteeNum;
-	}
-    
-	
-	
-	
 	
 }

@@ -172,7 +172,7 @@ a {
             </div>
             <div class="MenuItem">
                 <div class="LogoPlaceholder gray"></div>
-                <div class="Label"><a href="<%=contextPath%>/views/manager/statistic.jsp">통계</a></div>
+                <div class="Label"><a href="<%=contextPath %>/manager/statistic">통계</a></div>
             </div>
             
         </div>

@@ -85,6 +85,7 @@
         BOARD_NO,
         BOARD_TITLE,
         BOARD_CONTENT,
+        MEMBER_NO,
         MEMBER_NAME,
         CREATE_DATE,
         COUNT,

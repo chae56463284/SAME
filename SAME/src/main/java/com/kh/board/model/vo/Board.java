@@ -24,4 +24,5 @@ public class Board {
 	private char isDelete;
 	private char isHidden;
 	private int rNum;
+	private String memberName;
 }

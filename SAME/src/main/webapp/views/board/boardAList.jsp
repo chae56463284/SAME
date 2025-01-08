@@ -203,12 +203,17 @@
 					<button onclick="movePage(<%= currentPage -1 %>)">&lt;</button>
 					<% }%>
 
-					<% for(int p = startPage; p <= endPage; p++) { %>
-					<button onclick="movePage(<%=p %>);" <% if(currentPage == p) { %>
-						class="on" <% } %>><%= p %></button>
-					<% } %>
-
-					<% if(maxPage != currentPage) { %>
+					<!-- for 반복문을 do while 반복문으로 변경, 1페이지 미만의 글을 조회해도 최초 1회는 실행되게 함 -->
+					<% int p = startPage;
+   					 do { %>
+					  <button onclick="movePage(<%=p %>);" <% if(currentPage == p) { %>
+					 class="on" <% } %>><%= p %></button>
+					<% p++;
+					} while (p <= endPage);
+					%>
+					
+					<!-- 페이징바 조건문 수정 -->
+					<% if(maxPage != currentPage && currentPage!=1) { %>
 					<button onclick="movePage(<%= currentPage + 1 %>)">&gt;</button>
 					<% } %>
 				</div>

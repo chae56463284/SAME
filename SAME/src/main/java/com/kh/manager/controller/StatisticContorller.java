@@ -15,7 +15,7 @@ import com.kh.manager.model.service.ManagerService;
 @WebServlet("/manager/statistic")
 public class StatisticContorller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+ 
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -30,11 +30,12 @@ public class StatisticContorller extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		
-		int mentorNum = new ManagerService().countMentor();
-		int memteeNum = new ManagerService().countMentee();
+		int mentorNum = new ManagerService().selectMentorListCount();
+		int menteeNum = new ManagerService().selectMenteeListCount();
+		
 		
 		request.setAttribute("mentorNum",mentorNum);
-		request.setAttribute("memteeNum",memteeNum);
+		request.setAttribute("menteeNum",menteeNum);
 		
 		request.getRequestDispatcher("/views/manager/statistic.jsp").forward(request, response);
 	}

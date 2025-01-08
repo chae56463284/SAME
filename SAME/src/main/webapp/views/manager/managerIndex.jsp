@@ -226,7 +226,7 @@
                <a href="/same/views/manager/complaintList.jsp" class="box 신고관리" style="font-size: 25px;">신고관리</a>
            </div>
            <div class="Group">
-               <a href="/same/views/manager/statistic.jsp" class="box 통계" style="font-size: 25px;">통계</a>
+               <a href="<%=contextPath %>/manager/statistic" class="box 통계" style="font-size: 25px;">통계</a>
            </div>
        </div>
 
